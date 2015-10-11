@@ -1,0 +1,5 @@
+platform :tvos, '9.0'
+
+target 'classicFilms' do
+  #pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking', :branch => '3_0_0_branch'
+end
