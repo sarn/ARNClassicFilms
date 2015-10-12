@@ -93,8 +93,8 @@
 
 @interface AFImageDownloader ()
 
-@property (nonatomic, strong) dispatch_queue_t synchronizationQueue;
-@property (nonatomic, strong) dispatch_queue_t responseQueue;
+@property (nonatomic, assign) dispatch_queue_t synchronizationQueue;
+@property (nonatomic, assign) dispatch_queue_t responseQueue;
 
 @property (nonatomic, assign) NSInteger maximumActiveDownloads;
 @property (nonatomic, assign) NSInteger activeRequestCount;
