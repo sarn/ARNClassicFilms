@@ -11,6 +11,6 @@
 @interface ARNArchiveController : NSObject
 
 + (ARNArchiveController *)sharedInstance;
-- (NSArray *)fetchMovieArchiveForCollection:(NSString *)collection;
+- (void)fetchMovieArchiveForCollection:(NSString *)collection;
 
 @end

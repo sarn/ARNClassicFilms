@@ -10,4 +10,7 @@
 
 @interface ARNMovieDBController : NSObject
 
++ (ARNMovieDBController *)sharedInstance;
+- (void)fetchMovieDetailsForCollection:(NSArray *)collection;
+
 @end

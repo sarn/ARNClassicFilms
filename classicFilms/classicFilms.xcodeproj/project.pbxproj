@@ -15,6 +15,7 @@
 		168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760F1BCBD42D0011FA26 /* SecondViewController.m */; };
 		168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376131BCBD4700011FA26 /* ARNArchiveController.m */; };
 		168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376161BCBD49F0011FA26 /* ARNMovieDBController.m */; };
+		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
 		2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,8 @@
 		168376131BCBD4700011FA26 /* ARNArchiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNArchiveController.m; sourceTree = "<group>"; };
 		168376151BCBD49F0011FA26 /* ARNMovieDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieDBController.h; sourceTree = "<group>"; };
 		168376161BCBD49F0011FA26 /* ARNMovieDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieDBController.m; sourceTree = "<group>"; };
+		168376191BCBF74C0011FA26 /* ARNMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovie.h; sourceTree = "<group>"; };
+		1683761A1BCBF74C0011FA26 /* ARNMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovie.m; sourceTree = "<group>"; };
 		1FCF9C04D0F6B7A420373603 /* Pods-classicFilms.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.debug.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.debug.xcconfig"; sourceTree = "<group>"; };
 		73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-classicFilms.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		790BE2AE84AA47767A1EA315 /* Pods-classicFilms.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.release.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.release.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 				161C80591BCA9EDD003B78EC /* AppDelegate.m */,
 				1683760B1BCBD3F80011FA26 /* view-controllers */,
 				1683760A1BCBD3D00011FA26 /* data-controllers */,
+				168376181BCBF7150011FA26 /* data */,
 				161C80611BCA9EDD003B78EC /* Main.storyboard */,
 				161C80641BCA9EDD003B78EC /* Assets.xcassets */,
 				161C80661BCA9EDD003B78EC /* Info.plist */,
@@ -112,6 +116,15 @@
 				1683760F1BCBD42D0011FA26 /* SecondViewController.m */,
 			);
 			path = "view-controllers";
+			sourceTree = "<group>";
+		};
+		168376181BCBF7150011FA26 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				168376191BCBF74C0011FA26 /* ARNMovie.h */,
+				1683761A1BCBF74C0011FA26 /* ARNMovie.m */,
+			);
+			path = data;
 			sourceTree = "<group>";
 		};
 		B139506FA2F3E53887DC2A4F /* Frameworks */ = {
@@ -253,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */,
+				1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */,
 				161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */,
 				168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */,
 				168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */,

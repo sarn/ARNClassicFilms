@@ -8,6 +8,9 @@
 
 #import "ARNArchiveController.h"
 #import "AFHTTPSessionManager.h"
+#import "ARNMovieDBController.h"
+#import "ARNMovie.h"
+
 
 @implementation ARNArchiveController
 
@@ -22,8 +25,8 @@
     return instance;
 }
 
-- (NSArray *)fetchMovieArchiveForCollection:(NSString *)collection {
-    __block NSArray *movies = [NSArray array];
+- (void)fetchMovieArchiveForCollection:(NSString *)collection {
+    
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -34,40 +37,60 @@
                                  @"output": @"json"};
     
     [manager GET:@"https://archive.org/advancedsearch.php" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        NSMutableArray *movies = [NSMutableArray array];
+        
         NSDictionary *jsonDict = (NSDictionary *) responseObject;
         
         NSDictionary *responseDict = (NSDictionary *)[jsonDict objectForKey:@"response"];
         NSArray *moviesArray = (NSArray *)[responseDict objectForKey:@"docs"];
         
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        
         for (NSDictionary *movie in moviesArray) {
             // parse out data we care about
             
-            NSLog(@"title: %@", [movie objectForKey:@"title"]);
-            NSLog(@"identifier: %@", [movie objectForKey:@"identifier"]);
-            NSLog(@"description: %@", [movie objectForKey:@"description"]);
-            NSLog(@"date: %@", [movie objectForKey:@"date"]);
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-            NSDate *date = [dateFormatter dateFromString:[movie objectForKey:@"date"]];
-            NSLog(@"year: %ld", (long)[self getYear:date]);
-            
-            
             NSLog(@"*****************************");
+            
+            NSLog(@"title: %@", [movie objectForKey:@"title"]);
+//            NSLog(@"identifier: %@", [movie objectForKey:@"identifier"]);
+//            NSLog(@"description: %@", [movie objectForKey:@"description"]);
+//            NSLog(@"date: %@", [movie objectForKey:@"date"]);
+//            
+            
+            NSDate *date = [dateFormatter dateFromString:[movie objectForKey:@"date"]];
+//            NSLog(@"year: %ld", (long)[self getYear:date]);
+            
+            
+            
+            
+            ARNMovie *arnMovie = [ARNMovie new];
+            arnMovie.title = [movie objectForKey:@"title"];
+            arnMovie.archive_id = [movie objectForKey:@"identifier"];
+            arnMovie.year = @([self getYear:date]);
+            [movies addObject:arnMovie];
+            
+            
         }
+        
+        [[ARNMovieDBController sharedInstance] fetchMovieDetailsForCollection:movies];
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         NSLog(@"Error: %@", error);
     }];
 
     // TODO: attribute archive.org and themoviedb.org
     
-    return movies;
+    // TODO: limit the return values from archive.org to only the stuff we need
+
 }
 
 - (NSInteger)getYear:(NSDate*)date
 {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
-    return [components year];
+    if (date != nil) {
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
+        return [components year];
+    }
+    return 0;
 }
 
 @end
