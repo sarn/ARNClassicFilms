@@ -1,5 +1,4 @@
 platform :tvos
-plugin "cocoapods-expert-difficulty"
 
 target 'classicFilms' do
 	#pod "AFNetworking", "~> 3.0"  

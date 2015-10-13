@@ -12,8 +12,6 @@ PODS:
   - AFNetworking/Reachability (3.0.0)
   - AFNetworking/Security (3.0.0)
   - AFNetworking/Serialization (3.0.0)
-  - AFNetworking/UIKit (3.0.0):
-    - AFNetworking/NSURLSession
 
 DEPENDENCIES:
   - AFNetworking (from `https://github.com/AFNetworking/AFNetworking`, branch `3_0_0_branch`)
@@ -25,10 +23,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AFNetworking:
-    :commit: 04f58b6104f70c34b61bc8aefe1c55e9e906b7a7
+    :commit: 345a21d9e0a26c5a780589a883bb11d3b34d0d1f
     :git: https://github.com/AFNetworking/AFNetworking
 
 SPEC CHECKSUMS:
-  AFNetworking: 2e3afb7b555af2ce5449b3a28bdf6935529ecc1a
+  AFNetworking: 6b006243cba5670d032cbeff7af4ffd4468ac10f
 
 COCOAPODS: 0.39.0

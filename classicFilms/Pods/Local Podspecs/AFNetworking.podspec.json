@@ -20,7 +20,8 @@
   "platforms": {
     "ios": "7.0",
     "osx": "10.9",
-    "watchos": "2.0"
+    "watchos": "2.0",
+    "tvos": "9.0"
   },
   "subspecs": [
     {
@@ -53,7 +54,8 @@
       "name": "Reachability",
       "platforms": {
         "ios": "7.0",
-        "osx": "10.9"
+        "osx": "10.9",
+        "tvos": "9.0"
       },
       "source_files": "AFNetworking/AFNetworkReachabilityManager.{h,m}",
       "public_header_files": "AFNetworking/AFNetworkReachabilityManager.h",
@@ -61,11 +63,6 @@
     },
     {
       "name": "NSURLSession",
-      "platforms": {
-        "ios": "7.0",
-        "osx": "10.9",
-        "watchos": "2.0"
-      },
       "dependencies": {
         "AFNetworking/Serialization": [
 
