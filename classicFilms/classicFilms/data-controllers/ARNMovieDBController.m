@@ -46,7 +46,7 @@
                 NSDictionary *resultDict = resultsArray[0];
                 
                 
-                //NSLog(@"JSON: %@", resultDict);
+                NSLog(@"JSON: %@", resultDict);
                 NSLog(@"*****************************");
                 
                 NSLog(@"title: %@", arnMovie.title);
@@ -58,7 +58,13 @@
                 //NSLog(@"date: %@", [resultDict objectForKey:@"date"]);
                 //NSLog(@"title: %@", [resultDict objectForKey:@"title"]);
                 
-
+                // fill in the data
+                arnMovie.tmdb_id = [resultDict objectForKey:@"id"];
+                arnMovie.movie_description = [resultDict objectForKey:@"overview"];
+                arnMovie.posterURL = [resultDict objectForKey:@"poster_path"];
+                arnMovie.backdropURL = [resultDict objectForKey:@"backdrop_path"];
+                
+                // TODO: save it to CoreData
             }
             
            
