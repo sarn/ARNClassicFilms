@@ -12,6 +12,9 @@
 		161C80631BCA9EDD003B78EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161C80611BCA9EDD003B78EC /* Main.storyboard */; };
 		161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161C80641BCA9EDD003B78EC /* Assets.xcassets */; };
 		164081D81BD10749003F11F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164081D71BD10749003F11F4 /* CoreData.framework */; };
+		1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */; };
+		1666A53F1BD11AB800BE249D /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53D1BD11AB800BE249D /* Movie.m */; };
+		1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A5481BD11FE400BE249D /* ARNDataObject.m */; };
 		168376101BCBD42D0011FA26 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760D1BCBD42D0011FA26 /* FirstViewController.m */; };
 		168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760F1BCBD42D0011FA26 /* SecondViewController.m */; };
 		168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376131BCBD4700011FA26 /* ARNArchiveController.m */; };
@@ -30,6 +33,13 @@
 		161C80641BCA9EDD003B78EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		161C80661BCA9EDD003B78EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		164081D71BD10749003F11F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1666A53A1BD11AB800BE249D /* Movie+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Movie+CoreDataProperties.h"; sourceTree = "<group>"; };
+		1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Movie+CoreDataProperties.m"; sourceTree = "<group>"; };
+		1666A53C1BD11AB800BE249D /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		1666A53D1BD11AB800BE249D /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		1666A5461BD11E6300BE249D /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		1666A5471BD11FE400BE249D /* ARNDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNDataObject.h; sourceTree = "<group>"; };
+		1666A5481BD11FE400BE249D /* ARNDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNDataObject.m; sourceTree = "<group>"; };
 		1683760C1BCBD42D0011FA26 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		1683760D1BCBD42D0011FA26 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		1683760E1BCBD42D0011FA26 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
@@ -106,8 +116,20 @@
 			isa = PBXGroup;
 			children = (
 				161C80561BCA9EDD003B78EC /* main.m */,
+				1666A5461BD11E6300BE249D /* PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1666A5391BD11A8600BE249D /* managed-objects */ = {
+			isa = PBXGroup;
+			children = (
+				1666A53A1BD11AB800BE249D /* Movie+CoreDataProperties.h */,
+				1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */,
+				1666A53C1BD11AB800BE249D /* Movie.h */,
+				1666A53D1BD11AB800BE249D /* Movie.m */,
+			);
+			path = "managed-objects";
 			sourceTree = "<group>";
 		};
 		1683760A1BCBD3D00011FA26 /* data-controllers */ = {
@@ -135,6 +157,9 @@
 		168376181BCBF7150011FA26 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				1666A5391BD11A8600BE249D /* managed-objects */,
+				1666A5471BD11FE400BE249D /* ARNDataObject.h */,
+				1666A5481BD11FE400BE249D /* ARNDataObject.m */,
 				168376191BCBF74C0011FA26 /* ARNMovie.h */,
 				1683761A1BCBF74C0011FA26 /* ARNMovie.m */,
 			);
@@ -282,12 +307,15 @@
 			files = (
 				168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */,
 				1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */,
+				1666A53F1BD11AB800BE249D /* Movie.m in Sources */,
 				161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */,
 				168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */,
+				1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */,
 				168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */,
 				168376101BCBD42D0011FA26 /* FirstViewController.m in Sources */,
 				16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */,
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
+				1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +420,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/classicFilms/PrefixHeader.pch";
 				INFOPLIST_FILE = classicFilms/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;
@@ -406,6 +436,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/classicFilms/PrefixHeader.pch";
 				INFOPLIST_FILE = classicFilms/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;

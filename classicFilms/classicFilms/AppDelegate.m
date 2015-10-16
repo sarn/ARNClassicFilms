@@ -55,7 +55,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (NSURL *)applicationCachesDirectory {
-    // The directory the application uses to store the Core Data store file. This code uses a directory named "ch.stefanarn.CoreDataTest" in the application's caches directory.
+    // The directory the application uses to store the Core Data store file. This code uses a directory named "ch.stefanarn.ClassicFilms" in the application's caches directory.
     return [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
@@ -64,7 +64,7 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CoreDataTest" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ClassicFilms" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
@@ -78,7 +78,7 @@
     // Create the coordinator and store
     
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationCachesDirectory] URLByAppendingPathComponent:@"CoreDataTest.sqlite"];
+    NSURL *storeURL = [[self applicationCachesDirectory] URLByAppendingPathComponent:@"ClassicFilms.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
