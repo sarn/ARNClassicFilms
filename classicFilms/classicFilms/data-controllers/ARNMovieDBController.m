@@ -74,40 +74,49 @@
                 arnMovie.posterURL = [resultDict objectForKey:@"poster_path"];
                 arnMovie.backdropURL = [resultDict objectForKey:@"backdrop_path"];
                 
-                // save it to CoreData
-                Movie *movie = nil;
-                if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
-                    NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
-                    movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
-                    movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"archive_id == %@", arnMovie.archive_id];
+                
+                // only save if we have enough data
+                if ((![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) &&
+                    (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0)) {
                     
-                    NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
-                    if(result != nil && [result count] > 0){
-                        id obj = [result lastObject];
-                        if(obj != nil && [obj isKindOfClass:[Movie class]]){
-                            movie = (Movie *) obj;
+                    // save it to CoreData
+                    Movie *movie = nil;
+                    if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
+                        NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
+                        movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
+                        movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"archive_id == %@", arnMovie.archive_id];
+                        
+                        NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
+                        if(result != nil && [result count] > 0){
+                            id obj = [result lastObject];
+                            if(obj != nil && [obj isKindOfClass:[Movie class]]){
+                                movie = (Movie *) obj;
+                            }
                         }
                     }
+                    
+                    
+                    
+                    // create new movie if there is not an existing one
+                    if(movie == nil){
+                        movie = (Movie *)[NSEntityDescription insertNewObjectForEntityForName:@"Movie" inManagedObjectContext:context];
+                    }
+                    
+                    // fill/update the data
+                    
+                    movie.archive_id = (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) ? arnMovie.archive_id : [NSString string];
+                    movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
+                    movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
+                    movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
+                    movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
+                    movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
+                    movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
+                    
+                    
+                    
+                    [context save:nil];
                 }
                 
-                
-                
-                // create new movie if there is not an existing one
-                if(movie == nil){
-                    movie = (Movie *)[NSEntityDescription insertNewObjectForEntityForName:@"Movie" inManagedObjectContext:context];
-                }
-                
-                // fill/update the data
-                
-                movie.archive_id = (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) ? arnMovie.archive_id : [NSString string];
-                movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
-                movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
-                movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
-                movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
-                movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
-                movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
-                
-                [context save:nil];
                 
                 // TODO: download all the posters and backdrops in te background
                 

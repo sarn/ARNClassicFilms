@@ -7,6 +7,7 @@
 //
 
 #import "ARNMoviePosterCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ARNMoviePosterCell ()
     @property (nonatomic, strong) UILabel *movieTitle;
@@ -19,7 +20,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        
+        // customizations
         
         UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
         backgroundView.backgroundColor = [UIColor clearColor];
@@ -27,12 +28,11 @@
         backgroundView.layer.borderWidth = 1.0f;
         self.backgroundView = backgroundView;
         
-        // customizations
-        
-//        _moviePoster = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-//        _moviePoster.contentMode = UIViewContentModeScaleAspectFill;
-//        _moviePoster.adjustsImageWhenAncestorFocused = YES;
-//        [self.contentView addSubview:_moviePoster];
+
+        _moviePoster = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _moviePoster.contentMode = UIViewContentModeScaleAspectFill;
+        _moviePoster.adjustsImageWhenAncestorFocused = YES;
+        [self.contentView addSubview:_moviePoster];
         
         _movieTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _movieTitle.alpha = 0.0f;
@@ -45,6 +45,7 @@
 
 - (void)prepareForReuse {
     self.movieTitle.alpha = 0.0;
+    self.moviePoster.image = nil;
 }
 
 - (void)configureCellWithMovie:(ARNMovie *)arnMovie {
@@ -57,6 +58,11 @@
     if (arnMovie != nil) {
         self.movieTitle.text = ([arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
         self.movieTitle.backgroundColor = [UIColor clearColor];
+        
+        if ([arnMovie.posterURL length] > 0) {
+            NSString *completePosterURL = [NSString stringWithFormat:@"%@%@", @"https://image.tmdb.org/t/p/original", arnMovie.posterURL];
+            [self.moviePoster setImageWithURL:[NSURL URLWithString:completePosterURL]];
+        }
     }
 }
 
