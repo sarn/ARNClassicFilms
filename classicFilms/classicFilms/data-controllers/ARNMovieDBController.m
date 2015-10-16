@@ -36,10 +36,13 @@
     
     for (ARNMovie *arnMovie in collection) {
     //ARNMovie *arnMovie = (ARNMovie *)collection[0];
+        
+        // TODO: for the last iteration post the notification (on both the success and the failure block)
+        // [[NSNotificationCenter defaultCenter] postNotificationName:@"FetchMovieDataSuccessful" object:self userInfo:nil];
     
         NSDictionary *parameters = @{@"api_key": @"cde3935be83a0ceff90f530f19931df3",
                                      @"query": arnMovie.title,
-                                     @"year": @(arnMovie.year)};
+                                     @"year": arnMovie.year};
         
 
         
@@ -71,7 +74,7 @@
                 arnMovie.posterURL = [resultDict objectForKey:@"poster_path"];
                 arnMovie.backdropURL = [resultDict objectForKey:@"backdrop_path"];
                 
-                // TODO: save it to CoreData
+                // save it to CoreData
                 Movie *movie = nil;
                 if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
                     NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
@@ -99,21 +102,25 @@
                 movie.archive_id = (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) ? arnMovie.archive_id : [NSString string];
                 movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
                 movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
-                movie.year = (arnMovie.year >= 1800) ? @(arnMovie.year) : 0;
+                movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
                 movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
                 movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
                 movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
                 
                 [context save:nil];
                 
+                // TODO: download all the posters and backdrops in te background
+                
             }
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
                 NSLog(@"Error: %@", error);
                 
                 // TODO: this api has a rate limit - uuugh
-                // TODO stop the current for loop
+                // -> stop the current for loop
                 // wait for Retry-after as seconds
                 // restart this method with all movie objects with have a refresh date older than 10 minutes
+                //
+                // more info here: https://www.themoviedb.org/talk/5317af69c3a3685c4a0003b1 && https://www.themoviedb.org/faq/api?language=en
                 /*
                  Error: Error Domain=com.alamofire.error.serialization.response Code=-1011 "Request failed: client error (429)" UserInfo={com.alamofire.serialization.response.error.response=<NSHTTPURLResponse: 0x7fc31ae59d60> { URL: http://api.themoviedb.org/3/search/movie?api_key=cde3935be83a0ceff90f530f19931df3&query=Charlie%20Chaplin%27s%20%22The%20Cure%22&year=0 } { status code: 429, headers {
                  "Access-Control-Allow-Origin" = "*";

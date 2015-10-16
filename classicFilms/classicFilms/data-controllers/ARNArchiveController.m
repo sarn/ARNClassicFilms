@@ -67,7 +67,7 @@
             ARNMovie *arnMovie = [ARNMovie new];
             arnMovie.title = [movie objectForKey:@"title"];
             arnMovie.archive_id = [movie objectForKey:@"identifier"];
-            arnMovie.year = [self getYear:date];
+            arnMovie.year = @([self getYear:date]);
             [movies addObject:arnMovie];
             
             
