@@ -52,7 +52,9 @@
             
             NSLog(@"*****************************");
             
-            NSLog(@"title: %@", [movie objectForKey:@"title"]);
+            
+            //NSLog(@"title: %@", [movie objectForKey:@"title"]);
+            NSLog(@"JSON: %@", movie);
 //            NSLog(@"identifier: %@", [movie objectForKey:@"identifier"]);
 //            NSLog(@"description: %@", [movie objectForKey:@"description"]);
 //            NSLog(@"date: %@", [movie objectForKey:@"date"]);
@@ -73,7 +75,8 @@
             
         }
         
-        [[ARNMovieDBController sharedInstance] fetchMovieDetailsForCollection:movies];
+        [self fetchMovieArchiveForMetaDataAboutMovies:movies];
+        //[[ARNMovieDBController sharedInstance] fetchMovieDetailsForCollection:movies];
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         NSLog(@"Error: %@", error);
     }];
@@ -82,6 +85,83 @@
     
     // TODO: limit the return values from archive.org to only the stuff we need
 
+}
+
+- (void)fetchMovieArchiveForMetaDataAboutMovies:(NSMutableArray *)movies {
+    if (movies != nil && [movies count] > 0) {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        //NSMutableArray *fullyFledgedMovies = [NSMutableArray arrayWithCapacity:[movies count]];
+        
+        for (id obj in movies) {
+            if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
+                ARNMovie *arnMovie = (ARNMovie *)obj;
+                if (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) {
+                    
+                    NSString *urlToFetch = [NSString stringWithFormat:@"%@%@", @"https://archive.org/metadata/", arnMovie.archive_id];
+                    [manager GET:urlToFetch parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+                        
+                        if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+                            NSDictionary *jsonDict = (NSDictionary *) responseObject;
+                            
+                            id filesId = [jsonDict objectForKey:@"files"];
+                            if (filesId != nil && [filesId isKindOfClass:[NSArray class]]) {
+                                NSArray *files = (NSArray *)filesId;
+
+                                for (id fileId in files) {
+                                    if (fileId != nil && [fileId isKindOfClass:[NSDictionary class]]) {
+                                        NSDictionary *file = (NSDictionary *)fileId;
+                                        
+                                        // parse out data we care about
+                                        
+                                        NSLog(@"*****************************");
+                                        
+                                        
+                                        //NSLog(@"title: %@", [movie objectForKey:@"title"]);
+                                        NSLog(@"FILE FORMAT: %@", [file objectForKey:@"format"]);
+                                        
+                                        id formatId = [file objectForKey:@"format"];
+                                        if (formatId != nil && [formatId isKindOfClass:[NSString class]]) {
+                                            NSString *format = (NSString *)formatId;
+                                            if (![format isKindOfClass:[NSNull class]] && [format length] > 0) {
+                                                // check if we have a supported media format
+                                                
+                                                // TODO: maybe support other formats?
+                                                NSRange containsMPEG4 = [format rangeOfString:@"MPEG4" options:NSCaseInsensitiveSearch];
+                                                if(containsMPEG4.length > 0)
+                                                {
+                                                    // is a MPEG4 format -> try to get the file name
+                                                    id nameId = [file objectForKey:@"name"];
+                                                    if (nameId != nil && [nameId isKindOfClass:[NSString class]]) {
+                                                        NSString *name = (NSString *)nameId;
+                                                        if (![name isKindOfClass:[NSNull class]] && [name length] > 0) {
+                                                            // fill in the name and add it to the fullyFledgedMovies array for further processing
+                                                            arnMovie.source = name;
+//                                                            [fullyFledgedMovies addObject:arnMovie];
+                                                            [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovie:arnMovie];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+//                        
+                        
+                    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+                        NSLog(@"Error: %@", error);
+                    }];
+                    
+                    
+                } else {
+                    // we got a movie object without any archive_id
+                    // we can't use such an object and don't add it to the final mutable array
+                }
+            }
+        }
+    }
 }
 
 - (NSInteger)getYear:(NSDate*)date

@@ -18,5 +18,6 @@
 @property (nonatomic, copy) NSString * movie_description;
 @property (nonatomic, copy) NSString * posterURL;
 @property (nonatomic, copy) NSString * backdropURL;
+@property (nonatomic, copy) NSString * source;
 
 @end

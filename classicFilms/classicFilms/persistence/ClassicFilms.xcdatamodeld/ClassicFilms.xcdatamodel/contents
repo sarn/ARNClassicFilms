@@ -5,11 +5,12 @@
         <attribute name="backdropURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="movie_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="posterURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tmdb_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>

@@ -10,6 +10,8 @@
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
 #import "ARNMovie.h"
+//#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 
 @interface ARNMovieOverviewController ()
     @property(nonatomic, strong) NSArray *movies;
@@ -111,6 +113,41 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: implement
+    
+    if (self.movies != nil && [self.movies count] > indexPath.row) {
+        id obj = [self.movies objectAtIndex:indexPath.row];
+        if (obj != nil) {
+            if ([obj isKindOfClass:[ARNMovie class]]) {
+                ARNMovie *arnMovie = (ARNMovie *)obj;
+                if ([arnMovie.source length] > 0) {
+                    // open the stream
+                    //https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
+                    NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", arnMovie.archive_id, arnMovie.source];
+                    
+                    NSURL *videoURL = [NSURL URLWithString:videoStream];
+                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+                    
+                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+                    playerViewController.player = player;
+                    [self presentViewController:playerViewController animated:YES completion:nil];
+                    
+                    
+                    
+                    
+                    // instantiate here or in storyboard
+//                    AVPlayerViewController *viewController = [[AVPlayerViewController alloc] initWithNibName:nil bundle:nil];
+//                    viewController.player = player;
+//                    
+//                    [self addChildViewController:viewController];
+//                    [self.view addSubview:viewController.view];
+//                    [viewController didMoveToParentViewController:self];
+                    [player play];
+                    
+                    
+                }
+            }
+        }
+    }
 }
 
 
