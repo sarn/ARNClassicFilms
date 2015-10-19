@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ARNArchiveController.h"
+#import "AFHTTPSessionManager.h"
 
 @interface AppDelegate ()
 
@@ -38,8 +39,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"feature_films"];
-    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"SciFi_Horror"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"feature_films" withManager:manager];
+    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"SciFi_Horror" withManager:manager];
+    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"Comedy_Films"];
+    
+    // TODO: attribute archive.org and themoviedb.org
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -76,7 +82,6 @@
     }
     
     // Create the coordinator and store
-    
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     NSURL *storeURL = [[self applicationCachesDirectory] URLByAppendingPathComponent:@"ClassicFilms.sqlite"];
     NSError *error = nil;

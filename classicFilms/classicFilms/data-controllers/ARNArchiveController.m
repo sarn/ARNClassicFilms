@@ -7,7 +7,6 @@
 //
 
 #import "ARNArchiveController.h"
-#import "AFHTTPSessionManager.h"
 #import "ARNMovieDBController.h"
 #import "ARNMovie.h"
 
@@ -25,73 +24,101 @@
     return instance;
 }
 
-- (void)fetchMovieArchiveForCollection:(NSString *)collection {
-    
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
-    NSDictionary *parameters = @{@"q": @"mediatype:(movies) AND collection:(feature_films)",
-                                 @"sort": @[@"downloads desc"],
-                                 @"rows": @50,
-                                 @"page": @1,
-                                 @"output": @"json"};
-    
-    [manager GET:@"https://archive.org/advancedsearch.php" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-        NSMutableArray *movies = [NSMutableArray array];
-        
-        NSDictionary *jsonDict = (NSDictionary *) responseObject;
-        
-        NSDictionary *responseDict = (NSDictionary *)[jsonDict objectForKey:@"response"];
-        NSArray *moviesArray = (NSArray *)[responseDict objectForKey:@"docs"];
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-        
-        for (NSDictionary *movie in moviesArray) {
-            // parse out data we care about
-            
-            NSLog(@"*****************************");
-            
-            
-            //NSLog(@"title: %@", [movie objectForKey:@"title"]);
-            NSLog(@"JSON: %@", movie);
-//            NSLog(@"identifier: %@", [movie objectForKey:@"identifier"]);
-//            NSLog(@"description: %@", [movie objectForKey:@"description"]);
-//            NSLog(@"date: %@", [movie objectForKey:@"date"]);
-//            
-            
-            NSDate *date = [dateFormatter dateFromString:[movie objectForKey:@"date"]];
-//            NSLog(@"year: %ld", (long)[self getYear:date]);
-            
-            
-            
-            
-            ARNMovie *arnMovie = [ARNMovie new];
-            arnMovie.title = [movie objectForKey:@"title"];
-            arnMovie.archive_id = [movie objectForKey:@"identifier"];
-            arnMovie.year = @([self getYear:date]);
-            [movies addObject:arnMovie];
-            
-            
-        }
-        
-        [self fetchMovieArchiveForMetaDataAboutMovies:movies];
-        //[[ARNMovieDBController sharedInstance] fetchMovieDetailsForCollection:movies];
-    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-        NSLog(@"Error: %@", error);
-    }];
-
-    // TODO: attribute archive.org and themoviedb.org
-    
-    // TODO: limit the return values from archive.org to only the stuff we need
-
+- (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager {
+    [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:1];
 }
 
-- (void)fetchMovieArchiveForMetaDataAboutMovies:(NSMutableArray *)movies {
-    if (movies != nil && [movies count] > 0) {
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        //NSMutableArray *fullyFledgedMovies = [NSMutableArray arrayWithCapacity:[movies count]];
+- (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
+    if([collection length] > 0 && manager != nil){
+        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)", @"mediatype:(movies) AND collection:", collection],
+                                     @"sort": @[@"downloads desc"],
+                                     @"rows": @(rows),
+                                     @"page": @(page),
+                                     @"fl": @[@"identifier", @"title", @"date"],
+                                     @"output": @"json"};
         
+        [manager GET:@"https://archive.org/advancedsearch.php" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *jsonDict = (NSDictionary *) responseObject;
+                
+                //NSLog(@"Full JSON: %@", jsonDict);
+                
+                id responseID = [jsonDict objectForKey:@"response"];
+                if (responseID != nil && [responseID isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *responseDict = (NSDictionary *)responseID;
+                    
+                    // paging logic
+                    id numFoundId = [responseDict objectForKey:@"numFound"];
+                    if (numFoundId != nil && [numFoundId isKindOfClass:[NSNumber class]]) {
+                        NSNumber *numFound = (NSNumber *)numFoundId;
+                        
+                        // if we did not get the maximum amount af available data
+                        // we just start an other call for the total amount
+                        if ((page * rows) < [numFound integerValue]) {
+                            [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:[numFound integerValue]];
+                        } else {
+                            // the data related to the movies
+                            id docsId = [responseDict objectForKey:@"docs"];
+                            if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
+                                NSArray *docsArray = (NSArray *)docsId;
+                                
+                                NSMutableArray *movies = [NSMutableArray array];
+                                
+                                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+                                
+                                for (NSDictionary *movie in docsArray) {
+                                    // parse out data we care about
+                                    ARNMovie *arnMovie = [ARNMovie new];
+                                    
+                                    arnMovie.title = [NSString string];
+                                    id titleId = [movie objectForKey:@"title"];
+                                    if (titleId != nil && [titleId isKindOfClass:[NSString class]]) {
+                                        NSString *title = (NSString *)titleId;
+                                        if (![title isKindOfClass:[NSNull class]] && [title length] > 0) {
+                                            arnMovie.title = title;
+                                        }
+                                    }
+                                    
+                                    arnMovie.archive_id = [NSString string];
+                                    id idId = [movie objectForKey:@"identifier"];
+                                    if (idId != nil && [idId isKindOfClass:[NSString class]]) {
+                                        NSString *archiveId = (NSString *)idId;
+                                        if (![archiveId isKindOfClass:[NSNull class]] && [archiveId length] > 0) {
+                                            arnMovie.archive_id = archiveId;
+                                        }
+                                    }
+                                    
+                                    arnMovie.year = 0;
+                                    id dateId = [movie objectForKey:@"date"];
+                                    if (dateId != nil && [dateId isKindOfClass:[NSString class]]) {
+                                        NSString *date = (NSString *)dateId;
+                                        if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
+                                            arnMovie.year = @([self getYear:[dateFormatter dateFromString:date]]);
+                                        }
+                                    }
+                                    
+                                    // only add the arnMovie if we have all the essentials components available
+                                    if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
+                                        [movies addObject:arnMovie];
+                                    }
+                                }
+                                
+                                // anhance all the movies we collected with additional meta data
+                                [self fetchMovieArchiveForMetaDataAboutMovies:movies withManager:manager];
+                            }
+                        }
+                    }
+                }
+            }
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+            NSLog(@"Error: %@", error);
+        }];
+    }
+}
+
+- (void)fetchMovieArchiveForMetaDataAboutMovies:(NSMutableArray *)movies withManager:(AFHTTPSessionManager *)manager {
+    if (movies != nil && [movies count] > 0 && manager != nil) {
         for (id obj in movies) {
             if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
                 ARNMovie *arnMovie = (ARNMovie *)obj;
@@ -112,12 +139,8 @@
                                         NSDictionary *file = (NSDictionary *)fileId;
                                         
                                         // parse out data we care about
-                                        
-                                        NSLog(@"*****************************");
-                                        
-                                        
-                                        //NSLog(@"title: %@", [movie objectForKey:@"title"]);
-                                        NSLog(@"FILE FORMAT: %@", [file objectForKey:@"format"]);
+//                                        NSLog(@"*****************************");
+//                                        NSLog(@"FILE FORMAT: %@", [file objectForKey:@"format"]);
                                         
                                         id formatId = [file objectForKey:@"format"];
                                         if (formatId != nil && [formatId isKindOfClass:[NSString class]]) {
@@ -134,37 +157,33 @@
                                                     if (nameId != nil && [nameId isKindOfClass:[NSString class]]) {
                                                         NSString *name = (NSString *)nameId;
                                                         if (![name isKindOfClass:[NSNull class]] && [name length] > 0) {
-                                                            // fill in the name and add it to the fullyFledgedMovies array for further processing
+                                                            // fill in the name
                                                             arnMovie.source = name;
-//                                                            [fullyFledgedMovies addObject:arnMovie];
-                                                            [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovie:arnMovie];
+                                                            
+                                                            // fetch the details from the MovieDB
+                                                            [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovie:arnMovie withManager:manager];
                                                         }
                                                     }
                                                 }
+                                                
                                             }
                                         }
                                     }
                                 }
                                 
+                                
                             }
                         }
-//                        
-                        
                     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
                         NSLog(@"Error: %@", error);
                     }];
-                    
-                    
-                } else {
-                    // we got a movie object without any archive_id
-                    // we can't use such an object and don't add it to the final mutable array
                 }
             }
         }
     }
 }
 
-- (NSInteger)getYear:(NSDate*)date
+- (NSInteger)getYear:(NSDate *)date
 {
     if (date != nil) {
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];

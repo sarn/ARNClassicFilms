@@ -10,7 +10,6 @@
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
 #import "ARNMovie.h"
-//#import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 
 @interface ARNMovieOverviewController ()
@@ -58,7 +57,7 @@
     // collection view
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
     self.collectionView.backgroundColor = [UIColor clearColor];
-    //self.collectionView.maskView =
+    //self.collectionView.maskView = // TODO: copy this feature from apple example project
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     

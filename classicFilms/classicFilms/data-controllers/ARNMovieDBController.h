@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFHTTPSessionManager.h"
 #import "ARNMovie.h"
 
 @interface ARNMovieDBController : NSObject
 
 + (ARNMovieDBController *)sharedInstance;
-- (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie;
+- (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie withManager:(AFHTTPSessionManager *)manager;
 
 @end
