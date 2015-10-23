@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		161C80571BCA9EDD003B78EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 161C80561BCA9EDD003B78EC /* main.m */; };
 		161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 161C80591BCA9EDD003B78EC /* AppDelegate.m */; };
-		161C80631BCA9EDD003B78EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161C80611BCA9EDD003B78EC /* Main.storyboard */; };
 		161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161C80641BCA9EDD003B78EC /* Assets.xcassets */; };
 		164081D81BD10749003F11F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164081D71BD10749003F11F4 /* CoreData.framework */; };
 		1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */; };
@@ -32,7 +31,6 @@
 		161C80561BCA9EDD003B78EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		161C80581BCA9EDD003B78EC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		161C80591BCA9EDD003B78EC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		161C80621BCA9EDD003B78EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		161C80641BCA9EDD003B78EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		161C80661BCA9EDD003B78EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		164081D71BD10749003F11F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -115,7 +113,6 @@
 				16D452361BD6118A008758FE /* utilities */,
 				168376181BCBF7150011FA26 /* data */,
 				1600B14C1BD11092003F4407 /* persistence */,
-				161C80611BCA9EDD003B78EC /* Main.storyboard */,
 				161C80641BCA9EDD003B78EC /* Assets.xcassets */,
 				161C80661BCA9EDD003B78EC /* Info.plist */,
 				161C80551BCA9EDD003B78EC /* Supporting Files */,
@@ -354,17 +351,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		161C80611BCA9EDD003B78EC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				161C80621BCA9EDD003B78EC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		161C80671BCA9EDD003B78EC /* Debug */ = {
