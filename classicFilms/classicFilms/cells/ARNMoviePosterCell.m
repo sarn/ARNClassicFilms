@@ -84,7 +84,7 @@
         
         if ([arnMovie.posterURL length] > 0) {
             NSString *completePosterURL = [NSString stringWithFormat:@"%@%@", @"https://image.tmdb.org/t/p/original", arnMovie.posterURL];
-            [self.moviePoster setImageWithURL:[NSURL URLWithString:completePosterURL]];
+            [self.moviePoster setImageWithURL:[NSURL URLWithString:completePosterURL] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         }
     }
 }
