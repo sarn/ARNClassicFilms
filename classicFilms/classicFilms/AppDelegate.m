@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ARNMovieOverviewController.h"
 #import "ARNArchiveController.h"
 #import "AFHTTPSessionManager.h"
 
@@ -19,6 +20,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    ARNMovieOverviewController *featureFilmController = [ARNMovieOverviewController new];
+    featureFilmController.collectionType = COLLECTION_TYPE_FEATURE_FILM;
+    featureFilmController.title = NSLocalizedString(COLLECTION_TYPE_FEATURE_FILM, nil);
+    
+    ARNMovieOverviewController *sciFiHorrorController = [ARNMovieOverviewController new];
+    sciFiHorrorController.collectionType = COLLECTION_TYPE_SCIFI_HORROR;
+    sciFiHorrorController.title = NSLocalizedString(COLLECTION_TYPE_SCIFI_HORROR, nil);
+    
+    ARNMovieOverviewController *comedyFilmsController = [ARNMovieOverviewController new];
+    comedyFilmsController.collectionType = COLLECTION_TYPE_COMEDY;
+    comedyFilmsController.title = NSLocalizedString(COLLECTION_TYPE_COMEDY, nil);
+    
+    UITabBarController *tabBarController = [UITabBarController new];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:featureFilmController, sciFiHorrorController, comedyFilmsController, nil];
+    
+    self.window.rootViewController = tabBarController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
