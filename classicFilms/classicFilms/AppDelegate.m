@@ -34,8 +34,12 @@
     comedyFilmsController.collectionType = COLLECTION_TYPE_COMEDY;
     comedyFilmsController.title = NSLocalizedString(COLLECTION_TYPE_COMEDY, nil);
     
+    ARNMovieOverviewController *silentFilmsController = [ARNMovieOverviewController new];
+    silentFilmsController.collectionType = COLLECTION_TYPE_SILENT;
+    silentFilmsController.title = NSLocalizedString(COLLECTION_TYPE_SILENT, nil);
+    
     UITabBarController *tabBarController = [UITabBarController new];
-    tabBarController.viewControllers = [NSArray arrayWithObjects:featureFilmController, sciFiHorrorController, comedyFilmsController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:featureFilmController, sciFiHorrorController, comedyFilmsController, silentFilmsController, nil];
     
     self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];
@@ -63,6 +67,7 @@
     [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_FEATURE_FILM withManager:manager];
     [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_SCIFI_HORROR withManager:manager];
     [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_COMEDY withManager:manager];
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_SILENT withManager:manager];
     
     // TODO: attribute archive.org and themoviedb.org
     

@@ -70,15 +70,20 @@
             movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
             movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
             
-            // all collections have high prio except "feature film"
-            // so only set feature film if we have an empty string and nothing else in the database
             if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
+                // "feature film" collection has lowest prio
+                // so only set feature film if we have an empty string and nothing else in the database
                 if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
                     if (![movie.collection length] > 0) {
                         movie.collection = arnMovie.collection;
                     }
                 } else {
-                    movie.collection = arnMovie.collection;
+                    // "silent film" has highest prio
+                    if ([movie.collection length] > 0 && [movie.collection caseInsensitiveCompare:COLLECTION_TYPE_SILENT] == NSOrderedSame) {
+                        // so we never overwrite it with something else
+                    } else {
+                        movie.collection = arnMovie.collection;
+                    }
                 }
             } else {
                 movie.collection = [NSString string];
