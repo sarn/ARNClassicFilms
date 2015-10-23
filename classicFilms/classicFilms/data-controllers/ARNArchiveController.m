@@ -103,7 +103,10 @@
                                     if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
                                         // ignore all movies that end with _ipod
                                         if(![[arnMovie.archive_id lowercaseString] hasSuffix:@"_ipod"]) {
-                                            [movies addObject:arnMovie];
+                                            // ignore all movies made after 1980
+                                            if ([arnMovie.year integerValue] <= 1980) {
+                                                [movies addObject:arnMovie];
+                                            }
                                         }
                                     }
                                 }
