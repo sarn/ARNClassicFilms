@@ -69,12 +69,24 @@
             movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
             movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
             movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
-            movie.collection = (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) ? arnMovie.collection : [NSString string];
+            
+            // all collections have high prio except "feature film"
+            // so only set feature film if we have an empty string and nothing else in the database
+            if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
+                if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
+                    if (![movie.collection length] > 0) {
+                        movie.collection = arnMovie.collection;
+                    }
+                } else {
+                    movie.collection = arnMovie.collection;
+                }
+            } else {
+                movie.collection = [NSString string];
+            }
             
             [context save:nil];
             
             // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
-            
         }
     }
 }
