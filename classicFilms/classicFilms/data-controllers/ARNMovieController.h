@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARNMovie.h"
 
 @interface ARNMovieController : NSObject
 
 + (ARNMovieController *)sharedInstance;
+- (void)addMovie:(ARNMovie *)arnMovie;
 - (NSArray *)moviesForCollection:(NSString *)collection;
 
 @end
