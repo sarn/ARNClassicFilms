@@ -18,7 +18,6 @@
 		1666A5501BD13E4600BE249D /* ARNMoviePosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A54F1BD13E4600BE249D /* ARNMoviePosterCell.m */; };
 		1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A5521BD1434000BE249D /* ARNMovieController.m */; };
 		168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */; };
-		168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760F1BCBD42D0011FA26 /* SecondViewController.m */; };
 		168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376131BCBD4700011FA26 /* ARNArchiveController.m */; };
 		168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376161BCBD49F0011FA26 /* ARNMovieDBController.m */; };
 		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
@@ -49,8 +48,6 @@
 		1666A5521BD1434000BE249D /* ARNMovieController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieController.m; sourceTree = "<group>"; };
 		1683760C1BCBD42D0011FA26 /* ARNMovieOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieOverviewController.h; sourceTree = "<group>"; };
 		1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieOverviewController.m; sourceTree = "<group>"; };
-		1683760E1BCBD42D0011FA26 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		1683760F1BCBD42D0011FA26 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		168376121BCBD4700011FA26 /* ARNArchiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNArchiveController.h; sourceTree = "<group>"; };
 		168376131BCBD4700011FA26 /* ARNArchiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNArchiveController.m; sourceTree = "<group>"; };
 		168376151BCBD49F0011FA26 /* ARNMovieDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieDBController.h; sourceTree = "<group>"; };
@@ -170,8 +167,6 @@
 			children = (
 				1683760C1BCBD42D0011FA26 /* ARNMovieOverviewController.h */,
 				1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */,
-				1683760E1BCBD42D0011FA26 /* SecondViewController.h */,
-				1683760F1BCBD42D0011FA26 /* SecondViewController.m */,
 			);
 			path = "view-controllers";
 			sourceTree = "<group>";
@@ -336,7 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				168376111BCBD42D0011FA26 /* SecondViewController.m in Sources */,
 				1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */,
 				1666A53F1BD11AB800BE249D /* Movie.m in Sources */,
 				161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */,
