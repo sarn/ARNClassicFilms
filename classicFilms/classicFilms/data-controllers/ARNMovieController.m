@@ -105,7 +105,7 @@
     }
     
     // sort by year
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"year" ascending:NO];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"year" ascending:YES];
     movieFetchRequest.sortDescriptors = @[descriptor];
     
     NSArray *results = [context executeFetchRequest:movieFetchRequest error:nil];
