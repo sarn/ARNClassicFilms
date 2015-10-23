@@ -42,7 +42,7 @@
             if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
                 NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
                 movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
-                movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"archive_id == %@", arnMovie.archive_id];
+                movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"tmdb_id == %@", arnMovie.tmdb_id];
                 
                 NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
                 if(result != nil && [result count] > 0){
