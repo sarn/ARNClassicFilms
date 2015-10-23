@@ -34,7 +34,7 @@
     movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
     
     if ([collection length] > 0) {
-        movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"code == %@",collection];
+        movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"collection == %@",collection];
     }
     
     NSArray *results = [context executeFetchRequest:movieFetchRequest error:nil];
