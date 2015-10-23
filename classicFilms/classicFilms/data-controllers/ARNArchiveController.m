@@ -101,7 +101,10 @@
                                     
                                     // only add the arnMovie if we have all the essentials components available
                                     if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
-                                        [movies addObject:arnMovie];
+                                        // ignore all movies that end with _ipod
+                                        if(![[arnMovie.archive_id lowercaseString] hasSuffix:@"_ipod"]) {
+                                            [movies addObject:arnMovie];
+                                        }
                                     }
                                 }
                                 
