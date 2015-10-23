@@ -10,6 +10,7 @@
 		161C80571BCA9EDD003B78EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 161C80561BCA9EDD003B78EC /* main.m */; };
 		161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 161C80591BCA9EDD003B78EC /* AppDelegate.m */; };
 		161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161C80641BCA9EDD003B78EC /* Assets.xcassets */; };
+		1628B35C1BDA2B5900488FA4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1628B35B1BDA2B5900488FA4 /* Localizable.strings */; };
 		164081D81BD10749003F11F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164081D71BD10749003F11F4 /* CoreData.framework */; };
 		1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */; };
 		1666A53F1BD11AB800BE249D /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53D1BD11AB800BE249D /* Movie.m */; };
@@ -33,6 +34,7 @@
 		161C80591BCA9EDD003B78EC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		161C80641BCA9EDD003B78EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		161C80661BCA9EDD003B78EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1628B35B1BDA2B5900488FA4 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		164081D71BD10749003F11F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1666A53A1BD11AB800BE249D /* Movie+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Movie+CoreDataProperties.h"; sourceTree = "<group>"; };
 		1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Movie+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				161C80561BCA9EDD003B78EC /* main.m */,
 				1666A5461BD11E6300BE249D /* PrefixHeader.pch */,
+				1628B35B1BDA2B5900488FA4 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -274,7 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */,
-				161C80631BCA9EDD003B78EC /* Main.storyboard in Resources */,
+				1628B35C1BDA2B5900488FA4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
