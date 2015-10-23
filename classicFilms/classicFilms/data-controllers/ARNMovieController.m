@@ -24,7 +24,7 @@
     return instance;
 }
 
-- (NSArray *)movies {
+- (NSArray *)moviesForCollection:(NSString *)collection {
     NSMutableArray *movies = [NSMutableArray array];
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -32,6 +32,10 @@
     
     NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
     movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
+    
+    if ([collection length] > 0) {
+        movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"code == %@",collection];
+    }
     
     NSArray *results = [context executeFetchRequest:movieFetchRequest error:nil];
     for (id obj in results) {

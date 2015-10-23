@@ -10,5 +10,7 @@
 
 @interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
+@property(nonatomic, strong) NSString *collectionType;
+
 @end
 

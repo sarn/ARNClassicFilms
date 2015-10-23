@@ -43,6 +43,7 @@
 - (void)setup
 {
     _movies = [NSArray array];
+    _collectionType = [NSString string];
 }
 
 - (void)viewDidLoad {
@@ -74,7 +75,7 @@
 }
 
 - (void)refreshMovies {
-    self.movies = [[ARNMovieController sharedInstance] movies];
+    self.movies = [[ARNMovieController sharedInstance] moviesForCollection:self.collectionType];
     [self.collectionView reloadData];
 }
 

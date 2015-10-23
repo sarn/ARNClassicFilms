@@ -70,6 +70,7 @@
                                 for (NSDictionary *movie in docsArray) {
                                     // parse out data we care about
                                     ARNMovie *arnMovie = [ARNMovie new];
+                                    arnMovie.collection = collection;
                                     
                                     arnMovie.title = [NSString string];
                                     id titleId = [movie objectForKey:@"title"];

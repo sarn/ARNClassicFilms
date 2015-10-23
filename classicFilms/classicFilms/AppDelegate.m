@@ -40,9 +40,9 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"feature_films" withManager:manager];
-    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"SciFi_Horror" withManager:manager];
-    //[[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:@"Comedy_Films"];
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_FEATURE_FILM withManager:manager];
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_SCIFI_HORROR withManager:manager];
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_COMEDY withManager:manager];
     
     // TODO: attribute archive.org and themoviedb.org
     

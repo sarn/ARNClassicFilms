@@ -11,6 +11,6 @@
 @interface ARNMovieController : NSObject
 
 + (ARNMovieController *)sharedInstance;
-- (NSArray *)movies;
+- (NSArray *)moviesForCollection:(NSString *)collection;
 
 @end

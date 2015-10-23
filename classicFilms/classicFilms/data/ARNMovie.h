@@ -19,5 +19,6 @@
 @property (nonatomic, copy) NSString * posterURL;
 @property (nonatomic, copy) NSString * backdropURL;
 @property (nonatomic, copy) NSString * source;
+@property (nonatomic, copy) NSString * collection;
 
 @end

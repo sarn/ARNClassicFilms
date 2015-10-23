@@ -69,6 +69,7 @@
                     
                     
                     // only save if we have enough data
+                    // TODO: move the database code to the ARNMovieController
                     if ((![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) &&
                         (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0)) {
                         
@@ -104,10 +105,11 @@
                         movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
                         movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
                         movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
+                        movie.collection = (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) ? arnMovie.collection : [NSString string];
                         
                         [context save:nil];
                         
-                        // TODO: replace AFNetworking Image Cache with DSWEbImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
+                        // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
                         
                     }
                 }
