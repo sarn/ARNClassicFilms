@@ -13,6 +13,6 @@
 @interface ARNMovieDBController : NSObject
 
 + (ARNMovieDBController *)sharedInstance;
-- (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie withManager:(AFHTTPSessionManager *)manager;
+- (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie withManager:(AFHTTPSessionManager *)manager andDispatchGroup:(dispatch_group_t)fetchMovieDataGroup;
 
 @end

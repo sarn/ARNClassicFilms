@@ -64,16 +64,18 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_FEATURE_FILM withManager:manager];
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_SCIFI_HORROR withManager:manager];
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_COMEDY withManager:manager];
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:COLLECTION_TYPE_SILENT withManager:manager];
+    //NSArray *collections = @[COLLECTION_TYPE_FEATURE_FILM, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
+    NSArray *collections = @[COLLECTION_TYPE_FEATURE_FILM];
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollections:collections withManager:manager andCompletionBlock:^{
+        // TODO: wait for the end of update notification and check all entries if they got updated. If not delete them
+        // if after an update the date_updated is not updated then this means it got removed from the server -> delete from core data
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FetchMovieDataSuccessful" object:self userInfo:nil];
+        
+        // in completion block : delete orphaned entries, stop refresh indicator and reload collectionviews
+    }];
     
     // TODO: attribute archive.org and themoviedb.org
-    
-    // TODO: wait for the end of update notification and check all entries if they got updated. If not delete them
-    // if after an update the date_updated is not updated then this means it got removed from the server -> delete from core data
-    
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

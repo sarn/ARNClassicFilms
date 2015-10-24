@@ -9,7 +9,15 @@
 #import "ARNArchiveController.h"
 #import "ARNMovieDBController.h"
 #import "ARNMovie.h"
+#import "AFHTTPSessionOperation.h"
 
+@interface ARNArchiveController ()
+    @property (nonatomic, strong) dispatch_group_t fetchMovieArchiveGroup;
+    @property (nonatomic, strong) dispatch_group_t fetchMovieDataGroup;
+    @property (nonatomic, strong) NSMutableArray *movies;
+    @property (nonatomic, strong) NSDate *fetch_date;
+    @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@end
 
 @implementation ARNArchiveController
 
@@ -24,8 +32,34 @@
     return instance;
 }
 
-- (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager {
-    [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:1];
+- (void)fetchMovieArchiveForCollections:(NSArray *)collections withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion {
+    // To keep track of all the async task we are going to fire we create a dispatch group.
+    // With this we can count all the calls and then get informed if the last call is done
+    // http://stackoverflow.com/a/32714702/956433
+    self.fetchMovieArchiveGroup = dispatch_group_create();
+    
+    // prepare data structures for fetch calls
+    self.movies = [NSMutableArray array];
+    self.fetch_date = [NSDate date];
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+    
+    // start all the fetch calls
+    for (id collectionId in collections) {
+        if (collectionId != nil && [collectionId isKindOfClass:[NSString class]]) {
+            NSString *collection = (NSString *)collectionId;
+            
+            dispatch_group_enter(self.fetchMovieArchiveGroup);
+            [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:1];
+        }
+    }
+    
+    dispatch_group_notify(self.fetchMovieArchiveGroup, dispatch_get_main_queue(),^{
+        // Do your stuff, everything has finished loading
+        
+        // enhance all the movies we collected with additional meta data
+        [self fetchMovieArchiveForMetaDataAboutMovies:self.movies withManager:manager andCompletionBlock:completion];
+    });
 }
 
 - (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
@@ -55,6 +89,7 @@
                         // if we did not get the maximum amount af available data
                         // we just start an other call for the total amount
                         if ((page * rows) < [numFound integerValue]) {
+                            dispatch_group_enter(self.fetchMovieArchiveGroup);
                             [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:[numFound integerValue]];
                         } else {
                             // the data related to the movies
@@ -62,19 +97,12 @@
                             if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
                                 NSArray *docsArray = (NSArray *)docsId;
                                 
-                                NSMutableArray *movies = [NSMutableArray array];
-                                
-                                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-                                
-                                NSDate *now = [NSDate date];
-                                
                                 for (NSDictionary *movie in docsArray) {
                                     // parse out data we care about
                                     ARNMovie *arnMovie = [ARNMovie new];
                                     arnMovie.collection = collection;
-                                    arnMovie.date_created = now;
-                                    arnMovie.date_updated = now;
+                                    arnMovie.date_created = self.fetch_date;
+                                    arnMovie.date_updated = self.fetch_date;
                                     
                                     arnMovie.title = [NSString string];
                                     id titleId = [movie objectForKey:@"title"];
@@ -99,7 +127,7 @@
                                     if (dateId != nil && [dateId isKindOfClass:[NSString class]]) {
                                         NSString *date = (NSString *)dateId;
                                         if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
-                                            arnMovie.year = @([self getYear:[dateFormatter dateFromString:date]]);
+                                            arnMovie.year = @([self getYear:[self.dateFormatter dateFromString:date]]);
                                         }
                                     }
                                     
@@ -109,87 +137,124 @@
                                         if(![[arnMovie.archive_id lowercaseString] hasSuffix:@"_ipod"]) {
                                             // ignore all movies made after 1980
                                             if ([arnMovie.year integerValue] <= 1980) {
-                                                [movies addObject:arnMovie];
+                                                [self.movies addObject:arnMovie];
                                             }
                                         }
                                     }
                                 }
                                 
-                                // enhance all the movies we collected with additional meta data
-                                [self fetchMovieArchiveForMetaDataAboutMovies:movies withManager:manager];
                             }
                         }
                     }
                 }
             }
+            dispatch_group_leave(self.fetchMovieArchiveGroup);
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             NSLog(@"Error: %@", error);
+            dispatch_group_leave(self.fetchMovieArchiveGroup);
         }];
+    } else {
+        dispatch_group_leave(self.fetchMovieArchiveGroup);
     }
 }
 
-- (void)fetchMovieArchiveForMetaDataAboutMovies:(NSMutableArray *)movies withManager:(AFHTTPSessionManager *)manager {
+- (void)fetchMovieArchiveForMetaDataAboutMovies:(NSMutableArray *)movies withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion {
     if (movies != nil && [movies count] > 0 && manager != nil) {
+        // To keep track of all the async task we are going to fire we create a dispatch group.
+        // With this we can count all the calls and then get informed if the last call is done
+        // http://stackoverflow.com/a/32714702/956433
+        self.fetchMovieDataGroup = dispatch_group_create();
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        queue.maxConcurrentOperationCount = 50;
+        
+        
         for (id obj in movies) {
             if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
                 ARNMovie *arnMovie = (ARNMovie *)obj;
                 if (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) {
                     
-                    NSString *urlToFetch = [NSString stringWithFormat:@"%@%@", @"https://archive.org/metadata/", arnMovie.archive_id];
-                    [manager GET:urlToFetch parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                        
+                    // TODO: remove the batch and fix the fetch to 50 sorted by downloads
+                    // keep track of the fetch count per collection
+                    // grab new movies if user scrolls down.
+                    dispatch_group_enter(self.fetchMovieDataGroup);
+                    NSString *urlToFetch = [NSString stringWithFormat:@"%@%@%@", @"https://archive.org/metadata/", arnMovie.archive_id, @"/files"];
+                    [queue addOperation:[AFHTTPSessionOperation operationWithManager:manager method:@"GET" URLString:urlToFetch parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                         if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
                             NSDictionary *jsonDict = (NSDictionary *) responseObject;
                             
-                            id filesId = [jsonDict objectForKey:@"files"];
+                            id filesId = [jsonDict objectForKey:@"result"];
                             if (filesId != nil && [filesId isKindOfClass:[NSArray class]]) {
                                 NSArray *files = (NSArray *)filesId;
-
-                                for (id fileId in files) {
-                                    if (fileId != nil && [fileId isKindOfClass:[NSDictionary class]]) {
-                                        NSDictionary *file = (NSDictionary *)fileId;
-                                        
-                                        // parse out data we care about
-//                                        NSLog(@"*****************************");
-//                                        NSLog(@"FILE FORMAT: %@", [file objectForKey:@"format"]);
-                                        
-                                        id formatId = [file objectForKey:@"format"];
-                                        if (formatId != nil && [formatId isKindOfClass:[NSString class]]) {
-                                            NSString *format = (NSString *)formatId;
-                                            if (![format isKindOfClass:[NSNull class]] && [format length] > 0) {
-                                                // check if we have a supported media format
+                                
+                                if (files != nil && [files count] > 0) {
+                                    
+                                    for (id fileId in files) {
+                                        if (fileId != nil && [fileId isKindOfClass:[NSDictionary class]]) {
+                                            
+                                            NSDictionary *file = (NSDictionary *)fileId;
+                                            
+                                            // parse out data we care about
+                                            id formatId = [file objectForKey:@"format"];
+                                            if (formatId != nil && [formatId isKindOfClass:[NSString class]]) {
                                                 
-                                                // TODO: maybe support other formats?
-                                                NSRange containsMPEG4 = [format rangeOfString:@"MPEG4" options:NSCaseInsensitiveSearch];
-                                                if(containsMPEG4.length > 0)
-                                                {
-                                                    // is a MPEG4 format -> try to get the file name
-                                                    id nameId = [file objectForKey:@"name"];
-                                                    if (nameId != nil && [nameId isKindOfClass:[NSString class]]) {
-                                                        NSString *name = (NSString *)nameId;
-                                                        if (![name isKindOfClass:[NSNull class]] && [name length] > 0) {
-                                                            // fill in the name
-                                                            arnMovie.source = name;
-                                                            
-                                                            // fetch the details from the MovieDB
-                                                            [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovie:arnMovie withManager:manager];
+                                                NSString *format = (NSString *)formatId;
+                                                if (![format isKindOfClass:[NSNull class]] && [format length] > 0) {
+                                                    // check if we have a supported media format
+                                                    
+                                                    // TODO: maybe support other formats?
+                                                    NSRange containsMPEG4 = [format rangeOfString:@"MPEG4" options:NSCaseInsensitiveSearch];
+                                                    if(containsMPEG4.length > 0)
+                                                    {
+                                                        // is a MPEG4 format -> try to get the file name
+                                                        id nameId = [file objectForKey:@"name"];
+                                                        if (nameId != nil && [nameId isKindOfClass:[NSString class]]) {
+                                                            NSString *name = (NSString *)nameId;
+                                                            if (![name isKindOfClass:[NSNull class]] && [name length] > 0) {
+                                                                // fill in the name
+                                                                arnMovie.source = name;
+                                                            }
                                                         }
                                                     }
                                                 }
-                                                
                                             }
                                         }
                                     }
+                                    
+                                    if ([arnMovie.source length] > 0) {
+                                        // fetch the details from the MovieDB for this source file
+                                        [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovie:arnMovie withManager:manager andDispatchGroup:self.fetchMovieDataGroup];
+                                    } else {
+                                        // we don't have a source file, we give up
+                                        dispatch_group_leave(self.fetchMovieDataGroup);
+                                    }
+                                } else {
+                                    dispatch_group_leave(self.fetchMovieDataGroup);
                                 }
-                                
-                                
+                            } else {
+                                dispatch_group_leave(self.fetchMovieDataGroup);
                             }
+                        } else {
+                            dispatch_group_leave(self.fetchMovieDataGroup);
                         }
-                    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+                    } failure:^(NSURLSessionDataTask * task, NSError * error) {
                         NSLog(@"Error: %@", error);
-                    }];
+                        dispatch_group_leave(self.fetchMovieDataGroup);
+                    }]];
                 }
             }
+        }
+        
+        dispatch_group_notify(self.fetchMovieDataGroup, dispatch_get_main_queue(),^{
+            // Do your stuff, everything has finished loading
+            if (completion != nil) {
+                completion();
+            }
+        });
+        
+    } else {
+        if (completion != nil) {
+            completion();
         }
     }
 }
