@@ -19,7 +19,6 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        
         // customizations
         UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
         backgroundView.backgroundColor = [UIColor clearColor];
@@ -50,8 +49,6 @@
 }
 
 - (void)configureCellWithMovie:(ARNMovie *)arnMovie {
-    // TODO: get the image from the background async download or show placeholder and replace later on
-    
     if (arnMovie != nil) {
         NSString *year = [NSString string];
         if ([arnMovie year] != nil) {

@@ -26,18 +26,14 @@
 
 - (void)addMovie:(ARNMovie *)arnMovie {
     if (arnMovie != nil) {
-        // only save if we have enough data
+        // only consider if we have enough data
         if ((![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) &&
             (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0)) {
-            
-            
 
-            
-            
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             NSManagedObjectContext *context = appDelegate.managedObjectContext;
             
-            // save it to CoreData
+            // check if we already have the same object
             Movie *movie = nil;
             if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
                 NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
@@ -52,12 +48,11 @@
                     }
                 }
             }
-            
-            
-            
+
             // create new movie if there is not an existing one
             if(movie == nil){
                 movie = (Movie *)[NSEntityDescription insertNewObjectForEntityForName:@"Movie" inManagedObjectContext:context];
+                movie.date_created = arnMovie.date_created;
             }
             
             // fill/update the data
@@ -69,7 +64,9 @@
             movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
             movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
             movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
+            movie.date_updated = arnMovie.date_updated;
             
+            // update collection information
             if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
                 // "feature film" collection has lowest prio
                 // so only set feature film if we have an empty string and nothing else in the database
@@ -89,6 +86,8 @@
                 movie.collection = [NSString string];
             }
             
+            
+            // save to Core Data
             [context save:nil];
             
             // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)

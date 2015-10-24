@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9056" systemVersion="15A284" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
     <entity name="Movie" representedClassName="Movie" syncable="YES">
         <attribute name="archive_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="backdropURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="collection" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="date_updated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="movie_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="posterURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
@@ -12,6 +14,6 @@
         <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="210"/>
     </elements>
 </model>

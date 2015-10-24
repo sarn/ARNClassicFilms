@@ -71,6 +71,9 @@
     
     // TODO: attribute archive.org and themoviedb.org
     
+    // TODO: wait for the end of update notification and check all entries if they got updated. If not delete them
+    // if after an update the date_updated is not updated then this means it got removed from the server -> delete from core data
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

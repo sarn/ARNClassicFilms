@@ -29,7 +29,7 @@
 }
 
 - (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
-    if([collection length] > 0 && manager != nil){
+    if([collection length] > 0 && manager != nil) {
         NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)", @"mediatype:(movies) AND collection:", collection],
                                      @"sort": @[@"downloads desc"],
                                      @"rows": @(rows),
@@ -67,10 +67,14 @@
                                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                                 [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
                                 
+                                NSDate *now = [NSDate date];
+                                
                                 for (NSDictionary *movie in docsArray) {
                                     // parse out data we care about
                                     ARNMovie *arnMovie = [ARNMovie new];
                                     arnMovie.collection = collection;
+                                    arnMovie.date_created = now;
+                                    arnMovie.date_updated = now;
                                     
                                     arnMovie.title = [NSString string];
                                     id titleId = [movie objectForKey:@"title"];
@@ -111,7 +115,7 @@
                                     }
                                 }
                                 
-                                // anhance all the movies we collected with additional meta data
+                                // enhance all the movies we collected with additional meta data
                                 [self fetchMovieArchiveForMetaDataAboutMovies:movies withManager:manager];
                             }
                         }

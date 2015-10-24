@@ -20,5 +20,7 @@
 @property (nonatomic, copy) NSString * backdropURL;
 @property (nonatomic, copy) NSString * source;
 @property (nonatomic, copy) NSString * collection;
+@property (nonatomic, strong) NSDate * date_created;
+@property (nonatomic, strong) NSDate * date_updated;
 
 @end
