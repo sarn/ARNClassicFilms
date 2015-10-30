@@ -64,7 +64,9 @@
 
 - (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
     if([collection length] > 0 && manager != nil) {
-        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)", @"mediatype:(movies) AND collection:", collection],
+        NSString *dateRestriction =  @" AND date:[null TO 1980]"; // ignore all movies made after 1980
+        
+        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@", @"mediatype:(movies) AND collection:", collection, dateRestriction],
                                      @"sort": @[@"date asc"],
                                      @"rows": @(rows),
                                      @"page": @(page),
