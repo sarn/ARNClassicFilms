@@ -11,7 +11,6 @@
 @interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
 
 @property(nonatomic, strong) NSString *collectionType;
-//- (void)refreshMovies;
 
 @end
 

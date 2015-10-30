@@ -79,8 +79,7 @@
     self.refreshActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     self.refreshActivityIndicator.frame = self.view.frame;
     self.refreshActivityIndicator.hidesWhenStopped = YES;
-    //[self.view addSubview:self.refreshActivityIndicator];
-    [self.refreshActivityIndicator startAnimating];
+    [self.view addSubview:self.refreshActivityIndicator];
     
     // set up the fetcher for the data
     [[self fetchedResultsController] performFetch:nil];
@@ -144,7 +143,13 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     id sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    NSUInteger numberOfItems = [sectionInfo numberOfObjects];
+    if (numberOfItems > 0) {
+        [self.refreshActivityIndicator stopAnimating];
+    } else {
+        [self.refreshActivityIndicator startAnimating];
+    }
+    return numberOfItems;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
