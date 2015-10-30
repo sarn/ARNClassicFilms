@@ -98,6 +98,7 @@
                             id docsId = [responseDict objectForKey:@"docs"];
                             if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
                                 NSArray *docsArray = (NSArray *)docsId;
+                                NSRegularExpression *iPodRegEx = [NSRegularExpression regularExpressionWithPattern:@".+_ipod.*" options:NSRegularExpressionCaseInsensitive error:nil];
                                 
                                 for (NSDictionary *movie in docsArray) {
                                     // parse out data we care about
@@ -136,11 +137,15 @@
                                     // only add the arnMovie if we have all the essentials components available
                                     if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
                                         // ignore all movies that end with _ipod
-                                        if(![[arnMovie.archive_id lowercaseString] hasSuffix:@"_ipod"]) {
-                                            // ignore all movies made after 1980
-                                            if ([arnMovie.year integerValue] <= 1980) {
+                                        if (iPodRegEx != nil) {
+                                            NSRange range = NSMakeRange(0, [arnMovie.archive_id length]);
+                                            if([iPodRegEx numberOfMatchesInString:arnMovie.archive_id options:0 range:range] <= 0)
+                                            {
                                                 [self.movies addObject:arnMovie];
                                             }
+                                        } else {
+                                            // regExp does not function for some reason: just add all movies
+                                            [self.movies addObject:arnMovie];
                                         }
                                     }
                                 }
