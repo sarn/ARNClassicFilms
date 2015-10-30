@@ -65,8 +65,9 @@
 - (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
     if([collection length] > 0 && manager != nil) {
         NSString *dateRestriction =  @" AND date:[null TO 1980]"; // ignore all movies made after 1980
+        NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
         
-        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@", @"mediatype:(movies) AND collection:", collection, dateRestriction],
+        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@", @"mediatype:(movies) AND collection:", collection, dateRestriction, formatRestriction],
                                      @"sort": @[@"date asc"],
                                      @"rows": @(rows),
                                      @"page": @(page),
