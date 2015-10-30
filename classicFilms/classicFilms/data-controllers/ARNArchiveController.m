@@ -65,7 +65,7 @@
 - (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
     if([collection length] > 0 && manager != nil) {
         NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)", @"mediatype:(movies) AND collection:", collection],
-                                     @"sort": @[@"downloads desc"],
+                                     @"sort": @[@"date asc"],
                                      @"rows": @(rows),
                                      @"page": @(page),
                                      @"fl": @[@"identifier", @"title", @"date"],
