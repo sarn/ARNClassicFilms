@@ -8,10 +8,13 @@
 
 #import "ARNMovieDBController.h"
 #import "ARNMovieController.h"
+#import "ARNMovie.h"
+#import "AFHTTPSessionOperation.h"
 
 @interface ARNMovieDBController ()
     @property (nonatomic, strong) AFHTTPSessionManager *manager;
     @property (nonatomic, strong) dispatch_group_t fetchMovieDataGroup;
+    @property (nonatomic, strong) NSOperationQueue *queue;
 @end
 
 
@@ -28,24 +31,48 @@
     return instance;
 }
 
-- (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie withManager:(AFHTTPSessionManager *)manager andDispatchGroup:(dispatch_group_t)fetchMovieDataGroup {
-    if (manager != nil) {
+- (void)fetchMovieDetailsForMovies:(NSArray *)movies withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion {
+    if (movies != nil && [movies count] > 0 && manager != nil) {
         self.manager = manager;
-        self.fetchMovieDataGroup = fetchMovieDataGroup;
-        [self fetchMovieDetailsForMovie:arnMovie];
+
+        // To keep track of all the async task we are going to fire we create a dispatch group.
+        // With this we can count all the calls and then get informed if the last call is done
+        // http://stackoverflow.com/a/32714702/956433
+        self.fetchMovieDataGroup = dispatch_group_create();
+        
+        // the connection to tvdb is too slow, we need a queue and limit the concurrent request
+        self.queue = [[NSOperationQueue alloc] init];
+        self.queue.maxConcurrentOperationCount = 5;
+
+        for (id obj in movies) {
+            if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
+                ARNMovie *arnMovie = (ARNMovie *)obj;
+                
+                dispatch_group_enter(self.fetchMovieDataGroup);
+                [self fetchMovieDetailsForMovie:arnMovie];
+            }
+        }
+        
+        dispatch_group_notify(self.fetchMovieDataGroup, dispatch_get_main_queue(),^{
+            // Do your stuff, everything has finished loading
+            if (completion != nil) {
+                completion();
+            }
+        });
     } else {
-        dispatch_group_leave(fetchMovieDataGroup);
+        if (completion != nil) {
+            completion();
+        }
     }
 }
     
 - (void)fetchMovieDetailsForMovie:(ARNMovie *)arnMovie {
-    if (arnMovie != nil && [arnMovie.title length] > 0 && [arnMovie.year integerValue] > 0) {
+    if (arnMovie != nil && [arnMovie.title length] > 0 && [arnMovie.year integerValue] > 0 && self.queue != nil) {
         NSDictionary *parameters = @{@"api_key": @"cde3935be83a0ceff90f530f19931df3",
                                      @"query": arnMovie.title,
                                      @"year": arnMovie.year};
         
-        
-        [self.manager GET:@"http://api.themoviedb.org/3/search/movie" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        [self.queue addOperation:[AFHTTPSessionOperation operationWithManager:self.manager method:@"GET" URLString:@"http://api.themoviedb.org/3/search/movie" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
             NSDictionary *jsonDict = (NSDictionary *) responseObject;
             
             //NSLog(@"JSON: %@", jsonDict);
@@ -101,7 +128,7 @@
                 NSLog(@"Error: %@", error);
                 dispatch_group_leave(self.fetchMovieDataGroup);
             }
-        }];
+        }]];
     } else {
         dispatch_group_leave(self.fetchMovieDataGroup);
     }
