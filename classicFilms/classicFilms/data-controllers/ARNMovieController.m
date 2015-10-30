@@ -26,72 +26,67 @@
 
 - (void)addMovie:(ARNMovie *)arnMovie {
     if (arnMovie != nil) {
-        // only consider if we have enough data
-        if ((![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) &&
-            (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0)) {
-
-            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            NSManagedObjectContext *context = appDelegate.managedObjectContext;
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = appDelegate.managedObjectContext;
+        
+        // check if we already have the same object
+        Movie *movie = nil;
+        if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
+            NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
+            movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
+            movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"tmdb_id == %@", arnMovie.tmdb_id];
             
-            // check if we already have the same object
-            Movie *movie = nil;
-            if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
-                NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
-                movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
-                movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"tmdb_id == %@", arnMovie.tmdb_id];
-                
-                NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
-                if(result != nil && [result count] > 0){
-                    id obj = [result lastObject];
-                    if(obj != nil && [obj isKindOfClass:[Movie class]]){
-                        movie = (Movie *) obj;
-                    }
+            NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
+            if(result != nil && [result count] > 0){
+                id obj = [result lastObject];
+                if(obj != nil && [obj isKindOfClass:[Movie class]]){
+                    movie = (Movie *) obj;
                 }
             }
-
-            // create new movie if there is not an existing one
-            if(movie == nil){
-                movie = (Movie *)[NSEntityDescription insertNewObjectForEntityForName:@"Movie" inManagedObjectContext:context];
-                movie.date_created = arnMovie.date_created;
-            }
-            
-            // fill/update the data
-            movie.archive_id = (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) ? arnMovie.archive_id : [NSString string];
-            movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
-            movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
-            movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
-            movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
-            movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
-            movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
-            movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
-            movie.date_updated = arnMovie.date_updated;
-            
-            // update collection information
-            if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
-                // "feature film" collection has lowest prio
-                // so only set feature film if we have an empty string and nothing else in the database
-                if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
-                    if (![movie.collection length] > 0) {
-                        movie.collection = arnMovie.collection;
-                    }
-                } else {
-                    // "silent film" has highest prio
-                    if ([movie.collection length] > 0 && [movie.collection caseInsensitiveCompare:COLLECTION_TYPE_SILENT] == NSOrderedSame) {
-                        // so we never overwrite it with something else
-                    } else {
-                        movie.collection = arnMovie.collection;
-                    }
+        }
+        
+        // create new movie if there is not an existing one
+        if(movie == nil){
+            movie = (Movie *)[NSEntityDescription insertNewObjectForEntityForName:@"Movie" inManagedObjectContext:context];
+            movie.date_created = arnMovie.date_created;
+        }
+        
+        // fill/update the data
+        movie.archive_id = (![arnMovie.archive_id isKindOfClass:[NSNull class]] && [arnMovie.archive_id length] > 0) ? arnMovie.archive_id : [NSString string];
+        movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
+        movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
+        movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
+        movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
+        movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
+        movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
+        movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
+        movie.date_updated = arnMovie.date_updated;
+        
+        // update collection information
+        if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
+            // "feature film" collection has lowest prio
+            // so only set feature film if we have an empty string and nothing else in the database
+            if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
+                if (![movie.collection length] > 0) {
+                    movie.collection = arnMovie.collection;
                 }
             } else {
-                movie.collection = [NSString string];
+                // "silent film" has highest prio
+                if ([movie.collection length] > 0 && [movie.collection caseInsensitiveCompare:COLLECTION_TYPE_SILENT] == NSOrderedSame) {
+                    // so we never overwrite it with something else
+                } else {
+                    movie.collection = arnMovie.collection;
+                }
             }
-            
-            
-            // save to Core Data
-            [context save:nil];
-            
-            // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
+        } else {
+            movie.collection = [NSString string];
         }
+        
+        
+        // save to Core Data
+        [context save:nil];
+        
+        // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
     }
 }
 

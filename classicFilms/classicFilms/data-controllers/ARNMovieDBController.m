@@ -42,7 +42,7 @@
         
         // the connection to tvdb is too slow, we need a queue and limit the concurrent request
         self.queue = [[NSOperationQueue alloc] init];
-        self.queue.maxConcurrentOperationCount = 5;
+        self.queue.maxConcurrentOperationCount = 1; // TODO: increase to 5
 
         for (id obj in movies) {
             if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
@@ -99,6 +99,7 @@
                 
                 // save it
                 [[ARNMovieController sharedInstance] addMovie:arnMovie];
+                NSLog(@"SUCCESS");
             }
             
             dispatch_group_leave(self.fetchMovieDataGroup);
@@ -114,6 +115,7 @@
                 if (retryAfterId != nil && [retryAfterId isKindOfClass:[NSString class]]) {
                     NSInteger retryAfterSeconds = [retryAfterId integerValue];
                     
+                    NSLog(@"RETRY: %li", retryAfterSeconds);
                     // wait for retryAfterSeconds
                     [NSTimer scheduledTimerWithTimeInterval:retryAfterSeconds
                                                      target:self

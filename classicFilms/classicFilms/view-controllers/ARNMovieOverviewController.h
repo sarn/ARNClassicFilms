@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
 
 @property(nonatomic, strong) NSString *collectionType;
-- (void)refreshMovies;
+//- (void)refreshMovies;
 
 @end
 
