@@ -23,15 +23,15 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     ARNMovieOverviewController *featureFilmController = [ARNMovieOverviewController new];
-    featureFilmController.collectionType = COLLECTION_TYPE_FEATURE_FILM;
+    featureFilmController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_FEATURE_FILM, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
     featureFilmController.title = NSLocalizedString(COLLECTION_TYPE_FEATURE_FILM, nil);
     
     ARNMovieOverviewController *sciFiHorrorController = [ARNMovieOverviewController new];
-    sciFiHorrorController.collectionType = COLLECTION_TYPE_SCIFI_HORROR;
+    sciFiHorrorController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@", COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
     sciFiHorrorController.title = NSLocalizedString(COLLECTION_TYPE_SCIFI_HORROR, nil);
     
     ARNMovieOverviewController *comedyFilmsController = [ARNMovieOverviewController new];
-    comedyFilmsController.collectionType = COLLECTION_TYPE_COMEDY;
+    comedyFilmsController.collectionType = [NSString stringWithFormat:@"%@ NOT %@", COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
     comedyFilmsController.title = NSLocalizedString(COLLECTION_TYPE_COMEDY, nil);
     
     ARNMovieOverviewController *silentFilmsController = [ARNMovieOverviewController new];
