@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPSessionManager.h"
+#import "ARNMovie.h"
 
 @interface ARNArchiveController : NSObject
 
 + (ARNArchiveController *)sharedInstance;
-- (void)fetchMovieArchiveForCollection:(NSString *)collection pageNumber:(NSInteger)page andRows:(NSInteger)rows;
+- (void)fetchForCollection:(NSString *)collection withPageNumber:(NSInteger)page andRows:(NSInteger)rows;
+- (void)fetchSourceFileForMovie:(ARNMovie *)arnMovie andCompletionBlock:(void (^)(NSString *))completion;
 
 @end
