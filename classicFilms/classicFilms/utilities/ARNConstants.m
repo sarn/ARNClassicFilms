@@ -13,4 +13,4 @@ NSString * const COLLECTION_TYPE_SCIFI_HORROR = @"SciFi_Horror";
 NSString * const COLLECTION_TYPE_COMEDY = @"Comedy_Films";
 NSString * const COLLECTION_TYPE_SILENT = @"silent_films";
 
-NSInteger const  ARCHIVE_ORG_ROW_COUNT = 70;
+NSInteger const  ARCHIVE_ORG_ROW_COUNT = 50;
