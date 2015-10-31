@@ -83,7 +83,7 @@
     [[self fetchedResultsController] performFetch:nil];
     
     // fetch the first few movies
-    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:self.collectionType pageNumber:1 andRows:ARCHIVE_ORG_ROW_COUNT];
+    [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withPageNumber:1 andRows:ARCHIVE_ORG_ROW_COUNT];
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -159,38 +159,29 @@
 #pragma mark UICollectionViewDelegate methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: implement
-    
-    id obj = [_fetchedResultsController objectAtIndexPath:indexPath];
-    if (obj != nil) {
-        if ([obj isKindOfClass:[Movie class]]) {
-            ARNMovie *arnMovie = [[ARNMovie alloc] initWithAttributesOfManagedObject:obj];
-            if ([arnMovie.source length] > 0) {
-                // open the stream
-                //https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
-                NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", arnMovie.archive_id, arnMovie.source];
-                
-                NSURL *videoURL = [NSURL URLWithString:videoStream];
-                AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-                
-                AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-                playerViewController.player = player;
-                [self presentViewController:playerViewController animated:YES completion:nil];
-                
-                
-                
-                
-                // instantiate here or in storyboard
-                //                    AVPlayerViewController *viewController = [[AVPlayerViewController alloc] initWithNibName:nil bundle:nil];
-                //                    viewController.player = player;
-                //
-                //                    [self addChildViewController:viewController];
-                //                    [self.view addSubview:viewController.view];
-                //                    [viewController didMoveToParentViewController:self];
-                [player play];
-                
-                
-            }
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
+        ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
+        if (posterCell.arnMovie != nil) {
+            [posterCell showActivityIndicator];
+            [[ARNArchiveController sharedInstance] fetchSourceFileForMovie:posterCell.arnMovie andCompletionBlock:^(NSString *sourceFile) {
+                [posterCell stopActivityIndicator];
+                if ([sourceFile length] > 0) {
+                    // open the stream
+                    //https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
+                    NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, sourceFile];
+                    
+                    NSURL *videoURL = [NSURL URLWithString:videoStream];
+                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+                    
+                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+                    playerViewController.player = player;
+                    
+                    [self presentViewController:playerViewController animated:YES completion:^{
+                        [player play];
+                    }];
+                }
+            }];
         }
     }
 }
@@ -205,9 +196,9 @@
         UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:context.nextFocusedIndexPath];
         if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
             ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
-            if (posterCell.pageNumber >= 0) {
+            if (posterCell.arnMovie != nil && [posterCell.arnMovie.page_number integerValue] >= 0) {
                 // start a background fetch of new movies
-                [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:self.collectionType pageNumber:(posterCell.pageNumber + 1) andRows:ARCHIVE_ORG_ROW_COUNT];
+                [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withPageNumber:([posterCell.arnMovie.page_number integerValue] + 1) andRows:ARCHIVE_ORG_ROW_COUNT];
             }
         }
     }
