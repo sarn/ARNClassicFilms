@@ -12,6 +12,7 @@
 @interface ARNMoviePosterCell ()
     @property (nonatomic, strong) UILabel *movieTitle;
     @property (nonatomic, strong) UIImageView *moviePoster;
+    @property (nonatomic, strong) UIActivityIndicatorView *refreshActivityIndicator;
 @end
 
 @implementation ARNMoviePosterCell
@@ -20,7 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // data
-        _pageNumber = -1;
+        _arnMovie = nil;
         
         // customizations
         UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
@@ -39,6 +40,12 @@
         _movieTitle.textAlignment = NSTextAlignmentCenter;
         _movieTitle.font = [UIFont boldSystemFontOfSize:36.0f];
         [self.contentView addSubview:_movieTitle];
+        
+        // activity indicator
+        _refreshActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _refreshActivityIndicator.frame = CGRectMake(0, 0, frame.size.width, posterHeight);
+        _refreshActivityIndicator.hidesWhenStopped = YES;
+        [self.contentView addSubview:_refreshActivityIndicator];
     }
     return self;
 }
@@ -46,14 +53,12 @@
 - (void)prepareForReuse {
     self.movieTitle.text = [NSString string];
     self.moviePoster.image = nil;
+    self.arnMovie = nil;
 }
 
 - (void)configureCellWithMovie:(ARNMovie *)arnMovie {
     if (arnMovie != nil) {
-        // each cell knows to which page call she belongs
-        // we use this to start a new call for the next page
-        // if we are close  to the end of the list
-        self.pageNumber = [arnMovie.page_number integerValue];
+        self.arnMovie = arnMovie;
         
         NSString *year = [NSString string];
         if ([arnMovie year] != nil) {
@@ -74,7 +79,6 @@
             fullPosterTitle = year;
         }
             
-        
         self.movieTitle.text = fullPosterTitle;
         self.movieTitle.backgroundColor = [UIColor clearColor];
         [self.movieTitle sizeToFit]; // align to the top
@@ -89,6 +93,16 @@
             [self.moviePoster setImageWithURL:[NSURL URLWithString:completePosterURL] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         }
     }
+}
+
+- (void)showActivityIndicator {
+    self.moviePoster.alpha = 0.5;
+    [self.refreshActivityIndicator startAnimating];
+}
+
+- (void)stopActivityIndicator {
+    [self.refreshActivityIndicator stopAnimating];
+    self.moviePoster.alpha = 1.0;
 }
 
 - (void)didUpdateFocusInContext:(UIFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
