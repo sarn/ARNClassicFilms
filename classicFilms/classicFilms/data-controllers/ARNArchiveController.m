@@ -34,7 +34,8 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         
         // create the query parameters
-        NSString *dateRestriction =  @" AND date:[null TO 1980]"; // ignore all movies made after 1980
+        NSString *dateRestriction =  @" AND date:[null TO 1975]"; // ignore all movies made after 1975
+        // -> pre-1976 (I think) without a copyright claim on the print itself is likely ok: https://archive.org/post/1046300/request-how-to-check-copyrights
         NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
         
         // TODO: make sure we only have public domain licenseurl's : licenseurl: "http://creativecommons.org/licenses/publicdomain/"
