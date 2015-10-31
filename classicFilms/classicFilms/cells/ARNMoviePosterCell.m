@@ -19,11 +19,12 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        // data
+        _pageNumber = -1;
+        
         // customizations
         UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
         backgroundView.backgroundColor = [UIColor clearColor];
-//        backgroundView.layer.borderColor = [UIColor grayColor].CGColor;
-//        backgroundView.layer.borderWidth = 1.0f;
         self.backgroundView = backgroundView;
         
         CGFloat posterHeight = frame.size.width * 1.5;
@@ -33,7 +34,6 @@
         [self.contentView addSubview:_moviePoster];
         
         _movieTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, posterHeight + 40, frame.size.width, frame.size.height - posterHeight - 40)];
-        //_movieTitle.alpha = 0.0f;
         _movieTitle.lineBreakMode = NSLineBreakByWordWrapping;
         _movieTitle.numberOfLines = 0;
         _movieTitle.textAlignment = NSTextAlignmentCenter;
@@ -44,12 +44,17 @@
 }
 
 - (void)prepareForReuse {
-    //self.movieTitle.alpha = 0.0;
+    self.movieTitle.text = [NSString string];
     self.moviePoster.image = nil;
 }
 
 - (void)configureCellWithMovie:(ARNMovie *)arnMovie {
     if (arnMovie != nil) {
+        // each cell knows to which page call she belongs
+        // we use this to start a new call for the next page
+        // if we are close  to the end of the list
+        self.pageNumber = [arnMovie.page_number integerValue];
+        
         NSString *year = [NSString string];
         if ([arnMovie year] != nil) {
             year = [NSString stringWithFormat:@"(%@)", arnMovie.year];

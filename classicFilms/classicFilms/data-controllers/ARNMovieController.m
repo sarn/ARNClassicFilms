@@ -69,6 +69,7 @@
             if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
                 if (![movie.collection length] > 0) {
                     movie.collection = arnMovie.collection;
+                    movie.page_number = arnMovie.page_number;
                 }
             } else {
                 // "silent film" has highest prio
@@ -76,10 +77,12 @@
                     // so we never overwrite it with something else
                 } else {
                     movie.collection = arnMovie.collection;
+                    movie.page_number = arnMovie.page_number;
                 }
             }
         } else {
             movie.collection = [NSString string];
+            movie.page_number = arnMovie.page_number;
         }
         
         

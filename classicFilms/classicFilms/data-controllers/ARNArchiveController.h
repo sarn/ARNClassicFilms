@@ -12,6 +12,6 @@
 @interface ARNArchiveController : NSObject
 
 + (ARNArchiveController *)sharedInstance;
-- (void)fetchMovieArchiveForCollections:(NSArray *)collections withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion;
+- (void)fetchMovieArchiveForCollection:(NSString *)collection pageNumber:(NSInteger)page andRows:(NSInteger)rows;
 
 @end

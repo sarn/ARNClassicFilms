@@ -7,6 +7,7 @@
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="date_updated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="movie_description" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="page_number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="posterURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,6 +15,6 @@
         <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="225"/>
     </elements>
 </model>

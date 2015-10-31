@@ -11,6 +11,7 @@
 
 @interface ARNMoviePosterCell : UICollectionViewCell
 
+@property (nonatomic, assign) NSInteger pageNumber;
 - (void)configureCellWithMovie:(ARNMovie *)arnMovie;
 
 @end

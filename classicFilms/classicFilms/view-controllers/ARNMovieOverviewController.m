@@ -7,6 +7,7 @@
 //
 
 #import "ARNMovieOverviewController.h"
+#import "ARNArchiveController.h"
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
 #import "ARNMovie.h"
@@ -15,7 +16,6 @@
 #import <AVKit/AVKit.h>
 
 @interface ARNMovieOverviewController ()
-    //@property(nonatomic, strong) NSArray *movies;
     @property(nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
     @property(nonatomic, strong) UICollectionView *collectionView;
     @property(nonatomic, strong) UIActivityIndicatorView *refreshActivityIndicator;
@@ -48,14 +48,13 @@
 // common setup method used be init's
 - (void)setup
 {
-    //_movies = [NSArray array];
     _collectionType = [NSString string];
     _shouldReloadCollectionView = NO;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // layout
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -65,7 +64,6 @@
     // collection view
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
     self.collectionView.backgroundColor = [UIColor clearColor];
-    //self.collectionView.maskView = // TODO: copy this feature from apple example project
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
@@ -84,19 +82,9 @@
     // set up the fetcher for the data
     [[self fetchedResultsController] performFetch:nil];
     
-    //[self refreshMovies];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMovies) name:@"FetchMovieDataSuccessful" object:nil];
+    // fetch the first few movies
+    [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:self.collectionType pageNumber:1 andRows:ARCHIVE_ORG_ROW_COUNT];
 }
-
-//- (void)refreshMovies {
-//    self.movies = [[ARNMovieController sharedInstance] moviesForCollection:self.collectionType];
-//    
-//    if ([self.movies count] > 0) {
-//        [self.refreshActivityIndicator stopAnimating];
-//    }
-//    [self.collectionView reloadData];
-//}
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
@@ -202,6 +190,24 @@
                 [player play];
                 
                 
+            }
+        }
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
+    // the focus got changed, let's check which cell got focused and if we need to load more cells from the backend
+    NSInteger focusedCellNumber = context.nextFocusedIndexPath.row + 1;
+    NSInteger totalCellNumber = [collectionView numberOfItemsInSection:context.nextFocusedIndexPath.section];
+    NSInteger distanceToLastCell = totalCellNumber - focusedCellNumber;
+    
+    if(distanceToLastCell < 24) {
+        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:context.nextFocusedIndexPath];
+        if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
+            ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
+            if (posterCell.pageNumber >= 0) {
+                // start a background fetch of new movies
+                [[ARNArchiveController sharedInstance] fetchMovieArchiveForCollection:self.collectionType pageNumber:(posterCell.pageNumber + 1) andRows:ARCHIVE_ORG_ROW_COUNT];
             }
         }
     }
@@ -330,7 +336,6 @@
 }
 
 - (void)dealloc {
-    //[[NSNotificationCenter defaultCenter] removeObserver:self];
     _fetchedResultsController.delegate = nil;
 }
 

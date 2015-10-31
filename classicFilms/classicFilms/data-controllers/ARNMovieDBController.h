@@ -12,6 +12,6 @@
 @interface ARNMovieDBController : NSObject
 
 + (ARNMovieDBController *)sharedInstance;
-- (void)fetchMovieDetailsForMovies:(NSArray *)movies withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion;
+- (void)fetchMovieDetailsForMovies:(NSArray *)movies withManager:(AFHTTPSessionManager *)manager;
 
 @end

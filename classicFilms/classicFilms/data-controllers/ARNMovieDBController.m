@@ -13,7 +13,6 @@
 
 @interface ARNMovieDBController ()
     @property (nonatomic, strong) AFHTTPSessionManager *manager;
-    @property (nonatomic, strong) dispatch_group_t fetchMovieDataGroup;
     @property (nonatomic, strong) NSOperationQueue *queue;
 @end
 
@@ -31,14 +30,9 @@
     return instance;
 }
 
-- (void)fetchMovieDetailsForMovies:(NSArray *)movies withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion {
+- (void)fetchMovieDetailsForMovies:(NSArray *)movies withManager:(AFHTTPSessionManager *)manager {
     if (movies != nil && [movies count] > 0 && manager != nil) {
         self.manager = manager;
-
-        // To keep track of all the async task we are going to fire we create a dispatch group.
-        // With this we can count all the calls and then get informed if the last call is done
-        // http://stackoverflow.com/a/32714702/956433
-        self.fetchMovieDataGroup = dispatch_group_create();
         
         // the connection to tvdb is too slow, we need a queue and limit the concurrent request
         self.queue = [[NSOperationQueue alloc] init];
@@ -47,21 +41,8 @@
         for (id obj in movies) {
             if (obj != nil && [obj isKindOfClass:[ARNMovie class]]) {
                 ARNMovie *arnMovie = (ARNMovie *)obj;
-                
-                dispatch_group_enter(self.fetchMovieDataGroup);
                 [self fetchMovieDetailsForMovie:arnMovie];
             }
-        }
-        
-        dispatch_group_notify(self.fetchMovieDataGroup, dispatch_get_main_queue(),^{
-            // Do your stuff, everything has finished loading
-            if (completion != nil) {
-                completion();
-            }
-        });
-    } else {
-        if (completion != nil) {
-            completion();
         }
     }
 }
@@ -81,16 +62,6 @@
             if(resultsArray != nil && [resultsArray count] > 0){
                 NSDictionary *resultDict = resultsArray[0];
                 
-                //NSLog(@"JSON: %@", resultDict);
-                //NSLog(@"*****************************");
-                //NSLog(@"title: %@", arnMovie.title);
-                //NSLog(@"year: %ld", (long)arnMovie.year);
-                //NSLog(@"backdrop_path: %@", [resultDict objectForKey:@"backdrop_path"]);
-                //NSLog(@"poster_path: %@", [resultDict objectForKey:@"poster_path"]);
-                //NSLog(@"overview: %@", [resultDict objectForKey:@"overview"]);
-                //NSLog(@"date: %@", [resultDict objectForKey:@"date"]);
-                //NSLog(@"title: %@", [resultDict objectForKey:@"title"]);
-                
                 // fill in the data
                 arnMovie.tmdb_id = [[resultDict objectForKey:@"id"] stringValue];
                 arnMovie.movie_description = [resultDict objectForKey:@"overview"];
@@ -99,10 +70,7 @@
                 
                 // save it
                 [[ARNMovieController sharedInstance] addMovie:arnMovie];
-                NSLog(@"SUCCESS");
             }
-            
-            dispatch_group_leave(self.fetchMovieDataGroup);
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
             if (response.statusCode == 429) {
@@ -115,24 +83,18 @@
                 if (retryAfterId != nil && [retryAfterId isKindOfClass:[NSString class]]) {
                     NSInteger retryAfterSeconds = [retryAfterId integerValue];
                     
-                    NSLog(@"RETRY: %li", retryAfterSeconds);
                     // wait for retryAfterSeconds
                     [NSTimer scheduledTimerWithTimeInterval:retryAfterSeconds
                                                      target:self
                                                    selector:@selector(retryFetch:)
                                                    userInfo:@{@"arnMovie" : arnMovie}
                                                     repeats:NO];
-                } else {
-                    dispatch_group_leave(self.fetchMovieDataGroup);
                 }
             } else {
                 // it's an other error - we just give up then
                 NSLog(@"Error: %@", error);
-                dispatch_group_leave(self.fetchMovieDataGroup);
             }
         }]];
-    } else {
-        dispatch_group_leave(self.fetchMovieDataGroup);
     }
 }
 

@@ -11,13 +11,6 @@
 #import "ARNMovieDBController.h"
 #import "ARNMovie.h"
 
-@interface ARNArchiveController ()
-    @property (nonatomic, strong) dispatch_group_t fetchMovieArchiveGroup;
-    @property (nonatomic, strong) NSMutableArray *movies;
-    @property (nonatomic, strong) NSDate *fetch_date;
-    @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@end
-
 @implementation ARNArchiveController
 
 + (ARNArchiveController *)sharedInstance {
@@ -31,54 +24,17 @@
     return instance;
 }
 
-- (void)fetchMovieArchiveForCollections:(NSArray *)collections withManager:(AFHTTPSessionManager *)manager andCompletionBlock:(void (^)())completion {
-    // To keep track of all the async task we are going to fire we create a dispatch group.
-    // With this we can count all the calls and then get informed if the last call is done
-    // http://stackoverflow.com/a/32714702/956433
-    self.fetchMovieArchiveGroup = dispatch_group_create();
-    
-    // prepare data structures for fetch calls
-    self.movies = [NSMutableArray array];
-    self.fetch_date = [NSDate date];
-    self.dateFormatter = [[NSDateFormatter alloc] init];
-    [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    
-    // start all the fetch calls
-    for (id collectionId in collections) {
-        if (collectionId != nil && [collectionId isKindOfClass:[NSString class]]) {
-            NSString *collection = (NSString *)collectionId;
-            
-            dispatch_group_enter(self.fetchMovieArchiveGroup);
-            [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:1];
-        }
-    }
-    
-    // everything has finished loading
-    dispatch_group_notify(self.fetchMovieArchiveGroup, dispatch_get_main_queue(),^{
-//        // save those entries to the db
-//        for (ARNMovie *arnMovie in self.movies) {
-//            [[ARNMovieController sharedInstance] addMovie:arnMovie];
-//        }
-//        
-//        // delete orphaned ones from the database
-//        
-//        
-//        // everything done
-//        if (completion != nil) {
-//            completion();
-//        }
+- (void)fetchMovieArchiveForCollection:(NSString *)collection pageNumber:(NSInteger)page andRows:(NSInteger)rows {
+    if([collection length] > 0) {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         
-        // TODO: wait for the end of update notification and check all entries if they got updated. If not delete them
-        // if after an update the date_updated is not updated then this means it got removed from the server -> delete from core data
+        // prepare data structures for fetch calls
+        NSMutableArray *movies = [NSMutableArray array];
+        NSDate *fetch_date = [NSDate date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         
-        
-        // enhance all the movies we collected with additional details (posters, descriptions, nice titels, ...)
-        [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovies:self.movies withManager:manager andCompletionBlock:completion];
-    });
-}
-
-- (void)fetchMovieArchiveForCollection:(NSString *)collection withManager:(AFHTTPSessionManager *)manager pageNumber:(NSInteger)page andRows:(NSInteger)rows {
-    if([collection length] > 0 && manager != nil) {
+        // create the query parameters
         NSString *dateRestriction =  @" AND date:[null TO 1980]"; // ignore all movies made after 1980
         NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
         
@@ -101,85 +57,73 @@
                 if (responseID != nil && [responseID isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *responseDict = (NSDictionary *)responseID;
                     
-                    // paging logic
-                    id numFoundId = [responseDict objectForKey:@"numFound"];
-                    if (numFoundId != nil && [numFoundId isKindOfClass:[NSNumber class]]) {
-                        NSNumber *numFound = (NSNumber *)numFoundId;
+                    // the data related to the movies
+                    id docsId = [responseDict objectForKey:@"docs"];
+                    if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
+                        NSArray *docsArray = (NSArray *)docsId;
+                        NSRegularExpression *iPodRegEx = [NSRegularExpression regularExpressionWithPattern:@".+_ipod.*" options:NSRegularExpressionCaseInsensitive error:nil];
                         
-                        // if we did not get the maximum amount af available data
-                        // we just start an other call for the total amount
-                        if ((page * rows) < [numFound integerValue]) {
-                            dispatch_group_enter(self.fetchMovieArchiveGroup);
-                            [self fetchMovieArchiveForCollection:collection withManager:manager pageNumber:1 andRows:[numFound integerValue]];
-                        } else {
-                            // the data related to the movies
-                            id docsId = [responseDict objectForKey:@"docs"];
-                            if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
-                                NSArray *docsArray = (NSArray *)docsId;
-                                NSRegularExpression *iPodRegEx = [NSRegularExpression regularExpressionWithPattern:@".+_ipod.*" options:NSRegularExpressionCaseInsensitive error:nil];
-                                
-                                for (NSDictionary *movie in docsArray) {
-                                    // parse out data we care about
-                                    ARNMovie *arnMovie = [ARNMovie new];
-                                    arnMovie.collection = collection;
-                                    arnMovie.date_created = self.fetch_date;
-                                    arnMovie.date_updated = self.fetch_date;
-                                    
-                                    arnMovie.title = [NSString string];
-                                    id titleId = [movie objectForKey:@"title"];
-                                    if (titleId != nil && [titleId isKindOfClass:[NSString class]]) {
-                                        NSString *title = (NSString *)titleId;
-                                        if (![title isKindOfClass:[NSNull class]] && [title length] > 0) {
-                                            arnMovie.title = title;
-                                        }
-                                    }
-                                    
-                                    arnMovie.archive_id = [NSString string];
-                                    id idId = [movie objectForKey:@"identifier"];
-                                    if (idId != nil && [idId isKindOfClass:[NSString class]]) {
-                                        NSString *archiveId = (NSString *)idId;
-                                        if (![archiveId isKindOfClass:[NSNull class]] && [archiveId length] > 0) {
-                                            arnMovie.archive_id = archiveId;
-                                        }
-                                    }
-                                    
-                                    arnMovie.year = 0;
-                                    id dateId = [movie objectForKey:@"date"];
-                                    if (dateId != nil && [dateId isKindOfClass:[NSString class]]) {
-                                        NSString *date = (NSString *)dateId;
-                                        if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
-                                            arnMovie.year = @([self getYear:[self.dateFormatter dateFromString:date]]);
-                                        }
-                                    }
-                                    
-                                    // only add the arnMovie if we have all the essentials components available
-                                    if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
-                                        // ignore all movies that end with _ipod
-                                        if (iPodRegEx != nil) {
-                                            NSRange range = NSMakeRange(0, [arnMovie.archive_id length]);
-                                            if([iPodRegEx numberOfMatchesInString:arnMovie.archive_id options:0 range:range] <= 0)
-                                            {
-                                                [self.movies addObject:arnMovie];
-                                            }
-                                        } else {
-                                            // regExp does not function for some reason: just add all movies
-                                            [self.movies addObject:arnMovie];
-                                        }
-                                    }
+                        for (NSDictionary *movie in docsArray) {
+                            // parse out data we care about
+                            ARNMovie *arnMovie = [ARNMovie new];
+                            arnMovie.collection = collection;
+                            arnMovie.date_created = fetch_date;
+                            arnMovie.date_updated = fetch_date;
+                            arnMovie.page_number = @(page);
+                            
+                            arnMovie.title = [NSString string];
+                            id titleId = [movie objectForKey:@"title"];
+                            if (titleId != nil && [titleId isKindOfClass:[NSString class]]) {
+                                NSString *title = (NSString *)titleId;
+                                if (![title isKindOfClass:[NSNull class]] && [title length] > 0) {
+                                    arnMovie.title = title;
                                 }
-                                
+                            }
+                            
+                            arnMovie.archive_id = [NSString string];
+                            id idId = [movie objectForKey:@"identifier"];
+                            if (idId != nil && [idId isKindOfClass:[NSString class]]) {
+                                NSString *archiveId = (NSString *)idId;
+                                if (![archiveId isKindOfClass:[NSNull class]] && [archiveId length] > 0) {
+                                    arnMovie.archive_id = archiveId;
+                                }
+                            }
+                            
+                            arnMovie.year = 0;
+                            id dateId = [movie objectForKey:@"date"];
+                            if (dateId != nil && [dateId isKindOfClass:[NSString class]]) {
+                                NSString *date = (NSString *)dateId;
+                                if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
+                                    arnMovie.year = @([self getYear:[dateFormatter dateFromString:date]]);
+                                }
+                            }
+                            
+                            // only add the arnMovie if we have all the essentials components available
+                            if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
+                                // ignore all movies that end with _ipod
+                                if (iPodRegEx != nil) {
+                                    NSRange range = NSMakeRange(0, [arnMovie.archive_id length]);
+                                    if([iPodRegEx numberOfMatchesInString:arnMovie.archive_id options:0 range:range] <= 0)
+                                    {
+                                        [movies addObject:arnMovie];
+                                    }
+                                } else {
+                                    // regExp does not function for some reason: just add all movies
+                                    [movies addObject:arnMovie];
+                                }
                             }
                         }
                     }
                 }
             }
-            dispatch_group_leave(self.fetchMovieArchiveGroup);
+            
+            if ([movies count] > 0) {
+                // enhance all the movies we collected with additional details (posters, descriptions, nice titels, ...)
+                [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovies:movies withManager:manager];
+            }
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             NSLog(@"Error: %@", error);
-            dispatch_group_leave(self.fetchMovieArchiveGroup);
         }];
-    } else {
-        dispatch_group_leave(self.fetchMovieArchiveGroup);
     }
 }
 

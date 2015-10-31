@@ -22,5 +22,6 @@
 @property (nonatomic, copy) NSString * collection;
 @property (nonatomic, strong) NSDate * date_created;
 @property (nonatomic, strong) NSDate * date_updated;
+@property (nonatomic, strong) NSNumber *page_number;
 
 @end

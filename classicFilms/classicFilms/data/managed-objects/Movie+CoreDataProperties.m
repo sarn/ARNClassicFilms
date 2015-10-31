@@ -2,7 +2,7 @@
 //  Movie+CoreDataProperties.m
 //  classicFilms
 //
-//  Created by Stefan Arn on 24/10/15.
+//  Created by Stefan Arn on 31/10/15.
 //  Copyright © 2015 Stefan Arn. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -16,13 +16,14 @@
 @dynamic archive_id;
 @dynamic backdropURL;
 @dynamic collection;
+@dynamic date_created;
+@dynamic date_updated;
 @dynamic movie_description;
 @dynamic posterURL;
 @dynamic source;
 @dynamic title;
 @dynamic tmdb_id;
 @dynamic year;
-@dynamic date_created;
-@dynamic date_updated;
+@dynamic page_number;
 
 @end
