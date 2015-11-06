@@ -38,7 +38,13 @@
         _movieTitle.lineBreakMode = NSLineBreakByWordWrapping;
         _movieTitle.numberOfLines = 0;
         _movieTitle.textAlignment = NSTextAlignmentCenter;
-        _movieTitle.font = [UIFont boldSystemFontOfSize:36.0f];
+        _movieTitle.font = [UIFont boldSystemFontOfSize:32.0f];
+        _movieTitle.textColor = [UIColor whiteColor];
+        _movieTitle.layer.shadowColor = [[UIColor blackColor] CGColor];
+        _movieTitle.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+        _movieTitle.layer.shadowOpacity = 2.0f;
+        _movieTitle.layer.shadowRadius = 2.0f;
+//        _movieTitle.alpha = 0.0;
         [self.contentView addSubview:_movieTitle];
         
         // activity indicator
@@ -52,6 +58,7 @@
 
 - (void)prepareForReuse {
     self.movieTitle.text = [NSString string];
+//    self.movieTitle.alpha = 0.0;
     self.moviePoster.image = nil;
     self.arnMovie = nil;
 }
