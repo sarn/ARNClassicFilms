@@ -25,6 +25,9 @@
 		168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376161BCBD49F0011FA26 /* ARNMovieDBController.m */; };
 		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
 		16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */; };
+		16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */; };
+		16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE691BECE79D002BA497 /* internet_archive.png */; };
+		16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE6B1BECE8F2002BA497 /* tmdb.png */; };
 		16D452391BD611C6008758FE /* ARNConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D452381BD611C6008758FE /* ARNConstants.m */; };
 		2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */; };
 /* End PBXBuildFile section */
@@ -63,6 +66,10 @@
 		168376191BCBF74C0011FA26 /* ARNMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovie.h; sourceTree = "<group>"; };
 		1683761A1BCBF74C0011FA26 /* ARNMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovie.m; sourceTree = "<group>"; };
 		16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicFilms.xcdatamodel; sourceTree = "<group>"; };
+		16B3FE561BECDB6C002BA497 /* ARNAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNAboutViewController.h; sourceTree = "<group>"; };
+		16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNAboutViewController.m; sourceTree = "<group>"; };
+		16B3FE691BECE79D002BA497 /* internet_archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = internet_archive.png; sourceTree = "<group>"; };
+		16B3FE6B1BECE8F2002BA497 /* tmdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmdb.png; sourceTree = "<group>"; };
 		16D452371BD611C6008758FE /* ARNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARNConstants.h; path = utilities/ARNConstants.h; sourceTree = "<group>"; };
 		16D452381BD611C6008758FE /* ARNConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARNConstants.m; path = utilities/ARNConstants.m; sourceTree = "<group>"; };
 		1FCF9C04D0F6B7A420373603 /* Pods-classicFilms.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.debug.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.debug.xcconfig"; sourceTree = "<group>"; };
@@ -151,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				1628B3611BDA6D3200488FA4 /* placeholder.png */,
+				16B3FE691BECE79D002BA497 /* internet_archive.png */,
+				16B3FE6B1BECE8F2002BA497 /* tmdb.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -204,6 +213,8 @@
 			children = (
 				1683760C1BCBD42D0011FA26 /* ARNMovieOverviewController.h */,
 				1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */,
+				16B3FE561BECDB6C002BA497 /* ARNAboutViewController.h */,
+				16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */,
 			);
 			path = "view-controllers";
 			sourceTree = "<group>";
@@ -309,7 +320,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */,
+				16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */,
 				1628B3621BDA6D3200488FA4 /* placeholder.png in Resources */,
+				16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */,
 				1628B35C1BDA2B5900488FA4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +396,7 @@
 				168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */,
 				16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */,
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
+				16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */,
 				1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ARNMovieOverviewController.h"
+#import "ARNAboutViewController.h"
 #import "ARNArchiveController.h"
 #import "AFHTTPSessionManager.h"
 
@@ -44,10 +45,11 @@
     silentFilmsController.collectionType = COLLECTION_TYPE_SILENT;
     silentFilmsController.title = NSLocalizedString(COLLECTION_TYPE_SILENT, nil);
     
-    // TODO: attribute archive.org and themoviedb.org
+    ARNAboutViewController *aboutController = [ARNAboutViewController new];
+    aboutController.title = NSLocalizedString(@"About", nil);
     
     UITabBarController *tabBarController = [UITabBarController new];
-    tabBarController.viewControllers = [NSArray arrayWithObjects:filmNoirController, sciFiHorrorController, comedyFilmsController, silentFilmsController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:filmNoirController, sciFiHorrorController, comedyFilmsController, silentFilmsController, aboutController, nil];
     
     self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];
