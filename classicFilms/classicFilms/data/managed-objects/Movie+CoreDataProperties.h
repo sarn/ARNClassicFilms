@@ -2,7 +2,7 @@
 //  Movie+CoreDataProperties.h
 //  classicFilms
 //
-//  Created by Stefan Arn on 31/10/15.
+//  Created by Stefan Arn on 06/11/15.
 //  Copyright © 2015 Stefan Arn. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -21,12 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSDate *date_created;
 @property (nullable, nonatomic, retain) NSDate *date_updated;
 @property (nullable, nonatomic, retain) NSString *movie_description;
+@property (nullable, nonatomic, retain) NSNumber *page_number;
 @property (nullable, nonatomic, retain) NSString *posterURL;
 @property (nullable, nonatomic, retain) NSString *source;
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSString *tmdb_id;
 @property (nullable, nonatomic, retain) NSNumber *year;
-@property (nullable, nonatomic, retain) NSNumber *page_number;
+@property (nullable, nonatomic, retain) NSString *license;
 
 @end
 

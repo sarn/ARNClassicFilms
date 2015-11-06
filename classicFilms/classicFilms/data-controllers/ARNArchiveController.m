@@ -38,13 +38,25 @@
         // -> pre-1976 (I think) without a copyright claim on the print itself is likely ok: https://archive.org/post/1046300/request-how-to-check-copyrights
         NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
         
-        // TODO: make sure we only have public domain licenseurl's : licenseurl: "http://creativecommons.org/licenses/publicdomain/"
+        // make sure we only get works with certain licenses
+        // for now we get works with the following licences:
+        // - public domain
+        // - creative commons BY
+        // - creative commons BY-SA -> Share Alike
+        // - creative commons BY-ND -> Non Derivative
+        //
+        // so basically we skip for now:
+        // - all works without any licence information -> because we are not sure what licence this work would have
+        // - creative commons BY-NC -> Non Commercial
+        // - creative commons BY-NC-SA -> Non Commercial - Share Alike
+        // - creative commons BY-NC-ND -> Non Commercial - Non Derivative
+        NSString *licenseRestrictions = @" AND licenseurl:(*creativecommons.org*\\/publicdomain\\/* OR *creativecommons.org*licenses\\/by\\/* OR *creativecommons.org*licenses\\/by-sa\\/* OR *creativecommons.org*licenses\\/by-nd\\/*)";
         
-        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@", @"mediatype:(movies) AND collection:", collection, dateRestriction, formatRestriction],
+        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@%@", @"mediatype:(movies) AND collection:", collection, dateRestriction, formatRestriction, licenseRestrictions],
                                      @"sort": @[@"date asc"],
                                      @"rows": @(rows),
                                      @"page": @(page),
-                                     @"fl": @[@"identifier", @"title", @"date"],
+                                     @"fl": @[@"identifier", @"title", @"date", @"licenseurl"],
                                      @"output": @"json"};
         
         [manager GET:@"https://archive.org/advancedsearch.php" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
@@ -52,7 +64,6 @@
                 NSDictionary *jsonDict = (NSDictionary *) responseObject;
                 
                 //NSLog(@"Full JSON: %@", jsonDict);
-                
                 id responseID = [jsonDict objectForKey:@"response"];
                 if (responseID != nil && [responseID isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *responseDict = (NSDictionary *)responseID;
@@ -95,6 +106,15 @@
                                 NSString *date = (NSString *)dateId;
                                 if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
                                     arnMovie.year = @([self getYear:[dateFormatter dateFromString:date]]);
+                                }
+                            }
+                            
+                            arnMovie.license = [NSString string];
+                            id licenseId = [movie objectForKey:@"licenseurl"];
+                            if (licenseId != nil && [licenseId isKindOfClass:[NSString class]]) {
+                                NSString *license = (NSString *)licenseId;
+                                if (![license isKindOfClass:[NSNull class]] && [license length] > 0) {
+                                    arnMovie.license = license;
                                 }
                             }
                             

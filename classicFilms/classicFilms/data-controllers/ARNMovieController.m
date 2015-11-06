@@ -61,6 +61,7 @@
         movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
         movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
         movie.date_updated = arnMovie.date_updated;
+        movie.license = arnMovie.license;
         
         // update collection information
         if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
