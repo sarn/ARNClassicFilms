@@ -22,6 +22,8 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    // TODO: maybe incorporate https://get.fabric.io
+    
 //    ARNMovieOverviewController *featureFilmController = [ARNMovieOverviewController new];
 //    featureFilmController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_FEATURE_FILM, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
 //    featureFilmController.title = NSLocalizedString(COLLECTION_TYPE_FEATURE_FILM, nil);
