@@ -4,6 +4,7 @@ plugin "cocoapods-expert-difficulty"
 target 'classicFilms' do
 	#pod "AFNetworking", "~> 3.0"  
 	pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking', :branch => '3_0_0_branch'
-    pod 'AFNetworking/UIKit', :git => 'https://github.com/AFNetworking/AFNetworking', :branch => '3_0_0_branch'
-    pod 'AutoScrollLabel', '~> 0.4.2'
+	#pod 'AFNetworking/UIKit', :git => 'https://github.com/AFNetworking/AFNetworking', :branch => '3_0_0_branch'
+	pod 'SDWebImage', :git => 'https://github.com/rs/SDWebImage', :branch => 'master'
+	pod 'AutoScrollLabel', '~> 0.4.2'
 end

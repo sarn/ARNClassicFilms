@@ -15,25 +15,34 @@ PODS:
   - AFNetworking/UIKit (3.0.0-beta.1):
     - AFNetworking/NSURLSession
   - AutoScrollLabel (0.4.2)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
 
 DEPENDENCIES:
   - AFNetworking (from `https://github.com/AFNetworking/AFNetworking`, branch `3_0_0_branch`)
-  - AFNetworking/UIKit (from `https://github.com/AFNetworking/AFNetworking`, branch
-    `3_0_0_branch`)
   - AutoScrollLabel (~> 0.4.2)
+  - SDWebImage (from `https://github.com/rs/SDWebImage`, branch `master`)
 
 EXTERNAL SOURCES:
   AFNetworking:
     :branch: 3_0_0_branch
     :git: https://github.com/AFNetworking/AFNetworking
+  SDWebImage:
+    :branch: master
+    :git: https://github.com/rs/SDWebImage
 
 CHECKOUT OPTIONS:
   AFNetworking:
-    :commit: a0b08ecfc7ce4c8dd5233deb1bb9b5b2a1b74060
+    :commit: ce7cd80271a914491976595fd366edb650de3882
     :git: https://github.com/AFNetworking/AFNetworking
+  SDWebImage:
+    :commit: 30e9e0b516cca03d9f2abe75a91512d75b846406
+    :git: https://github.com/rs/SDWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: 9b4cb82d3096bd666caf91c903f045de9b43abe1
+  AFNetworking: 1100906802d9479aa0949e8e2cbc1d4e6beba327
   AutoScrollLabel: 661f3f33042db40e495cb4ebe599b903c8bf80cd
+  SDWebImage: 119e50946eee9ddf15589227ec2b6b37966ecd04
 
 COCOAPODS: 0.39.0

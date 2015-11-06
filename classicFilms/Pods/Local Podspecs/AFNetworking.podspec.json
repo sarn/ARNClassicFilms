@@ -85,13 +85,21 @@
           ]
         }
       },
+      "tvos": {
+        "dependencies": {
+          "AFNetworking/Reachability": [
+
+          ]
+        }
+      },
       "source_files": "AFNetworking/AF{URL,HTTP}SessionManager.{h,m}",
       "public_header_files": "AFNetworking/AF{URL,HTTP}SessionManager.h"
     },
     {
       "name": "UIKit",
       "platforms": {
-        "ios": null
+        "ios": "7.0",
+        "tvos": "9.0"
       },
       "dependencies": {
         "AFNetworking/NSURLSession": [

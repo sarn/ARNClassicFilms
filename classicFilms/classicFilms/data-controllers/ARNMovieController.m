@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "ARNMovie.h"
 #import "Movie.h"
+#import "SDWebImagePrefetcher.h"
 
 @implementation ARNMovieController
 
@@ -58,6 +59,11 @@
         movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
         movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
         movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
+        // prefetch the image
+        if ([movie.posterURL length] > 0) {
+            [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:@[movie.posterURL]];
+        }
+        
         movie.backdropURL = (![arnMovie.backdropURL isKindOfClass:[NSNull class]] && [arnMovie.backdropURL length] > 0) ? arnMovie.backdropURL : [NSString string];
         movie.source = (![arnMovie.source isKindOfClass:[NSNull class]] && [arnMovie.source length] > 0) ? arnMovie.source : [NSString string];
         movie.date_updated = arnMovie.date_updated;
@@ -89,8 +95,6 @@
         
         // save to Core Data
         [context save:nil];
-        
-        // TODO: replace AFNetworking Image Cache with SDWebImage to preload all the posters and backdrops in te background to a Disc Cache (and not Ram Cache only like AFNetworking provides)
     }
 }
 
