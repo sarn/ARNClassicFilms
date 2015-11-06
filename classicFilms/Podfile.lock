@@ -14,11 +14,13 @@ PODS:
   - AFNetworking/Serialization (3.0.0-beta.1)
   - AFNetworking/UIKit (3.0.0-beta.1):
     - AFNetworking/NSURLSession
+  - AutoScrollLabel (0.4.2)
 
 DEPENDENCIES:
   - AFNetworking (from `https://github.com/AFNetworking/AFNetworking`, branch `3_0_0_branch`)
   - AFNetworking/UIKit (from `https://github.com/AFNetworking/AFNetworking`, branch
     `3_0_0_branch`)
+  - AutoScrollLabel (~> 0.4.2)
 
 EXTERNAL SOURCES:
   AFNetworking:
@@ -32,5 +34,6 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 9b4cb82d3096bd666caf91c903f045de9b43abe1
+  AutoScrollLabel: 661f3f33042db40e495cb4ebe599b903c8bf80cd
 
 COCOAPODS: 0.39.0

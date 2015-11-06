@@ -8,9 +8,11 @@
 
 #import "ARNMoviePosterCell.h"
 #import "UIImageView+AFNetworking.h"
+#import <AutoScrollLabel/CBAutoScrollLabel.h>
+
 
 @interface ARNMoviePosterCell ()
-    @property (nonatomic, strong) UILabel *movieTitle;
+    @property (nonatomic, strong) CBAutoScrollLabel *movieTitle;
     @property (nonatomic, strong) UIImageView *moviePoster;
     @property (nonatomic, strong) UIActivityIndicatorView *refreshActivityIndicator;
 @end
@@ -34,9 +36,11 @@
         _moviePoster.adjustsImageWhenAncestorFocused = YES;
         [self.contentView addSubview:_moviePoster];
         
-        _movieTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, posterHeight + 40, frame.size.width, frame.size.height - posterHeight - 40)];
-        _movieTitle.lineBreakMode = NSLineBreakByWordWrapping;
-        _movieTitle.numberOfLines = 0;
+        _movieTitle = [[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(0, posterHeight + 40, frame.size.width, frame.size.height - posterHeight - 40)];
+        _movieTitle.labelSpacing = 35; // distance between start and end labels
+        _movieTitle.pauseInterval = 1.5; // seconds of pause before scrolling starts again
+        _movieTitle.scrollSpeed = 30; // pixels per second
+        _movieTitle.fadeLength = 10.0f; // length of the left and right edge fade, 0 to disable
         _movieTitle.textAlignment = NSTextAlignmentCenter;
         _movieTitle.font = [UIFont boldSystemFontOfSize:32.0f];
         _movieTitle.textColor = [UIColor whiteColor];
@@ -44,7 +48,7 @@
         _movieTitle.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
         _movieTitle.layer.shadowOpacity = 2.0f;
         _movieTitle.layer.shadowRadius = 2.0f;
-//        _movieTitle.alpha = 0.0;
+        _movieTitle.alpha = 0.0;
         [self.contentView addSubview:_movieTitle];
         
         // activity indicator
@@ -58,7 +62,7 @@
 
 - (void)prepareForReuse {
     self.movieTitle.text = [NSString string];
-//    self.movieTitle.alpha = 0.0;
+    self.movieTitle.alpha = 0.0;
     self.moviePoster.image = nil;
     self.arnMovie = nil;
 }
@@ -85,16 +89,8 @@
         } else if ([year length] > 0) {
             fullPosterTitle = year;
         }
-            
         self.movieTitle.text = fullPosterTitle;
-        self.movieTitle.backgroundColor = [UIColor clearColor];
-        [self.movieTitle sizeToFit]; // align to the top
-        // align to the center
-        CGRect myFrame = self.movieTitle.frame;
-        myFrame = CGRectMake(myFrame.origin.x, myFrame.origin.y, self.frame.size.width, myFrame.size.height);
-        self.movieTitle.frame = myFrame;
-        
-        
+
         if ([arnMovie.posterURL length] > 0) {
             NSString *completePosterURL = [NSString stringWithFormat:@"%@%@", @"https://image.tmdb.org/t/p/original", arnMovie.posterURL];
             [self.moviePoster setImageWithURL:[NSURL URLWithString:completePosterURL] placeholderImage:[UIImage imageNamed:@"placeholder"]];
@@ -118,14 +114,16 @@
      This will ensure all animations run alongside each other when the focus
      changes.
      */
-//    [coordinator addCoordinatedAnimations:^{
-//        if(self.focused) {
-//            self.movieTitle.alpha = 1.0;
-//        }
-//        else {
-//            self.movieTitle.alpha = 0.0;
-//        }
-//    } completion:nil];
+    [self.movieTitle refreshLabels];
+    
+    [coordinator addCoordinatedAnimations:^{
+        if(self.focused) {
+            self.movieTitle.alpha = 1.0;
+        }
+        else {
+            self.movieTitle.alpha = 0.0;
+        }
+    } completion:nil];
 }
 
 @end
