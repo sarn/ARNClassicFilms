@@ -22,9 +22,13 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    ARNMovieOverviewController *featureFilmController = [ARNMovieOverviewController new];
-    featureFilmController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_FEATURE_FILM, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
-    featureFilmController.title = NSLocalizedString(COLLECTION_TYPE_FEATURE_FILM, nil);
+//    ARNMovieOverviewController *featureFilmController = [ARNMovieOverviewController new];
+//    featureFilmController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_FEATURE_FILM, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
+//    featureFilmController.title = NSLocalizedString(COLLECTION_TYPE_FEATURE_FILM, nil);
+    
+    ARNMovieOverviewController *filmNoirController = [ARNMovieOverviewController new];
+    filmNoirController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_FILM_NOIR, COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
+    filmNoirController.title = NSLocalizedString(COLLECTION_TYPE_FILM_NOIR, nil);
     
     ARNMovieOverviewController *sciFiHorrorController = [ARNMovieOverviewController new];
     sciFiHorrorController.collectionType = [NSString stringWithFormat:@"%@ NOT %@ NOT %@", COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
@@ -41,7 +45,7 @@
     // TODO: attribute archive.org and themoviedb.org
     
     UITabBarController *tabBarController = [UITabBarController new];
-    tabBarController.viewControllers = [NSArray arrayWithObjects:featureFilmController, sciFiHorrorController, comedyFilmsController, silentFilmsController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:filmNoirController, sciFiHorrorController, comedyFilmsController, silentFilmsController, nil];
     
     self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];

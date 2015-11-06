@@ -6,6 +6,7 @@
   Copyright © 2015 Stefan Arn. All rights reserved.
 */
 "feature_films" = "Feature Films";
+"Film_Noir" = "Film Noir";
 "SciFi_Horror" = "Sci-Fi / Horror";
 "Comedy_Films" = "Comedy Films";
 "silent_films" = "Silent Films";

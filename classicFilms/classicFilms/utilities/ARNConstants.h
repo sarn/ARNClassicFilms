@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const COLLECTION_TYPE_FEATURE_FILM;
+extern NSString * const COLLECTION_TYPE_FILM_NOIR;
 extern NSString * const COLLECTION_TYPE_SCIFI_HORROR;
 extern NSString * const COLLECTION_TYPE_COMEDY;
 extern NSString * const COLLECTION_TYPE_SILENT;
