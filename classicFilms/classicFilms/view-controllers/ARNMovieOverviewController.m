@@ -172,14 +172,24 @@
                     NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, sourceFile];
                     
                     NSURL *videoURL = [NSURL URLWithString:videoStream];
-                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+                    //AVPlayer *player = [AVPlayer playerWithURL:videoURL];
                     
-                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+                    AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
+                    playerViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                    [self presentViewController:playerViewController animated:YES completion:nil];
+                    
+                    AVPlayer *player = [[AVPlayer alloc] initWithURL:videoURL];
+                    player.closedCaptionDisplayEnabled = true;
+                    
                     playerViewController.player = player;
+                    [playerViewController.player play];
                     
-                    [self presentViewController:playerViewController animated:YES completion:^{
-                        [player play];
-                    }];
+//                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+//                    playerViewController.player = player;
+//                    
+//                    [self presentViewController:playerViewController animated:YES completion:^{
+//                        [player play];
+//                    }];
                 }
             }];
         }

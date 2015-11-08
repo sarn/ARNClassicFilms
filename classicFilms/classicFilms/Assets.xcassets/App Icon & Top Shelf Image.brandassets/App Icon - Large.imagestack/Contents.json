@@ -1,6 +1,9 @@
 {
   "layers" : [
     {
+      "filename" : "Layer-5.imagestacklayer"
+    },
+    {
       "filename" : "Layer-4.imagestacklayer"
     },
     {
@@ -11,9 +14,6 @@
     },
     {
       "filename" : "Layer-1.imagestacklayer"
-    },
-    {
-      "filename" : "Layer.imagestacklayer"
     }
   ],
   "info" : {
