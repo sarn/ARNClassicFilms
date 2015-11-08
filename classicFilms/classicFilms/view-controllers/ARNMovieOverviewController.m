@@ -49,6 +49,7 @@
 - (void)setup
 {
     _collectionType = [NSString string];
+    _collectionTypeExlusion = [NSString string];
     _shouldReloadCollectionView = NO;
 }
 
@@ -83,7 +84,7 @@
     [[self fetchedResultsController] performFetch:nil];
     
     // fetch the first few movies
-    [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withPageNumber:1 andRows:ARCHIVE_ORG_ROW_COUNT];
+    [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withExclusion:self.collectionTypeExlusion andPageNumber:1 withRows:ARCHIVE_ORG_ROW_COUNT];
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -208,7 +209,7 @@
             ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
             if (posterCell.arnMovie != nil && [posterCell.arnMovie.page_number integerValue] >= 0) {
                 // start a background fetch of new movies
-                [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withPageNumber:([posterCell.arnMovie.page_number integerValue] + 1) andRows:ARCHIVE_ORG_ROW_COUNT];
+                [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withExclusion:self.collectionTypeExlusion andPageNumber:([posterCell.arnMovie.page_number integerValue] + 1) withRows:ARCHIVE_ORG_ROW_COUNT];
             }
         }
     }

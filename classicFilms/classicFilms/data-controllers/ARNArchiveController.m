@@ -23,7 +23,7 @@
     return instance;
 }
 
-- (void)fetchForCollection:(NSString *)collection withPageNumber:(NSInteger)page andRows:(NSInteger)rows {
+- (void)fetchForCollection:(NSString *)collection withExclusion:(NSString *)exclusion andPageNumber:(NSInteger)page withRows:(NSInteger)rows {
     if([collection length] > 0) {
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         
@@ -34,6 +34,8 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         
         // create the query parameters
+        NSString *completeCollectionInfo = [exclusion length] > 0 ? [NSString stringWithFormat:@"%@ %@", collection, exclusion] : collection; // add collection exclusion if available
+        
         NSString *dateRestriction =  @" AND date:[null TO 1975]"; // ignore all movies made after 1975
         // -> pre-1976 (I think) without a copyright claim on the print itself is likely ok: https://archive.org/post/1046300/request-how-to-check-copyrights
         NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
@@ -52,7 +54,7 @@
         // - creative commons BY-NC-ND -> Non Commercial - Non Derivative
         NSString *licenseRestrictions = @" AND licenseurl:(*creativecommons.org*\\/publicdomain\\/* OR *creativecommons.org*licenses\\/by\\/* OR *creativecommons.org*licenses\\/by-sa\\/* OR *creativecommons.org*licenses\\/by-nd\\/*)";
         
-        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@%@", @"mediatype:(movies) AND collection:", collection, dateRestriction, formatRestriction, licenseRestrictions],
+        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@%@", @"mediatype:(movies) AND collection:", completeCollectionInfo, dateRestriction, formatRestriction, licenseRestrictions],
                                      @"sort": @[@"date asc"],
                                      @"rows": @(rows),
                                      @"page": @(page),
