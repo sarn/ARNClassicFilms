@@ -33,7 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		161C80521BCA9EDD003B78EC /* classicFilms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = classicFilms.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		161C80521BCA9EDD003B78EC /* classic films.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "classic films.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		161C80561BCA9EDD003B78EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		161C80581BCA9EDD003B78EC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		161C80591BCA9EDD003B78EC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		161C80531BCA9EDD003B78EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				161C80521BCA9EDD003B78EC /* classicFilms.app */,
+				161C80521BCA9EDD003B78EC /* classic films.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,7 +278,7 @@
 			);
 			name = classicFilms;
 			productName = classicFilms;
-			productReference = 161C80521BCA9EDD003B78EC /* classicFilms.app */;
+			productReference = 161C80521BCA9EDD003B78EC /* classic films.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -496,7 +496,7 @@
 				INFOPLIST_FILE = classicFilms/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "classic films";
 			};
 			name = Debug;
 		};
@@ -512,7 +512,7 @@
 				INFOPLIST_FILE = classicFilms/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "classic films";
 			};
 			name = Release;
 		};
