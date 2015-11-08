@@ -36,7 +36,7 @@
         _moviePoster.adjustsImageWhenAncestorFocused = YES;
         [self.contentView addSubview:_moviePoster];
         
-        _movieTitle = [[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(0, posterHeight + 40, frame.size.width, frame.size.height - posterHeight - 40)];
+        _movieTitle = [[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(-20, posterHeight + 40, frame.size.width + 40, frame.size.height - posterHeight - 40)];
         _movieTitle.labelSpacing = 35; // distance between start and end labels
         _movieTitle.pauseInterval = 1.5; // seconds of pause before scrolling starts again
         _movieTitle.scrollSpeed = 30; // pixels per second
