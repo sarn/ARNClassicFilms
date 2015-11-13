@@ -70,6 +70,7 @@
         movie.license = arnMovie.license;
         
         // update collection information
+        // TODO: allow multiple collections for a movie
         if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
             // "feature film" collection has lowest prio
             // so only set feature film if we have an empty string and nothing else in the database
