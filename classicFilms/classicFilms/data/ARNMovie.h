@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ARNDataObject.h"
 
-@interface ARNMovie : ARNDataObject
+@interface ARNMovie : ARNDataObject <NSCopying>
 
 @property (nonatomic, copy) NSString * archive_id;
 @property (nonatomic, copy) NSString * tmdb_id;
@@ -24,5 +24,7 @@
 @property (nonatomic, strong) NSDate * date_updated;
 @property (nonatomic, strong) NSNumber * page_number;
 @property (nonatomic, copy) NSString * license;
+
+- (id)copyWithZone:(NSZone *)zone;
 
 @end

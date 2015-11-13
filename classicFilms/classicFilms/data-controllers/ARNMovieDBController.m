@@ -70,6 +70,103 @@
                 
                 // save it
                 [[ARNMovieController sharedInstance] addMovie:arnMovie];
+            } else {
+                // we got an empty result back
+                // it could be that the search string was bad - let's try some tricks
+                
+                // '/'
+                // e.g. "Five Minutes to Live / AKA Door-to-Door Maniac"
+                if ([arnMovie.title containsString:@"/"]) {
+                    // split the string into tokens and start fetch for each token
+                    NSArray *chunks = [arnMovie.title componentsSeparatedByString:@"/"];
+                    for (NSString *chunk in chunks) {
+                        ARNMovie *chunkMovie = [arnMovie copy];
+                        chunkMovie.title = [chunk stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        [self fetchMovieDetailsForMovie:chunkMovie];
+                    }  
+                }
+                
+                // '(' + ')'
+                // e.g. Charlie Chaplin's "Charlott Et Le Mannequin" (Mabel's Married Life)
+                if ([arnMovie.title containsString:@"("] && [arnMovie.title containsString:@")"]) {
+                    // get the substring between the () and start a new fetch
+                    NSError *error = nil;
+                    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\(.*?\\)" options:0 error:&error];
+                    if(!error) {
+                        [regex enumerateMatchesInString:arnMovie.title
+                                                options:0
+                                                  range:NSMakeRange(0,[arnMovie.title length])
+                                             usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+                                                 if ([result range].length > 2) {
+                                                     // range without ()
+                                                     NSRange range = NSMakeRange([result range].location + 1, [result range].length - 2);
+                                                     
+                                                     ARNMovie *chunkMovie = [arnMovie copy];
+                                                     chunkMovie.title = [[arnMovie.title substringWithRange:range] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+                                                     // check if we only got a year number and not a movie title
+                                                     // e.g. The Haunted Bedroom (1913), 1913
+                                                     // this would actually match to a wrong film on tmdb
+                                                     BOOL doTheFetch = YES;
+                                                     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                                                     if([numberFormatter numberFromString:chunkMovie.title] != nil) {
+                                                         NSNumber *titleNumber = [numberFormatter numberFromString:chunkMovie.title];
+                                                         if ([arnMovie.year integerValue] == [titleNumber integerValue]) {
+                                                             doTheFetch = NO;
+                                                         }
+                                                     }
+                                                     
+                                                     if (doTheFetch) {
+                                                         [self fetchMovieDetailsForMovie:chunkMovie];
+                                                     }
+                                                 }
+                                             }];
+                    }
+                }
+                
+                // " + "
+                // e.g. Charlie Chaplin's "Making A Living"
+                if ([arnMovie.title containsString:@"\""]) {
+                    // get the substring between the "" and start a new fetch
+                    NSError *error = nil;
+                    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\\".*?\\\"" options:0 error:&error];
+                    if(!error) {
+                        [regex enumerateMatchesInString:arnMovie.title
+                                                options:0
+                                                  range:NSMakeRange(0,[arnMovie.title length])
+                                             usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+                                                 if ([result range].length > 2) {
+                                                     // range without ""
+                                                     NSRange range = NSMakeRange([result range].location + 1, [result range].length - 2);
+                                                     
+                                                     ARNMovie *chunkMovie = [arnMovie copy];
+                                                     chunkMovie.title = [[arnMovie.title substringWithRange:range] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                                                     [self fetchMovieDetailsForMovie:chunkMovie];
+                                                 }
+                                             }];
+                    }
+                }
+                
+                // []
+                // e.g. In the Park [tinted]
+                if ([arnMovie.title containsString:@"["] && [arnMovie.title containsString:@"]"]) {
+                    // get the substring without the [text] and start a new fetch
+                    NSError *error = nil;
+                    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\[.*?\\]" options:0 error:&error];
+                    if(!error) {
+                        [regex enumerateMatchesInString:arnMovie.title
+                                                options:0
+                                                  range:NSMakeRange(0,[arnMovie.title length])
+                                             usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+                                                 NSString *stringWithoutBrackets = [arnMovie.title stringByReplacingOccurrencesOfString:[arnMovie.title substringWithRange:[result range]] withString:@""];
+                                                 
+                                                 ARNMovie *chunkMovie = [arnMovie copy];
+                                                 chunkMovie.title = [stringWithoutBrackets stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                                                 [self fetchMovieDetailsForMovie:chunkMovie];
+                                             }];
+                    }
+                }
+                
             }
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
