@@ -35,8 +35,11 @@
         if (![arnMovie.archive_id isKindOfClass:[NSNull class]]) {
             NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
             movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
-            movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"tmdb_id == %@", arnMovie.tmdb_id];
-            
+            movieFetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
+                                                                                              [NSPredicate predicateWithFormat:@"tmdb_id == %@", arnMovie.tmdb_id],
+                                                                                              [NSPredicate predicateWithFormat:@"collection == %@", arnMovie.collection],
+                                                                                              nil]];
+
             NSArray *result = [context executeFetchRequest:movieFetchRequest error:nil];
             if(result != nil && [result count] > 0){
                 id obj = [result lastObject];
@@ -70,29 +73,8 @@
         movie.license = arnMovie.license;
         
         // update collection information
-        // TODO: allow multiple collections for a movie
-        if (![arnMovie.collection isKindOfClass:[NSNull class]] && [arnMovie.collection length] > 0) {
-            // "feature film" collection has lowest prio
-            // so only set feature film if we have an empty string and nothing else in the database
-            if([arnMovie.collection caseInsensitiveCompare:COLLECTION_TYPE_FEATURE_FILM] == NSOrderedSame) {
-                if (![movie.collection length] > 0) {
-                    movie.collection = arnMovie.collection;
-                    movie.page_number = arnMovie.page_number;
-                }
-            } else {
-                // "silent film" has highest prio
-                if ([movie.collection length] > 0 && [movie.collection caseInsensitiveCompare:COLLECTION_TYPE_SILENT] == NSOrderedSame) {
-                    // so we never overwrite it with something else
-                } else {
-                    movie.collection = arnMovie.collection;
-                    movie.page_number = arnMovie.page_number;
-                }
-            }
-        } else {
-            movie.collection = [NSString string];
-            movie.page_number = arnMovie.page_number;
-        }
-        
+        movie.collection = arnMovie.collection;
+        movie.page_number = arnMovie.page_number;
         
         // save to Core Data
         [context save:nil];
