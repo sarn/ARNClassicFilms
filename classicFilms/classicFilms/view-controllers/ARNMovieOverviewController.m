@@ -170,28 +170,18 @@
                 [posterCell stopActivityIndicator];
                 if ([sourceFile length] > 0) {
                     // open the stream
-                    //https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
+                    // https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
                     NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, sourceFile];
                     
                     NSURL *videoURL = [NSURL URLWithString:videoStream];
-                    //AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
                     
-                    AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
-                    playerViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                    [self presentViewController:playerViewController animated:YES completion:nil];
-                    
-                    AVPlayer *player = [[AVPlayer alloc] initWithURL:videoURL];
-                    player.closedCaptionDisplayEnabled = true;
-                    
+                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
                     playerViewController.player = player;
-                    [playerViewController.player play];
                     
-//                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-//                    playerViewController.player = player;
-//                    
-//                    [self presentViewController:playerViewController animated:YES completion:^{
-//                        [player play];
-//                    }];
+                    [self presentViewController:playerViewController animated:YES completion:^{
+                        [player play];
+                    }];
                 }
             }];
         }
