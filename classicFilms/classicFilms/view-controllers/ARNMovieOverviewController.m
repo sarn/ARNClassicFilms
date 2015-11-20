@@ -80,7 +80,9 @@
     self.refreshActivityIndicator.frame = self.view.frame;
     self.refreshActivityIndicator.hidesWhenStopped = YES;
     [self.view addSubview:self.refreshActivityIndicator];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     // set up the fetcher for the data
     [[self fetchedResultsController] performFetch:nil];
     
@@ -100,9 +102,9 @@
     // only fetch valid object for our collection
     fetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
                                                                                  [NSPredicate predicateWithFormat:@"collection == %@", self.collectionType],
-                                                                                 [NSPredicate predicateWithFormat:@"tmdb_id.length > 0"],
-                                                                                 [NSPredicate predicateWithFormat:@"title.length > 0"],
-                                                                                 [NSPredicate predicateWithFormat:@"posterURL.length > 0"],
+                                                                                 [NSPredicate predicateWithFormat:@"tmdb_id != nil AND tmdb_id != ''"],
+                                                                                 [NSPredicate predicateWithFormat:@"title != nil AND title != ''"],
+                                                                                 [NSPredicate predicateWithFormat:@"posterURL != nil AND posterURL != ''"],
                                                                                  nil]];
 
     // sort by year
