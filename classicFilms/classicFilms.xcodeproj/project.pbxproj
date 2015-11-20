@@ -28,6 +28,7 @@
 		16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */; };
 		16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE691BECE79D002BA497 /* internet_archive.png */; };
 		16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE6B1BECE8F2002BA497 /* tmdb.png */; };
+		16C573061BFF634C0012D4CE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C573051BFF634C0012D4CE /* CloudKit.framework */; };
 		16D452391BD611C6008758FE /* ARNConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D452381BD611C6008758FE /* ARNConstants.m */; };
 		2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,8 @@
 		16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNAboutViewController.m; sourceTree = "<group>"; };
 		16B3FE691BECE79D002BA497 /* internet_archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = internet_archive.png; sourceTree = "<group>"; };
 		16B3FE6B1BECE8F2002BA497 /* tmdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmdb.png; sourceTree = "<group>"; };
+		16C573041BFF63410012D4CE /* classic films.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "classic films.entitlements"; sourceTree = "<group>"; };
+		16C573051BFF634C0012D4CE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		16D452371BD611C6008758FE /* ARNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARNConstants.h; path = utilities/ARNConstants.h; sourceTree = "<group>"; };
 		16D452381BD611C6008758FE /* ARNConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARNConstants.m; path = utilities/ARNConstants.m; sourceTree = "<group>"; };
 		1FCF9C04D0F6B7A420373603 /* Pods-classicFilms.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.debug.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16C573061BFF634C0012D4CE /* CloudKit.framework in Frameworks */,
 				164081D81BD10749003F11F4 /* CoreData.framework in Frameworks */,
 				2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */,
 			);
@@ -119,6 +123,7 @@
 		161C80541BCA9EDD003B78EC /* classicFilms */ = {
 			isa = PBXGroup;
 			children = (
+				16C573041BFF63410012D4CE /* classic films.entitlements */,
 				161C80581BCA9EDD003B78EC /* AppDelegate.h */,
 				161C80591BCA9EDD003B78EC /* AppDelegate.m */,
 				1683760B1BCBD3F80011FA26 /* view-controllers */,
@@ -243,6 +248,7 @@
 		B139506FA2F3E53887DC2A4F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16C573051BFF634C0012D4CE /* CloudKit.framework */,
 				164081D71BD10749003F11F4 /* CoreData.framework */,
 				73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */,
 			);
@@ -293,6 +299,11 @@
 					161C80511BCA9EDD003B78EC = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 3KVHW6F8S8;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -490,6 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "classicFilms/classic films.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -508,6 +520,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "classicFilms/classic films.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
