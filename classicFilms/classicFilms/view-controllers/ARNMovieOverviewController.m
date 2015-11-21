@@ -83,6 +83,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     // set up the fetcher for the data
     [[self fetchedResultsController] performFetch:nil];
     
