@@ -7,7 +7,6 @@
 //
 
 #import "ARNMovieOverviewController.h"
-#import "ARNArchiveController.h"
 #import "ARNCloudKitController.h"
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
@@ -108,6 +107,7 @@
                                                                                  [NSPredicate predicateWithFormat:@"tmdb_id != nil AND tmdb_id != ''"],
                                                                                  [NSPredicate predicateWithFormat:@"title != nil AND title != ''"],
                                                                                  [NSPredicate predicateWithFormat:@"posterURL != nil AND posterURL != ''"],
+                                                                                 [NSPredicate predicateWithFormat:@"source != nil AND source != ''"],
                                                                                  nil]];
 
     // sort by year
@@ -170,25 +170,21 @@
     if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
         ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
         if (posterCell.arnMovie != nil) {
-            [posterCell showActivityIndicator];
-            [[ARNArchiveController sharedInstance] fetchSourceFileForMovie:posterCell.arnMovie andCompletionBlock:^(NSString *sourceFile) {
-                [posterCell stopActivityIndicator];
-                if ([sourceFile length] > 0) {
-                    // open the stream
-                    // https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
-                    NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, sourceFile];
-                    
-                    NSURL *videoURL = [NSURL URLWithString:videoStream];
-                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-                    
-                    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-                    playerViewController.player = player;
-                    
-                    [self presentViewController:playerViewController animated:YES completion:^{
-                        [player play];
-                    }];
-                }
-            }];
+            if ([posterCell.arnMovie.source length] > 0) {
+                // open the stream
+                // https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
+                NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, posterCell.arnMovie.source];
+                
+                NSURL *videoURL = [NSURL URLWithString:videoStream];
+                AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+                
+                AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+                playerViewController.player = player;
+                
+                [self presentViewController:playerViewController animated:YES completion:^{
+                    [player play];
+                }];
+            }
         }
     }
 }

@@ -9,8 +9,6 @@
 #import "AppDelegate.h"
 #import "ARNMovieOverviewController.h"
 #import "ARNAboutViewController.h"
-#import "ARNArchiveController.h"
-#import "AFHTTPSessionManager.h"
 
 @interface AppDelegate ()
 
