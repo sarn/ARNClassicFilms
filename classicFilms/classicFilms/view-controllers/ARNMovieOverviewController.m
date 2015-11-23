@@ -193,24 +193,6 @@
     }
 }
 
-//- (void)collectionView:(UICollectionView *)collectionView didUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
-//    // the focus got changed, let's check which cell got focused and if we need to load more cells from the backend
-//    NSInteger focusedCellNumber = context.nextFocusedIndexPath.row + 1;
-//    NSInteger totalCellNumber = [collectionView numberOfItemsInSection:context.nextFocusedIndexPath.section];
-//    NSInteger distanceToLastCell = totalCellNumber - focusedCellNumber;
-//    
-//    if(distanceToLastCell < 24) {
-//        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:context.nextFocusedIndexPath];
-//        if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
-//            ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
-//            if (posterCell.arnMovie != nil && [posterCell.arnMovie.page_number integerValue] >= 0) {
-//                // start a background fetch of new movies
-//                [[ARNArchiveController sharedInstance] fetchForCollection:self.collectionType withExclusion:self.collectionTypeExlusion andPageNumber:([posterCell.arnMovie.page_number integerValue] + 1) withRows:ARCHIVE_ORG_ROW_COUNT];
-//            }
-//        }
-//    }
-//}
-
 
 #pragma mark -
 #pragma mark UICollectionViewDelegateFlowLayout methods

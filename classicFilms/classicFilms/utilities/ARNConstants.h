@@ -13,5 +13,3 @@ extern NSString * const COLLECTION_TYPE_FILM_NOIR;
 extern NSString * const COLLECTION_TYPE_SCIFI_HORROR;
 extern NSString * const COLLECTION_TYPE_COMEDY;
 extern NSString * const COLLECTION_TYPE_SILENT;
-
-extern NSInteger const  ARCHIVE_ORG_ROW_COUNT;

@@ -12,8 +12,6 @@
 		161C80651BCA9EDD003B78EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161C80641BCA9EDD003B78EC /* Assets.xcassets */; };
 		1628B35C1BDA2B5900488FA4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1628B35B1BDA2B5900488FA4 /* Localizable.strings */; };
 		1628B3621BDA6D3200488FA4 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1628B3611BDA6D3200488FA4 /* placeholder.png */; };
-		1628B3681BDC416F00488FA4 /* AFHTTPSessionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628B3651BDC416F00488FA4 /* AFHTTPSessionOperation.m */; };
-		1628B3691BDC416F00488FA4 /* ConcurrentOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628B3671BDC416F00488FA4 /* ConcurrentOperation.m */; };
 		164081D81BD10749003F11F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164081D71BD10749003F11F4 /* CoreData.framework */; };
 		1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */; };
 		1666A53F1BD11AB800BE249D /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A53D1BD11AB800BE249D /* Movie.m */; };
@@ -22,7 +20,6 @@
 		1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A5521BD1434000BE249D /* ARNMovieController.m */; };
 		168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */; };
 		168376141BCBD4700011FA26 /* ARNArchiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376131BCBD4700011FA26 /* ARNArchiveController.m */; };
-		168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168376161BCBD49F0011FA26 /* ARNMovieDBController.m */; };
 		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
 		16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */; };
 		16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */; };
@@ -43,10 +40,6 @@
 		161C80661BCA9EDD003B78EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1628B35B1BDA2B5900488FA4 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1628B3611BDA6D3200488FA4 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
-		1628B3641BDC416F00488FA4 /* AFHTTPSessionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionOperation.h; sourceTree = "<group>"; };
-		1628B3651BDC416F00488FA4 /* AFHTTPSessionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionOperation.m; sourceTree = "<group>"; };
-		1628B3661BDC416F00488FA4 /* ConcurrentOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentOperation.h; sourceTree = "<group>"; };
-		1628B3671BDC416F00488FA4 /* ConcurrentOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentOperation.m; sourceTree = "<group>"; };
 		164081D71BD10749003F11F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1666A53A1BD11AB800BE249D /* Movie+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Movie+CoreDataProperties.h"; sourceTree = "<group>"; };
 		1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Movie+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -63,8 +56,6 @@
 		1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieOverviewController.m; sourceTree = "<group>"; };
 		168376121BCBD4700011FA26 /* ARNArchiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNArchiveController.h; sourceTree = "<group>"; };
 		168376131BCBD4700011FA26 /* ARNArchiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNArchiveController.m; sourceTree = "<group>"; };
-		168376151BCBD49F0011FA26 /* ARNMovieDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieDBController.h; sourceTree = "<group>"; };
-		168376161BCBD49F0011FA26 /* ARNMovieDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieDBController.m; sourceTree = "<group>"; };
 		168376191BCBF74C0011FA26 /* ARNMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovie.h; sourceTree = "<group>"; };
 		1683761A1BCBF74C0011FA26 /* ARNMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovie.m; sourceTree = "<group>"; };
 		16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicFilms.xcdatamodel; sourceTree = "<group>"; };
@@ -175,10 +166,6 @@
 		1628B3631BDC414C00488FA4 /* network */ = {
 			isa = PBXGroup;
 			children = (
-				1628B3641BDC416F00488FA4 /* AFHTTPSessionOperation.h */,
-				1628B3651BDC416F00488FA4 /* AFHTTPSessionOperation.m */,
-				1628B3661BDC416F00488FA4 /* ConcurrentOperation.h */,
-				1628B3671BDC416F00488FA4 /* ConcurrentOperation.m */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -208,8 +195,6 @@
 			children = (
 				168376121BCBD4700011FA26 /* ARNArchiveController.h */,
 				168376131BCBD4700011FA26 /* ARNArchiveController.m */,
-				168376151BCBD49F0011FA26 /* ARNMovieDBController.h */,
-				168376161BCBD49F0011FA26 /* ARNMovieDBController.m */,
 				16C5730D1C02F8750012D4CE /* ARNCloudKitController.h */,
 				16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */,
 				1666A5511BD1434000BE249D /* ARNMovieController.h */,
@@ -401,10 +386,7 @@
 				1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */,
 				1666A53F1BD11AB800BE249D /* Movie.m in Sources */,
 				161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */,
-				168376171BCBD49F0011FA26 /* ARNMovieDBController.m in Sources */,
 				16D452391BD611C6008758FE /* ARNConstants.m in Sources */,
-				1628B3691BDC416F00488FA4 /* ConcurrentOperation.m in Sources */,
-				1628B3681BDC416F00488FA4 /* AFHTTPSessionOperation.m in Sources */,
 				1666A5501BD13E4600BE249D /* ARNMoviePosterCell.m in Sources */,
 				1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */,
 				1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */,

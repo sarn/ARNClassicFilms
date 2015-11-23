@@ -13,7 +13,6 @@
 @interface ARNArchiveController : NSObject
 
 + (ARNArchiveController *)sharedInstance;
-- (void)fetchForCollection:(NSString *)collection withExclusion:(NSString *)exclusion andPageNumber:(NSInteger)page withRows:(NSInteger)rows;
 - (void)fetchSourceFileForMovie:(ARNMovie *)arnMovie andCompletionBlock:(void (^)(NSString *))completion;
 
 @end

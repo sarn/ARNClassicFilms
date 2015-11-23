@@ -48,8 +48,8 @@
         
         if (operation != nil) {
             // set the fetch limit
-            //operation.resultsLimit = CKQueryOperationMaximumResults;
-            operation.resultsLimit = 10;
+            operation.resultsLimit = CKQueryOperationMaximumResults;
+            //operation.resultsLimit = 10;
             
             // handle a single record
             operation.recordFetchedBlock = ^(CKRecord *movieRecord) {
@@ -82,15 +82,11 @@
                     if (cursor != nil) {
                         // start the next batch operation
                         [self fetchAllMoviesFromDatabase:database withQuery:nil andCursor:cursor];
-                    } else {
-                        NSLog(@"All done");
                     }
                 } else {
                     // failure
-                    // TODO: some handling
-                    NSLog(@"fetch error");
+                    NSLog(@"fetchAllMoviesFromDatabase failed with error: %@", error.localizedDescription);
                 }
-                
             };
             
             // start the operation

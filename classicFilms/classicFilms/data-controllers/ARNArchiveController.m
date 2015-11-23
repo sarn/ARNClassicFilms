@@ -8,7 +8,6 @@
 
 #import "ARNArchiveController.h"
 #import "ARNMovieController.h"
-#import "ARNMovieDBController.h"
 
 @implementation ARNArchiveController
 
@@ -21,132 +20,6 @@
     });
     
     return instance;
-}
-
-- (void)fetchForCollection:(NSString *)collection withExclusion:(NSString *)exclusion andPageNumber:(NSInteger)page withRows:(NSInteger)rows {
-    if([collection length] > 0) {
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        
-        // prepare data structures for fetch calls
-        NSMutableArray *movies = [NSMutableArray array];
-        NSDate *fetch_date = [NSDate date];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-        
-        // create the query parameters
-        NSString *completeCollectionInfo = [exclusion length] > 0 ? [NSString stringWithFormat:@"%@ %@", collection, exclusion] : collection; // add collection exclusion if available
-        
-        NSString *dateRestriction =  @" AND date:[null TO 1975]"; // ignore all movies made after 1975
-        // -> pre-1976 (I think) without a copyright claim on the print itself is likely ok: https://archive.org/post/1046300/request-how-to-check-copyrights
-        NSString *formatRestriction = @" AND format:(MPEG4)"; // TODO: maybe support other formats like "h.264"
-        
-        // make sure we only get works with certain licenses
-        // for now we get works with the following licences:
-        // - public domain
-        // - creative commons BY
-        // - creative commons BY-SA -> Share Alike
-        // - creative commons BY-ND -> Non Derivative
-        //
-        // so basically we skip for now:
-        // - all works without any licence information -> because we are not sure what licence this work would have
-        // - creative commons BY-NC -> Non Commercial
-        // - creative commons BY-NC-SA -> Non Commercial - Share Alike
-        // - creative commons BY-NC-ND -> Non Commercial - Non Derivative
-        NSString *licenseRestrictions = @" AND licenseurl:(*creativecommons.org*\\/publicdomain\\/* OR *creativecommons.org*licenses\\/by\\/* OR *creativecommons.org*licenses\\/by-sa\\/* OR *creativecommons.org*licenses\\/by-nd\\/*)";
-        
-        NSDictionary *parameters = @{@"q": [NSString stringWithFormat:@"%@(%@)%@%@%@", @"mediatype:(movies) AND collection:", completeCollectionInfo, dateRestriction, formatRestriction, licenseRestrictions],
-                                     @"sort": @[@"date asc"],
-                                     @"rows": @(rows),
-                                     @"page": @(page),
-                                     @"fl": @[@"identifier", @"title", @"date", @"licenseurl"],
-                                     @"output": @"json"};
-        
-        [manager GET:@"https://archive.org/advancedsearch.php" parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-            if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *jsonDict = (NSDictionary *) responseObject;
-                
-                //NSLog(@"Full JSON: %@", jsonDict);
-                id responseID = [jsonDict objectForKey:@"response"];
-                if (responseID != nil && [responseID isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *responseDict = (NSDictionary *)responseID;
-                    
-                    // the data related to the movies
-                    id docsId = [responseDict objectForKey:@"docs"];
-                    if (docsId != nil && [docsId isKindOfClass:[NSArray class]]) {
-                        NSArray *docsArray = (NSArray *)docsId;
-                        NSRegularExpression *iPodRegEx = [NSRegularExpression regularExpressionWithPattern:@".+_ipod.*" options:NSRegularExpressionCaseInsensitive error:nil];
-                        
-                        for (NSDictionary *movie in docsArray) {
-                            // parse out data we care about
-                            ARNMovie *arnMovie = [ARNMovie new];
-                            arnMovie.collection = collection;
-                            arnMovie.date_created = fetch_date;
-                            arnMovie.date_updated = fetch_date;
-                            arnMovie.page_number = @(page);
-                            
-                            arnMovie.title = [NSString string];
-                            id titleId = [movie objectForKey:@"title"];
-                            if (titleId != nil && [titleId isKindOfClass:[NSString class]]) {
-                                NSString *title = (NSString *)titleId;
-                                if (![title isKindOfClass:[NSNull class]] && [title length] > 0) {
-                                    arnMovie.title = title;
-                                }
-                            }
-                            
-                            arnMovie.archive_id = [NSString string];
-                            id idId = [movie objectForKey:@"identifier"];
-                            if (idId != nil && [idId isKindOfClass:[NSString class]]) {
-                                NSString *archiveId = (NSString *)idId;
-                                if (![archiveId isKindOfClass:[NSNull class]] && [archiveId length] > 0) {
-                                    arnMovie.archive_id = archiveId;
-                                }
-                            }
-                            
-                            arnMovie.year = 0;
-                            id dateId = [movie objectForKey:@"date"];
-                            if (dateId != nil && [dateId isKindOfClass:[NSString class]]) {
-                                NSString *date = (NSString *)dateId;
-                                if (![date isKindOfClass:[NSNull class]] && [date length] > 0) {
-                                    arnMovie.year = @([self getYear:[dateFormatter dateFromString:date]]);
-                                }
-                            }
-                            
-                            arnMovie.license = [NSString string];
-                            id licenseId = [movie objectForKey:@"licenseurl"];
-                            if (licenseId != nil && [licenseId isKindOfClass:[NSString class]]) {
-                                NSString *license = (NSString *)licenseId;
-                                if (![license isKindOfClass:[NSNull class]] && [license length] > 0) {
-                                    arnMovie.license = license;
-                                }
-                            }
-                            
-                            // only add the arnMovie if we have all the essentials components available
-                            if ([arnMovie.title length] > 0 && [arnMovie.archive_id length] > 0 && [arnMovie.year integerValue] > 0) {
-                                // ignore all movies that end with _ipod
-                                if (iPodRegEx != nil) {
-                                    NSRange range = NSMakeRange(0, [arnMovie.archive_id length]);
-                                    if([iPodRegEx numberOfMatchesInString:arnMovie.archive_id options:0 range:range] <= 0)
-                                    {
-                                        [movies addObject:arnMovie];
-                                    }
-                                } else {
-                                    // regExp does not function for some reason: just add all movies
-                                    [movies addObject:arnMovie];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if ([movies count] > 0) {
-                // enhance all the movies we collected with additional details (posters, descriptions, nice titels, ...)
-                [[ARNMovieDBController sharedInstance] fetchMovieDetailsForMovies:movies withManager:manager];
-            }
-        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-            NSLog(@"Error: %@", error);
-        }];
-    }
 }
 
 - (void)fetchSourceFileForMovie:(ARNMovie *)arnMovie andCompletionBlock:(void (^)(NSString *))completion {
@@ -215,15 +88,6 @@
             completion(sourceFile);
         }
     }
-}
-
-- (NSInteger)getYear:(NSDate *)date
-{
-    if (date != nil) {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
-        return [components year];
-    }
-    return 0;
 }
 
 @end
