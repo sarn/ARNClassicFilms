@@ -146,10 +146,27 @@
     return _managedObjectContext;
 }
 
+// This method returns the correct managedObjectContect for the caller
+// If the caller is the main thread (UI thread) it's allowed to use the
+// managedObjectContext, which this method returns. If the caller
+// is a background thread a new NSPrivateQueueConcurrencyType is created and returned.
+-(NSManagedObjectContext *)threadSafeManagedObjectContext {
+    if ([NSThread isMainThread]) {
+        return [self managedObjectContext];
+    } else {
+        NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [managedObjectContext performBlockAndWait:^{
+            managedObjectContext.parentContext = [self managedObjectContext];
+            managedObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
+        }];
+        return managedObjectContext;
+    }
+}
+
 #pragma mark - Core Data Saving support
 
 - (void)saveContext {
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    NSManagedObjectContext *managedObjectContext = [self threadSafeManagedObjectContext];
     if (managedObjectContext != nil) {
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {

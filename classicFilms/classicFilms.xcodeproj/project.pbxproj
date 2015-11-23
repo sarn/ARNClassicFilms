@@ -29,6 +29,7 @@
 		16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE691BECE79D002BA497 /* internet_archive.png */; };
 		16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE6B1BECE8F2002BA497 /* tmdb.png */; };
 		16C573061BFF634C0012D4CE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C573051BFF634C0012D4CE /* CloudKit.framework */; };
+		16C5730F1C02F8750012D4CE /* ARNCloudKitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */; };
 		16D452391BD611C6008758FE /* ARNConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D452381BD611C6008758FE /* ARNConstants.m */; };
 		2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */; };
 /* End PBXBuildFile section */
@@ -73,6 +74,8 @@
 		16B3FE6B1BECE8F2002BA497 /* tmdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmdb.png; sourceTree = "<group>"; };
 		16C573041BFF63410012D4CE /* classic films.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "classic films.entitlements"; sourceTree = "<group>"; };
 		16C573051BFF634C0012D4CE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		16C5730D1C02F8750012D4CE /* ARNCloudKitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNCloudKitController.h; sourceTree = "<group>"; };
+		16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNCloudKitController.m; sourceTree = "<group>"; };
 		16D452371BD611C6008758FE /* ARNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARNConstants.h; path = utilities/ARNConstants.h; sourceTree = "<group>"; };
 		16D452381BD611C6008758FE /* ARNConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARNConstants.m; path = utilities/ARNConstants.m; sourceTree = "<group>"; };
 		1FCF9C04D0F6B7A420373603 /* Pods-classicFilms.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.debug.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.debug.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +210,8 @@
 				168376131BCBD4700011FA26 /* ARNArchiveController.m */,
 				168376151BCBD49F0011FA26 /* ARNMovieDBController.h */,
 				168376161BCBD49F0011FA26 /* ARNMovieDBController.m */,
+				16C5730D1C02F8750012D4CE /* ARNCloudKitController.h */,
+				16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */,
 				1666A5511BD1434000BE249D /* ARNMovieController.h */,
 				1666A5521BD1434000BE249D /* ARNMovieController.m */,
 			);
@@ -409,6 +414,7 @@
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
 				16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */,
 				1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */,
+				16C5730F1C02F8750012D4CE /* ARNCloudKitController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
