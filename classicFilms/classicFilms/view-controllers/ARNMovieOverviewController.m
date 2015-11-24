@@ -49,7 +49,7 @@
 - (void)setup
 {
     _collectionType = [NSString string];
-    _collectionTypeExlusion = [NSString string];
+    _collectionTypeExclusion = [NSString string];
     _objectChanges = [NSMutableDictionary new];
     _sectionChanges = [NSMutableDictionary new];
 }

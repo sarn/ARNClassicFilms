@@ -11,7 +11,7 @@
 @interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
 
 @property(nonatomic, strong) NSString *collectionType;
-@property(nonatomic, strong) NSString *collectionTypeExlusion;
+@property(nonatomic, strong) NSString *collectionTypeExclusion;
 
 @end
 

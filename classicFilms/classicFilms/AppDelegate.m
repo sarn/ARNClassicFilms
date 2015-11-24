@@ -29,12 +29,12 @@
     
     ARNMovieOverviewController *filmNoirController = [ARNMovieOverviewController new];
     filmNoirController.collectionType = COLLECTION_TYPE_FILM_NOIR;
-    //filmNoirController.collectionTypeExlusion = [NSString stringWithFormat:@"NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
+    //filmNoirController.collectionTypeExclusion = [NSString stringWithFormat:@"NOT %@ NOT %@ NOT %@", COLLECTION_TYPE_SCIFI_HORROR, COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
     filmNoirController.title = NSLocalizedString(COLLECTION_TYPE_FILM_NOIR, nil);
     
     ARNMovieOverviewController *sciFiHorrorController = [ARNMovieOverviewController new];
     sciFiHorrorController.collectionType = COLLECTION_TYPE_SCIFI_HORROR;
-    //sciFiHorrorController.collectionTypeExlusion = [NSString stringWithFormat:@"NOT %@ NOT %@", COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
+    //sciFiHorrorController.collectionTypeExclusion = [NSString stringWithFormat:@"NOT %@ NOT %@", COLLECTION_TYPE_COMEDY, COLLECTION_TYPE_SILENT];
     sciFiHorrorController.title = NSLocalizedString(COLLECTION_TYPE_SCIFI_HORROR, nil);
     
     ARNMovieOverviewController *comedyFilmsController = [ARNMovieOverviewController new];
