@@ -9,10 +9,10 @@ ARNClassicFilms is an open Apple TV tvOS app which offers a collection of classi
 ![ARNClassicFilms screenshot 1](one.png?raw=true)
 
 ## App Store
-This app is available on the Apple TV App Store. Unfortunately you have to search the store manually. Just search for “classic films” and it should pop up.
+This app is available on the Apple TV App Store. Unfortunately you have to search the store manually. Just search for “classic films” and it should show up.
 
 ## Contribute & Improve
-The complete source is available here and you are welcome to contribute to this project. The app is based on standard components like <tt>UICollectionView</tt>, <tt>NSFetchedResultsController</tt> and CoreData. Apple’s CloudKit serves as the backend. You are also free to use this project as an example or to learn tvOS development based on it.
+The complete source is available here and you are welcome to contribute to this project. The app is based on standard components like <tt>UICollectionView</tt>, <tt>NSFetchedResultsController</tt> and CoreData. You are free to use this project as an example or to learn tvOS development based on it but I would be more than happy to see some pull requests.
 
 ## Sources
 This product uses the Internet Archive (www.archive.org) as a streaming source for all movies. It only shows movies which the Internet Archive labels as in the public domain or which have an appropriate creativecommons.org license attached. Please contact the Internet Archive if there is any issue regarding the movies like content, quality, license and more. This product uses the Archive.org API but is not endorsed or certified by Archive.org.
