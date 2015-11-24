@@ -1,5 +1,5 @@
 //
-//  FirstViewController.m
+//  ARNMovieOverviewController.m
 //  classicFilms
 //
 //  Created by Stefan Arn on 11/10/15.
