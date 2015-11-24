@@ -45,7 +45,7 @@
     return self;
 }
 
-// common setup method used be init's
+// common setup method used by both init's
 - (void)setup
 {
     _collectionType = [NSString string];
@@ -72,7 +72,7 @@
     // register custom cells
     [self.collectionView registerClass:[ARNMoviePosterCell class] forCellWithReuseIdentifier:@"ARNMoviePosterCell"];
     
-    // add eveything to view hirarchy
+    // add everything to view hirarchy
     [self.view addSubview:self.collectionView];
     
     // activity indicator
@@ -88,7 +88,7 @@
     // set up the fetcher for the data
     [[self fetchedResultsController] performFetch:nil];
     
-    // fetch the first few movies
+    // fetch the movies
     [[ARNCloudKitController sharedInstance] fetchAllMoviesForCollection:self.collectionType];
 }
 
@@ -101,7 +101,7 @@
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Movie"];
     
-    // only fetch valid object for our collection
+    // only fetch valid objects for our collection
     fetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
                                                                                  [NSPredicate predicateWithFormat:@"collection == %@", self.collectionType],
                                                                                  [NSPredicate predicateWithFormat:@"tmdb_id != nil AND tmdb_id != ''"],
@@ -215,7 +215,7 @@
 
 // implementation is based on AFMasterViewController:
 // https://github.com/ashfurrow/UICollectionView-NSFetchedResultsController/blob/459cd1c3b167fc8d368845e9ff7bbd40b8070630/AFMasterViewController.m
-// the simplet looking code from blake water unfortunatelly crashed under heavy load (first start with multiple ongoing fetches)
+// the simpler looking code from blake water unfortunately crashed under heavy load (first start with multiple ongoing fetches)
 // https://github.com/AshFurrow/UICollectionView-NSFetchedResultsController/issues/13
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
