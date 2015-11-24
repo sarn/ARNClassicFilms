@@ -1,13 +1,13 @@
 # ARNClassicFilms
 An open tvOS app for free and public available classic films
 
-![](logo.png "ARNClassicFilms logo”)
+![ARNClassicFilms logo](logo.png?raw=true)
 
 ## Overview
 ARNClassicFilms is an open Apple TV tvOS app which offers a collection of classical movies to watch. All movies are either in the public domain or have a specific creative commons license attached. You are welcome to contribute.
 
-![](one.png "ARNClassicFilms screenshot 1”)
-![](two.png "ARNClassicFilms screenshot 2”)
+![ARNClassicFilms screenshot 1](one.png?raw=true)
+![ARNClassicFilms screenshot 2](two.png?raw=true)
 
 ## App Store
 This app is available on the Apple TV App Store. Unfortunately you have to search the store manually. Just search for “classic films” and it should pop up.
