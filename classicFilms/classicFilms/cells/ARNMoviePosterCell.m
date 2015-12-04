@@ -36,11 +36,11 @@
         _moviePoster.adjustsImageWhenAncestorFocused = YES;
         [self.contentView addSubview:_moviePoster];
         
-        _movieTitle = [[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(-20, posterHeight + 40, frame.size.width + 40, frame.size.height - posterHeight - 40)];
+        _movieTitle = [[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(-40, posterHeight + 40, frame.size.width + 80, frame.size.height - posterHeight - 40)];
         _movieTitle.labelSpacing = 35; // distance between start and end labels
         _movieTitle.pauseInterval = 1.5; // seconds of pause before scrolling starts again
         _movieTitle.scrollSpeed = 30; // pixels per second
-        _movieTitle.fadeLength = 10.0f; // length of the left and right edge fade, 0 to disable
+        _movieTitle.fadeLength = 20.0f; // length of the left and right edge fade, 0 to disable
         _movieTitle.textAlignment = NSTextAlignmentCenter;
         _movieTitle.font = [UIFont boldSystemFontOfSize:32.0f];
         _movieTitle.textColor = [UIColor whiteColor];
