@@ -8,7 +8,7 @@
 "feature_films" = "Feature Films";
 "Film_Noir" = "Film Noir";
 "SciFi_Horror" = "Sci-Fi / Horror";
-"Comedy_Films" = "Comedy Films";
+"Comedy_Films" = "Comedy";
 "silent_films" = "Silent Films";
 "About" = "About";
 "about_internet_archive" = "This product uses the Internet Archive (www.archive.org) as a streaming source for all movies. It only shows movies which the Internet Archive labels as in the public domain or which have an appropriate creativecommons.org license attached. Please contact the Internet Archive if there is any issue regarding the movies like content, quality, license and more. This product uses the Archive.org API but is not endorsed or certified by Archive.org.";
