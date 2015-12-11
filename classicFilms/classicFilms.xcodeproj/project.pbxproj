@@ -122,7 +122,6 @@
 				1666A54A1BD13DD700BE249D /* cells */,
 				1683760A1BCBD3D00011FA26 /* data-controllers */,
 				16D452361BD6118A008758FE /* utilities */,
-				1628B3631BDC414C00488FA4 /* network */,
 				168376181BCBF7150011FA26 /* data */,
 				1600B14C1BD11092003F4407 /* persistence */,
 				1628B35D1BDA6C1000488FA4 /* assets */,
@@ -159,13 +158,6 @@
 				16B3FE6B1BECE8F2002BA497 /* tmdb.png */,
 			);
 			path = images;
-			sourceTree = "<group>";
-		};
-		1628B3631BDC414C00488FA4 /* network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = network;
 			sourceTree = "<group>";
 		};
 		1666A5391BD11A8600BE249D /* managed-objects */ = {
