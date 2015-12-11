@@ -16,6 +16,7 @@
     arnMovie.tmdb_id = [self.tmdb_id copyWithZone:zone];
     arnMovie.title = [self.title copyWithZone:zone];
     arnMovie.year = [self.year copyWithZone:zone];
+    arnMovie.decade = [self.decade copyWithZone:zone];
     arnMovie.movie_description = [self.movie_description copyWithZone:zone];
     arnMovie.posterURL = [self.posterURL copyWithZone:zone];
     arnMovie.backdropURL = [self.backdropURL copyWithZone:zone];

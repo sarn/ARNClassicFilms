@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString * tmdb_id;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, strong) NSNumber * year;
+@property (nonatomic, strong) NSNumber * decade;
 @property (nonatomic, copy) NSString * movie_description;
 @property (nonatomic, copy) NSString * posterURL;
 @property (nonatomic, copy) NSString * backdropURL;

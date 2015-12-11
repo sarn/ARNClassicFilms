@@ -39,6 +39,7 @@
 		161C80661BCA9EDD003B78EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1628B35B1BDA2B5900488FA4 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1628B3611BDA6D3200488FA4 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		163407551C1AF0BA00805704 /* ClassicFilms 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ClassicFilms 2.xcdatamodel"; sourceTree = "<group>"; };
 		164081D71BD10749003F11F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1666A53A1BD11AB800BE249D /* Movie+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Movie+CoreDataProperties.h"; sourceTree = "<group>"; };
 		1666A53B1BD11AB800BE249D /* Movie+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Movie+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -542,9 +543,10 @@
 		16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				163407551C1AF0BA00805704 /* ClassicFilms 2.xcdatamodel */,
 				16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */,
 			);
-			currentVersion = 16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */;
+			currentVersion = 163407551C1AF0BA00805704 /* ClassicFilms 2.xcdatamodel */;
 			path = ClassicFilms.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
