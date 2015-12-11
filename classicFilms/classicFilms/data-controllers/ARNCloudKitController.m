@@ -60,6 +60,7 @@
                     arnMovie.tmdb_id = ([movieRecord objectForKey:@"tmdb_id"] != nil && [[movieRecord objectForKey:@"tmdb_id"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"tmdb_id"] : [NSString string];
                     arnMovie.title = ([movieRecord objectForKey:@"title"] != nil && [[movieRecord objectForKey:@"title"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"title"] : [NSString string];
                     arnMovie.year = ([movieRecord objectForKey:@"year"] != nil && [[movieRecord objectForKey:@"year"] longValue] >= 1800) ? @([[movieRecord objectForKey:@"year"] longValue]) : @(0);
+                    arnMovie.decade = ([movieRecord objectForKey:@"decade"] != nil && [[movieRecord objectForKey:@"decade"] longValue] >= 1800) ? @([[movieRecord objectForKey:@"decade"] longValue]) : @(0);
                     arnMovie.movie_description = ([movieRecord objectForKey:@"movie_description"] != nil && [[movieRecord objectForKey:@"movie_description"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"movie_description"] : [NSString string];
                     arnMovie.posterURL = ([movieRecord objectForKey:@"posterURL"] != nil && [[movieRecord objectForKey:@"posterURL"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"posterURL"] : [NSString string];
                     arnMovie.backdropURL = ([movieRecord objectForKey:@"backdropURL"] != nil && [[movieRecord objectForKey:@"backdropURL"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"backdropURL"] : [NSString string];

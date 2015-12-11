@@ -60,6 +60,7 @@
             movie.tmdb_id = (![arnMovie.tmdb_id isKindOfClass:[NSNull class]] && [arnMovie.tmdb_id length] > 0) ? arnMovie.tmdb_id : [NSString string];
             movie.title = (![arnMovie.title isKindOfClass:[NSNull class]] && [arnMovie.title length] > 0) ? arnMovie.title : [NSString string];
             movie.year = (![arnMovie.year isKindOfClass:[NSNull class]] && [arnMovie.year integerValue] >= 1800) ? arnMovie.year : @(0);
+            movie.decade = (![arnMovie.decade isKindOfClass:[NSNull class]] && [arnMovie.decade integerValue] >= 1800) ? arnMovie.decade : @(0);
             movie.movie_description = (![arnMovie.movie_description isKindOfClass:[NSNull class]] && [arnMovie.movie_description length] > 0) ? arnMovie.movie_description : [NSString string];
             movie.posterURL = (![arnMovie.posterURL isKindOfClass:[NSNull class]] && [arnMovie.posterURL length] > 0) ? arnMovie.posterURL : [NSString string];
             // prefetch the image
