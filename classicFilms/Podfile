@@ -2,6 +2,8 @@ platform :tvos
 plugin "cocoapods-expert-difficulty"
 
 target 'classicFilms' do
-	pod 'SDWebImage', :git => 'https://github.com/rs/SDWebImage', :branch => 'master'
-	pod 'AutoScrollLabel', '~> 0.4.2'
+    pod 'SDWebImage', :git => 'https://github.com/rs/SDWebImage', :branch => 'master'
+    pod 'AutoScrollLabel', '~> 0.4.2'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
