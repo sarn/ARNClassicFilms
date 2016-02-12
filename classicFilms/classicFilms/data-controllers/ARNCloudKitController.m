@@ -70,6 +70,9 @@
                     arnMovie.date_updated = ([movieRecord objectForKey:@"date_updated"] != nil && [[movieRecord objectForKey:@"date_updated"] isKindOfClass:[NSDate class]]) ? [movieRecord objectForKey:@"date_updated"] : [NSDate dateWithTimeIntervalSince1970:0.0];
                     arnMovie.page_number = ([movieRecord objectForKey:@"page_number"] != nil && [[movieRecord objectForKey:@"page_number"] longValue] >= 0) ? @([[movieRecord objectForKey:@"page_number"] longValue]) : @(-1);
                     arnMovie.license = ([movieRecord objectForKey:@"license"] != nil && [[movieRecord objectForKey:@"license"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"license"] : [NSString string];
+                    arnMovie.original_title = ([movieRecord objectForKey:@"original_title"] != nil && [[movieRecord objectForKey:@"original_title"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"original_title"] : [NSString string];
+                    arnMovie.tmdb_rating = ([movieRecord objectForKey:@"tmdb_rating"] != nil && [[[movieRecord objectForKey:@"tmdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"tmdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
+                    arnMovie.imdb_rating = ([movieRecord objectForKey:@"imdb_rating"] != nil && [[[movieRecord objectForKey:@"imdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"imdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
                     
                     // save it
                     [[ARNMovieController sharedInstance] addMovie:arnMovie];

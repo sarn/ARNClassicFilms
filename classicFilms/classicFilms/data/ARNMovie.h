@@ -25,6 +25,9 @@
 @property (nonatomic, strong) NSDate * date_updated;
 @property (nonatomic, strong) NSNumber * page_number;
 @property (nonatomic, copy) NSString * license;
+@property (nonatomic, copy) NSString *original_title;
+@property (nonatomic, strong) NSDecimalNumber *tmdb_rating;
+@property (nonatomic, strong) NSDecimalNumber *imdb_rating;
 
 - (id)copyWithZone:(NSZone *)zone;
 

@@ -26,6 +26,10 @@
     arnMovie.date_updated = [self.date_updated copyWithZone:zone];
     arnMovie.page_number = [self.page_number copyWithZone:zone];
     arnMovie.license = [self.license copyWithZone:zone];
+    arnMovie.original_title = [self.original_title copyWithZone:zone];
+    arnMovie.tmdb_rating = [self.tmdb_rating copyWithZone:zone];
+    arnMovie.imdb_rating = [self.imdb_rating copyWithZone:zone];
+    
     return arnMovie;
 }
 
