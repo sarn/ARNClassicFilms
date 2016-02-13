@@ -29,6 +29,7 @@
     arnMovie.original_title = [self.original_title copyWithZone:zone];
     arnMovie.tmdb_rating = [self.tmdb_rating copyWithZone:zone];
     arnMovie.imdb_rating = [self.imdb_rating copyWithZone:zone];
+    arnMovie.runtime = [self.runtime copyWithZone:zone];
     
     return arnMovie;
 }

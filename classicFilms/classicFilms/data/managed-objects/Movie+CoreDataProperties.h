@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *original_title;
 @property (nullable, nonatomic, retain) NSDecimalNumber *tmdb_rating;
 @property (nullable, nonatomic, retain) NSDecimalNumber *imdb_rating;
+@property (nullable, nonatomic, retain) NSNumber *runtime;
 
 @end
 

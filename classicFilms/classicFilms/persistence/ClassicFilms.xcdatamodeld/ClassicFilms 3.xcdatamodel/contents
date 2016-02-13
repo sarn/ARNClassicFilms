@@ -13,6 +13,7 @@
         <attribute name="original_title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="page_number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="posterURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tmdb_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,6 +21,6 @@
         <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="300"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="315"/>
     </elements>
 </model>

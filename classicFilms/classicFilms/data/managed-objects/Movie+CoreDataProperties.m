@@ -30,5 +30,6 @@
 @dynamic original_title;
 @dynamic tmdb_rating;
 @dynamic imdb_rating;
+@dynamic runtime;
 
 @end

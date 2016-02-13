@@ -28,6 +28,7 @@
 @property (nonatomic, copy) NSString *original_title;
 @property (nonatomic, strong) NSDecimalNumber *tmdb_rating;
 @property (nonatomic, strong) NSDecimalNumber *imdb_rating;
+@property (nonatomic, strong) NSNumber * runtime;
 
 - (id)copyWithZone:(NSZone *)zone;
 

@@ -77,6 +77,7 @@
             movie.original_title = (![arnMovie.original_title isKindOfClass:[NSNull class]] && [arnMovie.original_title length] > 0) ? arnMovie.original_title : [NSString string];
             movie.tmdb_rating = (![arnMovie.tmdb_rating isKindOfClass:[NSNull class]]) ? [NSDecimalNumber decimalNumberWithDecimal:[arnMovie.tmdb_rating decimalValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
             movie.imdb_rating = (![arnMovie.imdb_rating isKindOfClass:[NSNull class]]) ? [NSDecimalNumber decimalNumberWithDecimal:[arnMovie.imdb_rating decimalValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
+            movie.runtime = arnMovie.runtime;
             
             // update collection information
             movie.collection = arnMovie.collection;

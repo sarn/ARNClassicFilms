@@ -73,6 +73,7 @@
                     arnMovie.original_title = ([movieRecord objectForKey:@"original_title"] != nil && [[movieRecord objectForKey:@"original_title"] isKindOfClass:[NSString class]]) ? [movieRecord objectForKey:@"original_title"] : [NSString string];
                     arnMovie.tmdb_rating = ([movieRecord objectForKey:@"tmdb_rating"] != nil && [[[movieRecord objectForKey:@"tmdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"tmdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
                     arnMovie.imdb_rating = ([movieRecord objectForKey:@"imdb_rating"] != nil && [[[movieRecord objectForKey:@"imdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"imdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
+                    arnMovie.runtime = ([movieRecord objectForKey:@"runtime"] != nil && [[movieRecord objectForKey:@"runtime"] longValue] >= 0) ? @([[movieRecord objectForKey:@"runtime"] longValue]) : @(0);
                     
                     // save it
                     [[ARNMovieController sharedInstance] addMovie:arnMovie];
