@@ -7,13 +7,13 @@
 //
 
 #import "ARNMovieOverviewController.h"
+#import "ARNMovieDetailViewController.h"
 #import "ARNCloudKitController.h"
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
 #import "ARNMovie.h"
 #import "Movie.h"
 #import "AppDelegate.h"
-#import <AVKit/AVKit.h>
 
 @interface ARNMovieOverviewController ()
     @property(nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -170,20 +170,9 @@
     if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
         ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
         if (posterCell.arnMovie != nil) {
-            if ([posterCell.arnMovie.source length] > 0) {
-                AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-                [self presentViewController:playerViewController animated:YES completion:^{
-                    // open the stream
-                    // https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4
-                    NSString *videoStream = [NSString stringWithFormat:@"%@%@/%@", @"https://archive.org/download/", posterCell.arnMovie.archive_id, posterCell.arnMovie.source];
-                    NSURL *videoURL = [NSURL URLWithString:videoStream];
-                    
-                    // start the player
-                    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-                    playerViewController.player = player;
-                    [player play];
-                }];
-            }
+            ARNMovieDetailViewController *movieDetailViewController = [ARNMovieDetailViewController new];
+            movieDetailViewController.arnMovie = posterCell.arnMovie;
+            [self presentViewController:movieDetailViewController animated:YES completion:nil];
         }
     }
 }
