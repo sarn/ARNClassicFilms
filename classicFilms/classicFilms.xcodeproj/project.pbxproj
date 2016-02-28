@@ -28,6 +28,7 @@
 		16C573061BFF634C0012D4CE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C573051BFF634C0012D4CE /* CloudKit.framework */; };
 		16C5730F1C02F8750012D4CE /* ARNCloudKitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */; };
 		16D452391BD611C6008758FE /* ARNConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D452381BD611C6008758FE /* ARNConstants.m */; };
+		16E082AC1C8230CE00FA4D90 /* ARNTVButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E082AB1C8230CE00FA4D90 /* ARNTVButton.m */; };
 		2105A0E3D1AFDB3DA594FA18 /* libPods-classicFilms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,8 @@
 		16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNCloudKitController.m; sourceTree = "<group>"; };
 		16D452371BD611C6008758FE /* ARNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARNConstants.h; path = utilities/ARNConstants.h; sourceTree = "<group>"; };
 		16D452381BD611C6008758FE /* ARNConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARNConstants.m; path = utilities/ARNConstants.m; sourceTree = "<group>"; };
+		16E082AA1C8230CE00FA4D90 /* ARNTVButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNTVButton.h; sourceTree = "<group>"; };
+		16E082AB1C8230CE00FA4D90 /* ARNTVButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNTVButton.m; sourceTree = "<group>"; };
 		1FCF9C04D0F6B7A420373603 /* Pods-classicFilms.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.debug.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.debug.xcconfig"; sourceTree = "<group>"; };
 		73F83AFB5F51E702573C72DD /* libPods-classicFilms.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-classicFilms.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		790BE2AE84AA47767A1EA315 /* Pods-classicFilms.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-classicFilms.release.xcconfig"; path = "Pods/Target Support Files/Pods-classicFilms/Pods-classicFilms.release.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +186,17 @@
 				1666A54F1BD13E4600BE249D /* ARNMoviePosterCell.m */,
 			);
 			path = cells;
+			sourceTree = "<group>";
+		};
+		1668192F1C7723BA00AE067F /* views */ = {
+			isa = PBXGroup;
+			children = (
+				166819301C77245200AE067F /* ARNFocusTextView.h */,
+				166819311C77245200AE067F /* ARNFocusTextView.m */,
+				16E082AA1C8230CE00FA4D90 /* ARNTVButton.h */,
+				16E082AB1C8230CE00FA4D90 /* ARNTVButton.m */,
+			);
+			path = views;
 			sourceTree = "<group>";
 		};
 		1683760A1BCBD3D00011FA26 /* data-controllers */ = {
@@ -397,8 +411,10 @@
 				1666A5501BD13E4600BE249D /* ARNMoviePosterCell.m in Sources */,
 				1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */,
 				1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */,
+				16E082AC1C8230CE00FA4D90 /* ARNTVButton.m in Sources */,
 				168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */,
 				16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */,
+				166819321C77245200AE067F /* ARNFocusTextView.m in Sources */,
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
 				16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */,
 				1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */,
