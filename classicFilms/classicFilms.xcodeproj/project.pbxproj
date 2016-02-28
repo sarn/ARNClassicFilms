@@ -18,6 +18,7 @@
 		1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A5481BD11FE400BE249D /* ARNDataObject.m */; };
 		1666A5501BD13E4600BE249D /* ARNMoviePosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A54F1BD13E4600BE249D /* ARNMoviePosterCell.m */; };
 		1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666A5521BD1434000BE249D /* ARNMovieController.m */; };
+		166819321C77245200AE067F /* ARNFocusTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 166819311C77245200AE067F /* ARNFocusTextView.m */; };
 		168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */; };
 		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
 		16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */; };
@@ -53,6 +54,8 @@
 		1666A54F1BD13E4600BE249D /* ARNMoviePosterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMoviePosterCell.m; sourceTree = "<group>"; };
 		1666A5511BD1434000BE249D /* ARNMovieController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieController.h; sourceTree = "<group>"; };
 		1666A5521BD1434000BE249D /* ARNMovieController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieController.m; sourceTree = "<group>"; };
+		166819301C77245200AE067F /* ARNFocusTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNFocusTextView.h; sourceTree = "<group>"; };
+		166819311C77245200AE067F /* ARNFocusTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNFocusTextView.m; sourceTree = "<group>"; };
 		1683760C1BCBD42D0011FA26 /* ARNMovieOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieOverviewController.h; sourceTree = "<group>"; };
 		1683760D1BCBD42D0011FA26 /* ARNMovieOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieOverviewController.m; sourceTree = "<group>"; };
 		168376191BCBF74C0011FA26 /* ARNMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovie.h; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 				161C80581BCA9EDD003B78EC /* AppDelegate.h */,
 				161C80591BCA9EDD003B78EC /* AppDelegate.m */,
 				1683760B1BCBD3F80011FA26 /* view-controllers */,
+				1668192F1C7723BA00AE067F /* views */,
 				1666A54A1BD13DD700BE249D /* cells */,
 				1683760A1BCBD3D00011FA26 /* data-controllers */,
 				16D452361BD6118A008758FE /* utilities */,
