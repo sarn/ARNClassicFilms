@@ -7,10 +7,13 @@
 //
 
 #import "ARNMovieOverviewController.h"
+#import "ARNCollectionViewFocusGuideFlowLayout.h"
 #import "ARNMovieDetailViewController.h"
 #import "ARNCloudKitController.h"
 #import "ARNMovieController.h"
 #import "ARNMoviePosterCell.h"
+#import "ARNDecadeHeaderView.h"
+#import "ARNFocusGuideSupplementaryView.h"
 #import "ARNMovie.h"
 #import "Movie.h"
 #import "AppDelegate.h"
@@ -58,19 +61,25 @@
     [super viewDidLoad];
 
     // layout
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    [flowLayout setMinimumLineSpacing:0.0f];
-    [flowLayout setMinimumInteritemSpacing:0.0f];
+    ARNCollectionViewFocusGuideFlowLayout *focusGuideFlowLayout = [[ARNCollectionViewFocusGuideFlowLayout alloc] init];
+    [focusGuideFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    [focusGuideFlowLayout setMinimumLineSpacing:30.0f];
+    [focusGuideFlowLayout setMinimumInteritemSpacing:20.0f];
+    [focusGuideFlowLayout setSectionInset:UIEdgeInsetsMake(0.0f, 80.0f, 0.0f, 80.0f)];
+    [focusGuideFlowLayout setItemSize:CGSizeMake(256, 464)];
+    [focusGuideFlowLayout setHeaderReferenceSize:CGSizeMake(self.view.frame.size.width, 150.0f)];
     
     // collection view
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:focusGuideFlowLayout];
+    self.collectionView.contentInset = UIEdgeInsetsMake(140.0f, 0.0f, 80.0f, 0.0f);
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
-    // register custom cells
+    // register collection view elements
     [self.collectionView registerClass:[ARNMoviePosterCell class] forCellWithReuseIdentifier:@"ARNMoviePosterCell"];
+    [self.collectionView registerClass:[ARNDecadeHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ARNDecadeHeaderView"];
+    [self.collectionView registerClass:[ARNFocusGuideSupplementaryView class] forSupplementaryViewOfKind:ARNCollectionElementKindFocusGuide withReuseIdentifier:@"ARNFocusGuideSupplementaryView"];
     
     // add everything to view hirarchy
     [self.view addSubview:self.collectionView];
@@ -80,6 +89,7 @@
     self.refreshActivityIndicator.frame = self.view.frame;
     self.refreshActivityIndicator.hidesWhenStopped = YES;
     [self.view addSubview:self.refreshActivityIndicator];
+    [self.refreshActivityIndicator startAnimating];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -119,7 +129,7 @@
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                                                managedObjectContext:context
-                                                                                                 sectionNameKeyPath:nil
+                                                                                                 sectionNameKeyPath:@"decade"
                                                                                                           cacheName:nil];
     
     self.fetchedResultsController = fetchedResultsController;
@@ -148,7 +158,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // Setup cell identifier
+    // setup cell identifier
     ARNMoviePosterCell *cell = (ARNMoviePosterCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ARNMoviePosterCell" forIndexPath:indexPath];
     
     id obj = [_fetchedResultsController objectAtIndexPath:indexPath];
@@ -159,6 +169,39 @@
     }
     
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if (kind == UICollectionElementKindSectionHeader) {
+        // setup header view identifier
+        ARNDecadeHeaderView *movieOverviewHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ARNDecadeHeaderView" forIndexPath:indexPath];
+        
+        // set the title
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections] [indexPath.section];
+        id obj = sectionInfo.objects.firstObject;
+        if (obj != nil && [obj isKindOfClass:[Movie class]]) {
+            Movie *movie = (Movie *)obj;
+            NSString *decade = [movie.decade stringValue];
+            [movieOverviewHeaderView configureViewWithTitle:[NSString stringWithFormat:@"%@s", decade]];
+        }
+        
+        return movieOverviewHeaderView;
+    } else if (kind == ARNCollectionElementKindFocusGuide) {
+        ARNFocusGuideSupplementaryView *focusGuideSupplementaryView = [collectionView dequeueReusableSupplementaryViewOfKind:ARNCollectionElementKindFocusGuide withReuseIdentifier:@"ARNFocusGuideSupplementaryView" forIndexPath:indexPath];
+        
+        // set the prefered focus view
+        // get the last cell of the section
+        NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:indexPath.section];
+        NSIndexPath *indexPathOfLastCellOfSection = [NSIndexPath indexPathForItem:(numberOfItems - 1) inSection:indexPath.section];
+        UICollectionViewCell *lastCellOfSection = [self.collectionView cellForItemAtIndexPath:indexPathOfLastCellOfSection];
+
+        // point the focus view to the last cell of the section
+        [focusGuideSupplementaryView configureViewWithPreferredFocusedView:lastCellOfSection];
+        
+        return focusGuideSupplementaryView;
+    } else {
+        return nil;
+    }
 }
 
 
@@ -175,26 +218,6 @@
             [self presentViewController:movieDetailViewController animated:YES completion:nil];
         }
     }
-}
-
-
-#pragma mark -
-#pragma mark UICollectionViewDelegateFlowLayout methods
-
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(80.0f, 80.0f, 80.0f, 80.0f);
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 30.0f;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 20.0f;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(256, 464);
 }
 
 
@@ -337,6 +360,10 @@
         for (NSArray *paths in moveItems) {
             [collectionView moveItemAtIndexPath:paths[0] toIndexPath:paths[1]];
         }
+        
+        // to remove the supplementary views completely,
+        // we have to do a reload of the data here
+        [collectionView reloadData];
     } completion:nil];
     
     self.objectChanges = nil;

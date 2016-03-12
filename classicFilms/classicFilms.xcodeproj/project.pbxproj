@@ -24,6 +24,9 @@
 		1683761B1BCBF74C0011FA26 /* ARNMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 1683761A1BCBF74C0011FA26 /* ARNMovie.m */; };
 		169CA7B31C6DCE49001F1B90 /* ARNMovieDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 169CA7B21C6DCE49001F1B90 /* ARNMovieDetailViewController.m */; };
 		16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */; };
+		16AEC2441C943C3400194CD1 /* ARNDecadeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AEC2431C943C3400194CD1 /* ARNDecadeHeaderView.m */; };
+		16AEC24A1C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AEC2471C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.m */; };
+		16AEC24B1C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AEC2491C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.m */; };
 		16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */; };
 		16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE691BECE79D002BA497 /* internet_archive.png */; };
 		16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE6B1BECE8F2002BA497 /* tmdb.png */; };
@@ -69,6 +72,12 @@
 		169CA7B11C6DCE49001F1B90 /* ARNMovieDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNMovieDetailViewController.h; sourceTree = "<group>"; };
 		169CA7B21C6DCE49001F1B90 /* ARNMovieDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNMovieDetailViewController.m; sourceTree = "<group>"; };
 		16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicFilms.xcdatamodel; sourceTree = "<group>"; };
+		16AEC2421C943C3400194CD1 /* ARNDecadeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNDecadeHeaderView.h; sourceTree = "<group>"; };
+		16AEC2431C943C3400194CD1 /* ARNDecadeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNDecadeHeaderView.m; sourceTree = "<group>"; };
+		16AEC2461C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNCollectionViewFocusGuideFlowLayout.h; sourceTree = "<group>"; };
+		16AEC2471C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNCollectionViewFocusGuideFlowLayout.m; sourceTree = "<group>"; };
+		16AEC2481C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNFocusGuideSupplementaryView.h; sourceTree = "<group>"; };
+		16AEC2491C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNFocusGuideSupplementaryView.m; sourceTree = "<group>"; };
 		16B3FE561BECDB6C002BA497 /* ARNAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNAboutViewController.h; sourceTree = "<group>"; };
 		16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNAboutViewController.m; sourceTree = "<group>"; };
 		16B3FE691BECE79D002BA497 /* internet_archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = internet_archive.png; sourceTree = "<group>"; };
@@ -135,6 +144,7 @@
 				161C80591BCA9EDD003B78EC /* AppDelegate.m */,
 				1683760B1BCBD3F80011FA26 /* view-controllers */,
 				1668192F1C7723BA00AE067F /* views */,
+				16AEC2451C943C6F00194CD1 /* layout */,
 				1666A54A1BD13DD700BE249D /* cells */,
 				1683760A1BCBD3D00011FA26 /* data-controllers */,
 				16D452361BD6118A008758FE /* utilities */,
@@ -200,6 +210,8 @@
 		1668192F1C7723BA00AE067F /* views */ = {
 			isa = PBXGroup;
 			children = (
+				16AEC2421C943C3400194CD1 /* ARNDecadeHeaderView.h */,
+				16AEC2431C943C3400194CD1 /* ARNDecadeHeaderView.m */,
 				166819301C77245200AE067F /* ARNFocusTextView.h */,
 				166819311C77245200AE067F /* ARNFocusTextView.m */,
 				16E082AA1C8230CE00FA4D90 /* ARNTVButton.h */,
@@ -244,6 +256,17 @@
 				1683761A1BCBF74C0011FA26 /* ARNMovie.m */,
 			);
 			path = data;
+			sourceTree = "<group>";
+		};
+		16AEC2451C943C6F00194CD1 /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				16AEC2461C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.h */,
+				16AEC2471C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.m */,
+				16AEC2481C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.h */,
+				16AEC2491C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.m */,
+			);
+			path = layout;
 			sourceTree = "<group>";
 		};
 		16D452361BD6118A008758FE /* utilities */ = {
@@ -422,15 +445,18 @@
 				1666A53F1BD11AB800BE249D /* Movie.m in Sources */,
 				161C805A1BCA9EDD003B78EC /* AppDelegate.m in Sources */,
 				16D452391BD611C6008758FE /* ARNConstants.m in Sources */,
+				16AEC24A1C943C6F00194CD1 /* ARNCollectionViewFocusGuideFlowLayout.m in Sources */,
 				169CA7B31C6DCE49001F1B90 /* ARNMovieDetailViewController.m in Sources */,
 				1666A5501BD13E4600BE249D /* ARNMoviePosterCell.m in Sources */,
 				1666A5531BD1434000BE249D /* ARNMovieController.m in Sources */,
+				16AEC24B1C943C6F00194CD1 /* ARNFocusGuideSupplementaryView.m in Sources */,
 				166819351C7774A100AE067F /* ARNTextViewController.m in Sources */,
 				1666A53E1BD11AB800BE249D /* Movie+CoreDataProperties.m in Sources */,
 				16E082AC1C8230CE00FA4D90 /* ARNTVButton.m in Sources */,
 				168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */,
 				16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */,
 				166819321C77245200AE067F /* ARNFocusTextView.m in Sources */,
+				16AEC2441C943C3400194CD1 /* ARNDecadeHeaderView.m in Sources */,
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
 				16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */,
 				1666A5491BD11FE400BE249D /* ARNDataObject.m in Sources */,

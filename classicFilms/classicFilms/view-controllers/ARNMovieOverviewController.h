@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
+@interface ARNMovieOverviewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 
 @property(nonatomic, strong) NSString *collectionType;
 @property(nonatomic, strong) NSString *collectionTypeExclusion;
