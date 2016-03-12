@@ -8,6 +8,7 @@
 
 #import "ARNMoviePosterCell.h"
 #import "UIImageView+WebCache.h"
+#import "ARNFocusGuideSupplementaryView.h"
 #import <AutoScrollLabel/CBAutoScrollLabel.h>
 
 
@@ -109,19 +110,37 @@
     self.moviePoster.alpha = 1.0;
 }
 
+
+#pragma mark -
+#pragma mark UIFocusEnvironment methods
+
+- (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context {
+    BOOL shouldUpdateFocusInContext = YES;
+    if (context != nil) {
+        if (context.focusHeading == UIFocusHeadingRight) {
+            UIView *previouslyFocusedView = context.previouslyFocusedView;
+            UIView *nextFocusedView = context.nextFocusedView;
+            if (previouslyFocusedView != nil && nextFocusedView != nil && [previouslyFocusedView isEqual:nextFocusedView]) {
+                // we don't allow a focus update if we would focus ourselves again.
+                // We do this to prevent an ugly visual effect of reaplying focus
+                // to an already focused and animated view
+                shouldUpdateFocusInContext = NO;
+            }
+        }
+    }
+    return shouldUpdateFocusInContext;
+}
+
 - (void)didUpdateFocusInContext:(UIFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
-    /*
-     Update the label's alpha value using the `UIFocusAnimationCoordinator`.
-     This will ensure all animations run alongside each other when the focus
-     changes.
-     */
+     // Update the label's alpha value using the `UIFocusAnimationCoordinator`.
+     // This will ensure all animations run alongside each other when the focus
+     // changes.
     [self.movieTitle refreshLabels];
     
     [coordinator addCoordinatedAnimations:^{
         if(self.focused) {
             self.movieTitle.alpha = 1.0;
-        }
-        else {
+        } else {
             self.movieTitle.alpha = 0.0;
         }
     } completion:nil];
