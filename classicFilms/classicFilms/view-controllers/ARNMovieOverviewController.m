@@ -73,6 +73,7 @@
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:focusGuideFlowLayout];
     self.collectionView.contentInset = UIEdgeInsetsMake(140.0f, 0.0f, 80.0f, 0.0f);
     self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.remembersLastFocusedIndexPath = YES;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
