@@ -78,6 +78,7 @@
             movie.tmdb_rating = (![arnMovie.tmdb_rating isKindOfClass:[NSNull class]]) ? [NSDecimalNumber decimalNumberWithDecimal:[arnMovie.tmdb_rating decimalValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
             movie.imdb_rating = (![arnMovie.imdb_rating isKindOfClass:[NSNull class]]) ? [NSDecimalNumber decimalNumberWithDecimal:[arnMovie.imdb_rating decimalValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
             movie.runtime = arnMovie.runtime;
+            movie.deletedOnServer = arnMovie.deletedOnServer;
             
             // update collection information
             movie.collection = arnMovie.collection;
@@ -116,6 +117,55 @@
     }];
     
     return movies;
+}
+
+- (void)markAllMoviesAsDeletedForCollection:(NSString *)collection {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate threadSafeManagedObjectContext];
+    [context performBlockAndWait:^{
+        NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
+        movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
+        
+        if ([collection length] > 0) {
+            movieFetchRequest.predicate = [NSPredicate predicateWithFormat:@"collection == %@",collection];
+        }
+        
+        NSArray *results = [context executeFetchRequest:movieFetchRequest error:nil];
+        for (id obj in results) {
+            if (obj != nil && [obj isKindOfClass:[Movie class]]) {
+                Movie *movie = (Movie *)obj;
+                movie.deletedOnServer = [NSNumber numberWithBool:YES];
+            }
+        }
+        [context save:nil];
+    }];
+}
+
+- (void)deleteAllMarkedAsDeletedMoviesForCollection:(NSString *)collection {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate threadSafeManagedObjectContext];
+    [context performBlockAndWait:^{
+        NSFetchRequest *movieFetchRequest = [[NSFetchRequest alloc] init];
+        movieFetchRequest.entity = [NSEntityDescription entityForName:@"Movie" inManagedObjectContext:context];
+        
+        if ([collection length] > 0) {
+            movieFetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
+                                                                                              [NSPredicate predicateWithFormat:@"collection == %@",collection],
+                                                                                              [NSPredicate predicateWithFormat:@"deletedOnServer == %@",[NSNumber numberWithBool:YES]],
+                                                                                              nil]];
+        }
+        
+        NSArray *results = [context executeFetchRequest:movieFetchRequest error:nil];
+        for (id obj in results) {
+            if (obj != nil && [obj isKindOfClass:[Movie class]]) {
+                Movie *movie = (Movie *)obj;
+                if([obj isKindOfClass:[NSManagedObject class]]){
+                    [context deleteObject:(NSManagedObject *)movie];
+                }
+            }
+        }
+        [context save:nil];
+    }];
 }
 
 @end

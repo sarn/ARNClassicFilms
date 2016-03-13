@@ -26,18 +26,17 @@
 
 - (void)fetchAllMoviesForCollection:(NSString *)collection {
     if ([collection length] > 0) {
+        [[ARNMovieController sharedInstance] markAllMoviesAsDeletedForCollection:collection];
+        
         CKDatabase *publicDatabase = [[CKContainer defaultContainer] publicCloudDatabase];
-        
         NSPredicate *collectionPredicate = [NSPredicate predicateWithFormat:@"collection == %@", collection];
-        
         CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Movies" predicate:collectionPredicate];
         query.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"year" ascending:YES]];
-        
-        [self fetchAllMoviesFromDatabase:publicDatabase withQuery:query andCursor:nil];
+        [self fetchAllMoviesFromDatabase:publicDatabase withQuery:query cursor:nil andCollection:collection];
     }
 }
 
-- (void)fetchAllMoviesFromDatabase:(CKDatabase *)database withQuery:(CKQuery *)query andCursor:(CKQueryCursor *)cursor {
+- (void)fetchAllMoviesFromDatabase:(CKDatabase *)database withQuery:(CKQuery *)query cursor:(CKQueryCursor *)cursor andCollection:(NSString *)collection {
     if (database != nil && (query != nil || cursor != nil)) {
         CKQueryOperation *operation = nil;
         if (query != nil) {
@@ -74,6 +73,7 @@
                     arnMovie.tmdb_rating = ([movieRecord objectForKey:@"tmdb_rating"] != nil && [[[movieRecord objectForKey:@"tmdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"tmdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
                     arnMovie.imdb_rating = ([movieRecord objectForKey:@"imdb_rating"] != nil && [[[movieRecord objectForKey:@"imdb_rating"] stringValue] length] > 0) ? [NSDecimalNumber decimalNumberWithString:[[movieRecord objectForKey:@"imdb_rating"] stringValue]] : [NSDecimalNumber decimalNumberWithDecimal:[@(0) decimalValue]];
                     arnMovie.runtime = ([movieRecord objectForKey:@"runtime"] != nil && [[movieRecord objectForKey:@"runtime"] longValue] >= 0) ? @([[movieRecord objectForKey:@"runtime"] longValue]) : @(0);
+                    arnMovie.deletedOnServer = [NSNumber numberWithBool:NO];
                     
                     // save it
                     [[ARNMovieController sharedInstance] addMovie:arnMovie];
@@ -86,7 +86,11 @@
                     // success
                     if (cursor != nil) {
                         // start the next batch operation
-                        [self fetchAllMoviesFromDatabase:database withQuery:nil andCursor:cursor];
+                        [self fetchAllMoviesFromDatabase:database withQuery:nil cursor:cursor andCollection:collection];
+                    } else {
+                        // end of update
+                        // remove all orphaned movies
+                        [[ARNMovieController sharedInstance] deleteAllMarkedAsDeletedMoviesForCollection:collection];
                     }
                 } else {
                     // failure

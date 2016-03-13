@@ -39,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		160EBF891C94E9B400091704 /* ClassicFilms 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ClassicFilms 4.xcdatamodel"; sourceTree = "<group>"; };
 		161C80521BCA9EDD003B78EC /* classic films.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "classic films.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		161C80561BCA9EDD003B78EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		161C80581BCA9EDD003B78EC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -613,11 +614,12 @@
 		16AD4BAB1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				160EBF891C94E9B400091704 /* ClassicFilms 4.xcdatamodel */,
 				16208FD91C6E1E83004290F0 /* ClassicFilms 3.xcdatamodel */,
 				163407551C1AF0BA00805704 /* ClassicFilms 2.xcdatamodel */,
 				16AD4BAC1BD110EE00A38F48 /* ClassicFilms.xcdatamodel */,
 			);
-			currentVersion = 16208FD91C6E1E83004290F0 /* ClassicFilms 3.xcdatamodel */;
+			currentVersion = 160EBF891C94E9B400091704 /* ClassicFilms 4.xcdatamodel */;
 			path = ClassicFilms.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

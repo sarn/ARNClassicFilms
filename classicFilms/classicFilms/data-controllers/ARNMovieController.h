@@ -14,5 +14,7 @@
 + (ARNMovieController *)sharedInstance;
 - (void)addMovie:(ARNMovie *)arnMovie;
 - (NSArray *)moviesForCollection:(NSString *)collection;
+- (void)markAllMoviesAsDeletedForCollection:(NSString *)collection;
+- (void)deleteAllMarkedAsDeletedMoviesForCollection:(NSString *)collection;
 
 @end

@@ -30,6 +30,7 @@
     arnMovie.tmdb_rating = [self.tmdb_rating copyWithZone:zone];
     arnMovie.imdb_rating = [self.imdb_rating copyWithZone:zone];
     arnMovie.runtime = [self.runtime copyWithZone:zone];
+    arnMovie.deletedOnServer = [self.deletedOnServer copyWithZone:zone];
     
     return arnMovie;
 }
