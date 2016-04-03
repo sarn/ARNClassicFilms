@@ -361,10 +361,6 @@
         for (NSArray *paths in moveItems) {
             [collectionView moveItemAtIndexPath:paths[0] toIndexPath:paths[1]];
         }
-        
-        // to remove the supplementary views completely,
-        // we have to do a reload of the data here
-        [collectionView reloadData];
     } completion:nil];
     
     self.objectChanges = nil;
