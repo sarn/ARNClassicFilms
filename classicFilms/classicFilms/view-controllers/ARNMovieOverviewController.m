@@ -361,6 +361,22 @@
         for (NSArray *paths in moveItems) {
             [collectionView moveItemAtIndexPath:paths[0] toIndexPath:paths[1]];
         }
+        
+        // to remove the supplementary views completely,
+        // we have to do a reload of the data here
+        //
+        // this is only needed if we use the
+        // ARNCollectionViewFocusGuideFlowLayout
+        //
+        // [collectionView reloadData] would lead to a crash
+        // as decribed here: http://stackoverflow.com/a/38017481/956433
+        //
+        // But we can use invalidateLayout instead without
+        // a crash to achieve the same thing
+        //
+        // Thanks to the helpful Apple Engineer at WWDC that
+        // showed me this solution :-) Much appreciated
+        [[collectionView collectionViewLayout] invalidateLayout];
     } completion:nil];
     
     self.objectChanges = nil;
