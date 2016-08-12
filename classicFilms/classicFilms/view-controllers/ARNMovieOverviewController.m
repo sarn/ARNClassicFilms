@@ -61,7 +61,18 @@
     [super viewDidLoad];
 
     // layout
+    
+    // We need to use a custom FlowLayout to get rid of a known bug in the standard UICollectionViewFlowLayout (radar bug #26803196 & #22392869)
+    //
+    // Apple Engineering replied the following:
+    // "The 'moves down even if nothing is directly beneath it' rule only works within the last section of the collection view.
+    // It doesn’t work in this app because the final rows are in different sections. This is a known issue for which we are
+    // investigating a fix in a future release. Yu can work around the issue by using focus guides or refactoring the layout of your collection view."
+    //
+    // To prevent this issue we use a custom FlowLayout that helps the layout by placing FocusGuides into the empty spots. This directs
+    // the Focus to the correct target. We can switch back to the standard UICollectionViewFLowLayout if Apple fixes the bug in a future release.
     ARNCollectionViewFocusGuideFlowLayout *focusGuideFlowLayout = [[ARNCollectionViewFocusGuideFlowLayout alloc] init];
+    //UICollectionViewFlowLayout *focusGuideFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     [focusGuideFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     [focusGuideFlowLayout setMinimumLineSpacing:30.0f];
     [focusGuideFlowLayout setMinimumInteritemSpacing:20.0f];
