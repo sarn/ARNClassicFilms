@@ -24,6 +24,7 @@
     @property(nonatomic, strong) UIActivityIndicatorView *refreshActivityIndicator;
     @property(nonatomic, strong) NSMutableDictionary *objectChanges;
     @property(nonatomic, strong) NSMutableDictionary *sectionChanges;
+    @property(nonatomic, assign) BOOL shouldRefreshOnAppearing;
 @end
 
 @implementation ARNMovieOverviewController
@@ -55,6 +56,7 @@
     _collectionTypeExclusion = [NSString string];
     _objectChanges = [NSMutableDictionary new];
     _sectionChanges = [NSMutableDictionary new];
+    _shouldRefreshOnAppearing = YES;
 }
 
 - (void)viewDidLoad {
@@ -107,11 +109,21 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // set up the fetcher for the data
-    [[self fetchedResultsController] performFetch:nil];
-    
-    // fetch the movies
-    [[ARNCloudKitController sharedInstance] fetchAllMoviesForCollection:self.collectionType];
+    // refresh the movies if the user jumps to this viewController
+    // for the first time, thru the tab bar and not
+    // if he moves back from a detail view
+    if (self.shouldRefreshOnAppearing) {
+        // set up the fetcher for the data
+        [[self fetchedResultsController] performFetch:nil];
+        
+        // fetch the movies
+        [[ARNCloudKitController sharedInstance] fetchAllMoviesForCollection:self.collectionType];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.shouldRefreshOnAppearing = YES; // reset to the default behaviour
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -225,6 +237,9 @@
     if (cell != nil && [cell isKindOfClass:[ARNMoviePosterCell class]]) {
         ARNMoviePosterCell *posterCell = (ARNMoviePosterCell *)cell;
         if (posterCell.arnMovie != nil) {
+            self.shouldRefreshOnAppearing = NO; // to prevent a refresh if we pop this child view away
+            
+            // present child view
             ARNMovieDetailViewController *movieDetailViewController = [ARNMovieDetailViewController new];
             movieDetailViewController.arnMovie = posterCell.arnMovie;
             [self presentViewController:movieDetailViewController animated:YES completion:nil];
