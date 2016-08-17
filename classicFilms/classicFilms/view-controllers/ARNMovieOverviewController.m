@@ -145,8 +145,9 @@
                                                                                  nil]];
 
     // sort by year
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"year" ascending:YES];
-    fetchRequest.sortDescriptors = @[descriptor];
+    NSSortDescriptor *yearDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"year" ascending:YES];
+    NSSortDescriptor *tmdbIdDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"tmdb_id" ascending:YES];
+    fetchRequest.sortDescriptors = @[yearDescriptor, tmdbIdDescriptor];
     
     // fetcher
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
