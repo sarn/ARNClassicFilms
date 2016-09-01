@@ -569,6 +569,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;
 				PRODUCT_NAME = "classic films";
 				PROVISIONING_PROFILE = "";
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -588,6 +589,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ch.stefanarn.classicFilms;
 				PRODUCT_NAME = "classic films";
 				PROVISIONING_PROFILE = "";
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
