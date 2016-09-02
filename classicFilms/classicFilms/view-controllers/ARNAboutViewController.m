@@ -71,11 +71,14 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
-    // set correct colors for UI elements
-    self.internetArchiveImageView.tintColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
-    self.tmdbImageView.tintColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
-    self.internetArchiveLabel.textColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
-    self.tmdbLabel.textColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
+    // did the userInterfaceStyle change?
+    if (previousTraitCollection != nil && self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+        // set correct colors for UI elements
+        self.internetArchiveImageView.tintColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
+        self.tmdbImageView.tintColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
+        self.internetArchiveLabel.textColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
+        self.tmdbLabel.textColor = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) ? [UIColor lightGrayColor] : [UIColor blackColor];
+    }
 }
 
 @end
