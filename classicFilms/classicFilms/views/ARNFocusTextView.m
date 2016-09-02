@@ -55,7 +55,7 @@
     
     // background
     _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:UIBlurEffectStyleExtraLight];
-    _visualEffectView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.6];
+    _visualEffectView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.3];
     _visualEffectView.frame = CGRectInset(self.bounds, -10, -10);
     _visualEffectView.alpha = 0;
     _visualEffectView.layer.cornerRadius = 5;

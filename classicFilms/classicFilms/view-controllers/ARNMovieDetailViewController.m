@@ -38,7 +38,7 @@
         backdrop.contentMode = UIViewContentModeScaleAspectFill;
         [backdrop sd_setImageWithURL:[NSURL URLWithString:completePosterURL] placeholderImage:nil];
         
-        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraDark];
         UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
         visualEffectView.frame = self.view.frame;
         [backdrop addSubview:visualEffectView];
