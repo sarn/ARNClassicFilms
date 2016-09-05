@@ -17,6 +17,7 @@
 #import "ARNMovie.h"
 #import "Movie.h"
 #import "AppDelegate.h"
+#import "ARNAppearanceViewController.h"
 
 @interface ARNMovieOverviewController ()
     @property(nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -243,7 +244,13 @@
             // present child view
             ARNMovieDetailViewController *movieDetailViewController = [ARNMovieDetailViewController new];
             movieDetailViewController.arnMovie = posterCell.arnMovie;
-            [self presentViewController:movieDetailViewController animated:YES completion:nil];
+            
+            // use ARNAppearanceViewController to force the UIUserInterfaceStyleDark on the ARNMovieDetailViewController
+            ARNAppearanceViewController *appearanceViewController = [ARNAppearanceViewController new];
+            appearanceViewController.interfaceStyle = UIUserInterfaceStyleDark;
+            [appearanceViewController setViewController:movieDetailViewController];
+            
+            [self presentViewController:appearanceViewController animated:YES completion:nil];
         }
     }
 }

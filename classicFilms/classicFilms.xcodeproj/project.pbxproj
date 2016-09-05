@@ -30,6 +30,7 @@
 		16B3FE581BECDB6C002BA497 /* ARNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */; };
 		16B3FE6A1BECE79D002BA497 /* internet_archive.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE691BECE79D002BA497 /* internet_archive.png */; };
 		16B3FE6C1BECE8F2002BA497 /* tmdb.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B3FE6B1BECE8F2002BA497 /* tmdb.png */; };
+		16C522601D7D8AC600D549B2 /* ARNAppearanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C5225F1D7D8AC600D549B2 /* ARNAppearanceViewController.m */; };
 		16C573061BFF634C0012D4CE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C573051BFF634C0012D4CE /* CloudKit.framework */; };
 		16C5730F1C02F8750012D4CE /* ARNCloudKitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C5730E1C02F8750012D4CE /* ARNCloudKitController.m */; };
 		16D452391BD611C6008758FE /* ARNConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D452381BD611C6008758FE /* ARNConstants.m */; };
@@ -83,6 +84,8 @@
 		16B3FE571BECDB6C002BA497 /* ARNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNAboutViewController.m; sourceTree = "<group>"; };
 		16B3FE691BECE79D002BA497 /* internet_archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = internet_archive.png; sourceTree = "<group>"; };
 		16B3FE6B1BECE8F2002BA497 /* tmdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmdb.png; sourceTree = "<group>"; };
+		16C5225E1D7D8AC600D549B2 /* ARNAppearanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNAppearanceViewController.h; sourceTree = "<group>"; };
+		16C5225F1D7D8AC600D549B2 /* ARNAppearanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARNAppearanceViewController.m; sourceTree = "<group>"; };
 		16C573041BFF63410012D4CE /* classic films.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "classic films.entitlements"; sourceTree = "<group>"; };
 		16C573051BFF634C0012D4CE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		16C5730D1C02F8750012D4CE /* ARNCloudKitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARNCloudKitController.h; sourceTree = "<group>"; };
@@ -275,6 +278,8 @@
 			children = (
 				16D452371BD611C6008758FE /* ARNConstants.h */,
 				16D452381BD611C6008758FE /* ARNConstants.m */,
+				16C5225E1D7D8AC600D549B2 /* ARNAppearanceViewController.h */,
+				16C5225F1D7D8AC600D549B2 /* ARNAppearanceViewController.m */,
 			);
 			name = utilities;
 			sourceTree = "<group>";
@@ -456,6 +461,7 @@
 				16E082AC1C8230CE00FA4D90 /* ARNTVButton.m in Sources */,
 				168376101BCBD42D0011FA26 /* ARNMovieOverviewController.m in Sources */,
 				16AD4BAD1BD110EE00A38F48 /* ClassicFilms.xcdatamodeld in Sources */,
+				16C522601D7D8AC600D549B2 /* ARNAppearanceViewController.m in Sources */,
 				166819321C77245200AE067F /* ARNFocusTextView.m in Sources */,
 				16AEC2441C943C3400194CD1 /* ARNDecadeHeaderView.m in Sources */,
 				161C80571BCA9EDD003B78EC /* main.m in Sources */,
