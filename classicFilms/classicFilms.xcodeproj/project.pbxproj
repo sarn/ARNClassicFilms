@@ -339,7 +339,11 @@
 					161C80511BCA9EDD003B78EC = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 3KVHW6F8S8;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -568,6 +572,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3KVHW6F8S8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/classicFilms/PrefixHeader.pch";
 				INFOPLIST_FILE = classicFilms/Info.plist;
@@ -588,6 +593,7 @@
 				CODE_SIGN_ENTITLEMENTS = "classicFilms/classic films.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3KVHW6F8S8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/classicFilms/PrefixHeader.pch";
 				INFOPLIST_FILE = classicFilms/Info.plist;
