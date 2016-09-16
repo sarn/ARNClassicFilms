@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.1</string>
+	<string>1.4.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>141</string>
+	<string>142</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -45,5 +45,7 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Automatic</string>
 </dict>
 </plist>
