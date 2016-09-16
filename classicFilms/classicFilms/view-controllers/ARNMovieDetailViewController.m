@@ -201,20 +201,8 @@
 - (void)playMovie {
     if (self.player != nil && self.arnMovie != nil && [self.arnMovie.source length] > 0) {
         AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-        
-        // show an activity indicator until the AVPlayer is ready to play
-        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        activityIndicator.frame = self.view.frame;
-        activityIndicator.hidesWhenStopped = YES;
-        [playerViewController.view addSubview:activityIndicator];
-        [activityIndicator startAnimating];
-        
         [self presentViewController:playerViewController animated:YES completion:^{
             playerViewController.player = self.player;
-            
-            // hide the activity indicator
-            [activityIndicator stopAnimating];
-            
             [self.player play];
         }];
     }
